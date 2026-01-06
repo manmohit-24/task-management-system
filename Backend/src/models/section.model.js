@@ -14,6 +14,13 @@ const sectionSchema = new Schema(
             required:true,       //* every section must have a project, this is how todoist behaves
             index:true
         },
+        
+        owner: {  // ADD THIS for efficiency
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+            index: true
+        },
 
         order: {
             type: Number,
