@@ -188,7 +188,8 @@ const updateTodo = async (req, res, next) => {
             priority, 
             dueDate, 
             project,
-            section 
+            section,
+            parentId
         } = req.body;
 
         // Find and verify ownership
@@ -206,13 +207,56 @@ const updateTodo = async (req, res, next) => {
         if (description !== undefined) todo.description = description.trim();
         if (priority !== undefined) todo.priority = priority;
         if (dueDate !== undefined) todo.dueDate = dueDate;
-        
+
+        //  Nesting/Un-nesting Logic (The Drag & Drop Core)
+        if (parentId !== undefined) {
+            if (parentId === null) {
+                //* it is main task
+                // CASE: Un-nesting (Subtask -> Main Task)
+                todo.parentId = null;
+                // If un-nesting, we might also be dropping into a section (handled below in step 4)
+            } else {
+                // CASE: Nesting (Main/Subtask -> New Parent)
+                //* this means either i am making a prev main task a subtask under a new parent or i am changing parent of a subtask
+                // Verify the new parent exists
+                const parentTask = await Todo.findById(parentId);
+                if (!parentTask) {
+                    throw new apiError(404, "Target parent task not found");
+                }
+                
+                // Prevent circular reference (A task cannot be its own parent)
+                if (parentId === id) {
+                    throw new apiError(400, "Cannot make a task its own parent");
+                }
+
+                todo.parentId = parentId;
+                todo.section = null; //* rule -> if u have a parent , we dont care about your section but only your parent
+            
+                // CRITICAL: If moving to a parent in a DIFFERENT project, sync everything
+                if (todo.project.toString() !== parentTask.project.toString()) {
+                    todo.project = parentTask.project;
+                    
+                    await Todo.updateMany({ parentId: id }, { project: parentTask.project });
+                }
+            }
+        }
+
         //* If moving to new project, clear section
         if (project && project !== todo.project.toString()) {
             todo.project = project;
             todo.section = null;  //* because Section might not exist in new project
+            todo.parentId = null;
+
+            await Todo.updateMany(
+                { parentId: id }, // Find all immediate children
+                { project: project } // Move them to the new project too
+            ) 
+            
         } else if (section !== undefined) {
-            todo.section = section; //* moving to a new section OF SAME PROJECT , wrapped it in else if condition because we dont allow section to be changed while changing projects, only one thing can be changed 
+            // ONLY ALLOW SECTION IF IT IS A ROOT TASK
+            if (todo.parentId === null) { // because we decided that subtasks cant have section
+                todo.section = section; 
+            } //* moving to a new section OF SAME PROJECT , wrapped it in else if condition because we dont allow section to be changed while changing projects, only one thing can be changed 
         }
 
         await todo.save();
