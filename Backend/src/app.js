@@ -13,11 +13,13 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 import userRouter from "./routes/user.routes.js";
 import projectRouter from "./routes/project.route.js";
 import todoRouter from "./routes/todo.route.js";
+import sectionRouter from "./routes/section.route.js"
 
 //*********** router declaration ********
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/todo", todoRouter);
+app.use("/api/v1/section", sectionRouter);
 
 //! this should be at the end to function properly
 app.use(globalErrorHandler);
