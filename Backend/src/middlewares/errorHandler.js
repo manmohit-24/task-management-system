@@ -10,6 +10,15 @@ export const globalErrorHandler = (err, req, res, next) => {
             errors: err.errors || []
         });
     }
+    
+    // Handle MongoDB CastError (invalid ObjectId)
+    if (err.name === 'CastError') {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid ID format",
+            errors: []
+        });
+    }
 
     //if unhandled error then -  
     console.error("UNHANDLED ERROR:", err.stack); // Log the real error
