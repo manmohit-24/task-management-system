@@ -1,8 +1,7 @@
-.ButtonComponent {
-
-    --bg : var(--Primary-Text);
-    --bgHover : rgba(from var(--bg) r g b/ 80%);
-    --bgActive : rgba(from var(--bg) r g b/60%);
+.button {
+    --bg: var(--Primary-Text);
+    --bgHover: rgba(from var(--bg) r g b/ 80%);
+    --bgActive: rgba(from var(--bg) r g b/60%);
 
     display: flex;
     align-items: center;
@@ -15,11 +14,11 @@
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
 
-    font : var(--Text-1) ;
+    font: var(--Text-1);
 
     background-color: var(--bg);
     color: var(--Secondary-BG);
-    
+
     cursor: pointer;
     transition: all 0.25s;
     border: none;
@@ -33,5 +32,4 @@
     &:focus-visible {
         background-color: var(--bgActive);
     }
-
 }

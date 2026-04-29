@@ -1,4 +1,4 @@
-.FormContainer{
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,15 +6,15 @@
     gap: 0.5rem;
 }
 
-.FormInput{
+.input {
     width: fit-content;
     height: 6rem;
-    display:flex;
+    display: flex;
     flex-direction: column;
     gap: 0.2rem;
 
-    .FormError{
+    .error {
         color: var(--Accent-Color);
-        font : var(--Text-2);
+        font: var(--Text-2);
     }
-} 
+}
