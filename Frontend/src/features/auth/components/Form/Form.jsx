@@ -1,5 +1,5 @@
 import { Input, Button, FileUpload } from "../../";
-import "./Form.css";
+import styles from "./Form.module.css";
 import { useForm } from "react-hook-form";
 
 const Form = ({
@@ -39,9 +39,10 @@ const Form = ({
         let obj = inputsFormat[i];
 
         let validations = {
-            ...commonValidations[obj.label],
-            ...obj.validations,
-        } || { required: false };
+            required: false,
+            ...(commonValidations[obj.label] || {}),
+            ...(obj.validations || {}),
+        };
 
         delete obj.validations;
 
@@ -49,7 +50,7 @@ const Form = ({
             inputs[i] = <FileUpload key={i} {...obj}></FileUpload>;
         } else {
             inputs[i] = (
-                <div className="FormInput" key={i}>
+                <div className={styles.input} key={i}>
                     <Input
                         key={i}
                         {...obj}
@@ -57,7 +58,7 @@ const Form = ({
                         watch={watch}
                     ></Input>
 
-                    <div className="FormError">
+                    <div className={styles.error}>
                         {errors[obj.label] && errors[obj.label].message}
                     </div>
                 </div>
@@ -66,7 +67,7 @@ const Form = ({
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="FormContainer">
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
             {inputs}
             <Button text={buttonText} type="submit" style={buttonStyle}></Button>
         </form>

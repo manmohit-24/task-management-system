@@ -1,6 +1,6 @@
 import { useEffect, useState, useId } from "react";
-import "./FileUpload.css";
 import Icon from "@/utils/Icons";
+import styles from "./FileUpload.module.css";
 
 const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
     const id = useId();
@@ -50,24 +50,24 @@ const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
 
     return (
         <div
-            className="FileUploadContainer"
+            className={styles.container}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             {...props}
         >
-            <span className="FileUploadHeading">{label}</span>
+            <span className={styles.heading}>{label}</span>
 
             {fileURL ? (
                 <>
-                    <button onClick={handleRemoveFile} className="FileUploadCrossButton">
+                    <button onClick={handleRemoveFile} className={styles.cross}>
                         <Icon name={"IconCross"} size="L" />
                     </button>
                     <img src={fileURL} alt="Cover-Image" />
                 </>
             ) : (
                 <>
-                    <label htmlFor={id} className="FileUploadLabel">
-                        "Drag and drop files here or click to browse"
+                    <label htmlFor={id} className={styles.label}>
+                        Drag and drop files here or click to browse
                     </label>
 
                     <input
@@ -75,7 +75,7 @@ const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
                         accept="image/*"
                         onChange={handleClick}
                         id={id}
-                        className="FileUploadInput"
+                        className={styles.input}
                     />
                 </>
             )}
