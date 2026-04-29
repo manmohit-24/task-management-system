@@ -1,16 +1,21 @@
-import { useState } from "react";
 import { Form, GoogleButton } from "../";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/AuthPage.module.css";
+import { useLogin } from "../hooks/auth.hook";
 
 export default function LoginPage() {
     const navigate = useNavigate();
-
-    const [errorsMessage, setErrorsMessage] = useState("");
-    const Email = ""; // TODO: email
+    const {
+        mutate: login,
+        // isPending,
+        isError,
+        error,
+        isSuccess,
+    } = useLogin();
 
     const onSubmit = async (data) => {
-        // backend Logic here
+        login(data);
+        if (isSuccess) navigate("/");
     };
 
     return (
@@ -31,18 +36,19 @@ export default function LoginPage() {
                 ]}
                 onSubmit={onSubmit}
                 buttonText="Log in"
-                values={{ Email }}
             />
-            <div className={styles.errorsContainer}>{errorsMessage}</div>
+            {isError && <div className={styles.errorsContainer}>{error.message}</div>}{" "}
             <p>
                 Forgot Password ?
                 <Link to={"/reset-password"} className={styles.link}>
+                    {" "}
                     Reset Password
                 </Link>
             </p>
             <p>
                 No Account ?
                 <Link to={"/register"} className={styles.link}>
+                    {" "}
                     Create Account
                 </Link>
             </p>
