@@ -1,35 +1,23 @@
 import { useState } from "react";
-import { Form } from "../";
-import { useDispatch } from "react-redux";
-import { setAuthData } from "../../store/Features/AuthSlice";
+import { Form } from "..";
 import { useNavigate } from "react-router-dom";
-import bucketService from "../../services/BucketService";
+import styles from "../styles/AuthPage.module.css";
 
-const EditProfileForm = () => {
-    const dispatch = useDispatch();
+export default function EditProfilePage() {
     const navigate = useNavigate();
-    
+
     const [file, setFile] = useState();
     const [errorsMessage, setErrorsMessage] = useState("");
 
     const submitFile = (data) => setFile(data);
 
     const onSubmit = async (data) => {
-        const [message, isUploaded, fileUrl] = await bucketService.uploadFile(file);
-
-        if (isUploaded) {
-            data["file"] = fileUrl;
-            dispatch(setAuthData({ Name: data.Name, ProfilePic: data.file }));
-            console.log(data);
-            navigate("/app/todos/inbox");
-        } else {
-            setErrorsMessage(message);
-        }
+        // backend logic here
     };
 
     return (
         <>
-            <h1 className="AuthPageHeading">Welcome To XYZ</h1>
+            <h1 className={styles.pageHeading}>Welcome To XYZ</h1>
             <Form
                 inputsFormat={[
                     {
@@ -48,9 +36,8 @@ const EditProfileForm = () => {
                 onSubmit={onSubmit}
                 buttonText="Continue"
             />
-            <p className="AuthPageErrorsContainer">{errorsMessage}</p>
+
+            <p className={styles.errorsContainer}>{errorsMessage}</p>
         </>
     );
-};
-
-export default EditProfileForm;
+}

@@ -1,4 +1,4 @@
-.AuthPageContainer {
+.container {
     height: 100vh;
     width: 100vw;
 
@@ -14,7 +14,7 @@
     }
 }
 
-.AuthPageLogo {
+.logo {
     height: 7rem !important;
 
     position: absolute;
@@ -22,7 +22,7 @@
     left: 2rem;
 }
 
-.AuthFormContainer {
+.formContainer {
     height: 50rem;
 
     display: flex;
@@ -36,11 +36,12 @@
     transform: translate(-50%, -50%);
 }
 
-.AuthPageHeading {
+.heading {
     font: var(--Heading-1);
     font-size: 3rem;
     text-align: center;
     width: 40rem;
+
     &::after {
         display: block;
         content: "";
@@ -57,7 +58,7 @@
     }
 }
 
-.AuthPageLink {
+.link {
     font: var(--Text-1);
     color: rgba(100, 108, 255, 1);
     text-decoration: none;
@@ -68,18 +69,14 @@
     }
 }
 
-.AuthPageCheckEmailImage {
+.checkEmailImage {
     width: 20rem;
     height: 20rem;
-    background: url("../../assets/Icons/Check-Email.png") no-repeat;
+    background: url("/assets/Icons/Check-Email.png") no-repeat;
     background-size: contain;
 }
 
-.GoogleButton {
-    width: 100%;
-}
-
-.AuthPageErrorsContainer {
+.errorsContainer {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -88,4 +85,3 @@
         color: red;
     }
 }
- 

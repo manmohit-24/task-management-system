@@ -1,11 +1,9 @@
-import { Input, Button, FileUpload } from "..";
+import { Input, Button, FileUpload } from "../../";
 import "./Form.css";
 import { useForm } from "react-hook-form";
 
 const Form = ({
-    inputsFormat = [
-        { label: "label", type: "text", validations: {}, submitFile: () => {} },
-    ],
+    inputsFormat = [{ label: "label", type: "text", validations: {}, submitFile: () => {} }],
     values = {},
     buttonText,
     buttonStyle = {},
@@ -70,11 +68,7 @@ const Form = ({
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="FormContainer">
             {inputs}
-            <Button
-                text={buttonText}
-                type="submit"
-                style={buttonStyle}
-            ></Button>
+            <Button text={buttonText} type="submit" style={buttonStyle}></Button>
         </form>
     );
 };

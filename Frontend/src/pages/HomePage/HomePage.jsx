@@ -1,24 +1,24 @@
-import { Button, TodoCheckBox, TodoTaskCard } from "../../components";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import { IconsDisplayAll } from "../../utils/Icons";
+import { IconsDisplayAll } from "@/utils/Icons";
 
 const HomePage = () => {
     const navigate = useNavigate();
 
     return (
         <>
-            {/* <IconsDisplayAll /> */}
+            {/* <IconsDisplayAll />*/}
 
             <div className="HomePageContainer">
                 <h1>Welcome to the Todo App</h1>
 
-                <Button
-                    text="Login / Signup"
+                <button
                     onClick={() => {
-                        navigate("/auth/login");
+                        navigate("login");
                     }}
-                ></Button>
+                >
+                    Login / Signup
+                </button>
             </div>
         </>
     );
