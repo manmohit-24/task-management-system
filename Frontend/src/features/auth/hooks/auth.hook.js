@@ -15,29 +15,53 @@ export function useIsAuthenticated() {
     return !!data;
 }
 
-export function useLogin() {
+export function useLogin(options) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: login,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] }),
+
+        onSuccess: (...args) => {
+            queryClient.invalidateQueries({ queryKey: ["session"] });
+            options?.onSuccess?.(...args);
+        },
     });
 }
 
-export function useLogout() {
+export function useLogout(options) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: logout,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] }),
+
+        onSuccess: (...args) => {
+            queryClient.invalidateQueries({ queryKey: ["session"] });
+            options?.onSuccess?.(...args);
+        },
     });
 }
-
-export function useRegister() {
+export function useRegister(options) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: register,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] }),
+        mutationFn: async (data) => {
+            const registerRes = await register(data);
+
+            if (!registerRes.success) throw new Error(registerRes.message || "Registration failed");
+
+            const loginRes = await login({
+                email: data.email,
+                password: data.password,
+            });
+
+            if (!loginRes.success) throw new Error(loginRes.message || "Login failed");
+
+            return loginRes;
+        },
+
+        onSuccess: (...args) => {
+            queryClient.invalidateQueries({ queryKey: ["session"] });
+            options?.onSuccess?.(...args);
+        },
     });
 }

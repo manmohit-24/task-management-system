@@ -31,6 +31,36 @@ const Form = ({
                 message: "Password must be at least 8 characters",
             },
         },
+        username: {
+            required: "Username is required",
+            minLength: {
+                value: 3,
+                message: "Username must be at least 3 characters",
+            },
+            maxLength: {
+                value: 20,
+                message: "Username cannot exceed 20 characters",
+            },
+            pattern: {
+                value: /^[a-zA-Z0-9._]+$/,
+                message: "Username can only contain letters, numbers, dots, and underscores",
+            },
+        },
+        name: {
+            required: "Name is required",
+            minLength: {
+                value: 2,
+                message: "Name must be at least 2 characters",
+            },
+            maxLength: {
+                value: 50,
+                message: "Name cannot exceed 50 characters",
+            },
+            pattern: {
+                value: /^[a-zA-Z\s'-]+$/,
+                message: "Name can only contain letters, spaces, apostrophes, and hyphens",
+            },
+        },
     };
 
     return (
