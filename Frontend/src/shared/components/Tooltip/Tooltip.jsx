@@ -1,87 +1,67 @@
 import styles from "./Tooltip.module.css";
-import { cloneElement, useLayoutEffect, useRef, useState } from "react";
+
+import { cloneElement, useState } from "react";
 import { createPortal } from "react-dom";
+
+import {
+    useFloating,
+    autoUpdate,
+    offset,
+    flip,
+    shift,
+    useHover,
+    useFocus,
+    useRole,
+    useInteractions,
+} from "@floating-ui/react";
+
 import { Info } from "lucide-react";
 import mergeRefs from "@/shared/libs/mergeRefs";
 
-const OFFSET = 8;
-const EDGE_PADDING = 8;
-
 export default function Tooltip({ children, trigger = <Info size={16} />, className = "" }) {
-    const triggerRef = useRef(null);
-    const tooltipRef = useRef(null);
-
     const [open, setOpen] = useState(false);
 
-    const [position, setPosition] = useState({
-        top: 0,
-        left: 0,
+    // ===== Floating UI =====
+    const { refs, floatingStyles, context } = useFloating({
+        open,
+        onOpenChange: setOpen,
+        placement: "top", // Prefer above trigger
+        whileElementsMounted: autoUpdate,
+        middleware: [
+            offset(8), // Gap between trigger and tooltip
+            flip(), // Flip below if not enough room above
+            shift({ padding: 8 }), // Keep inside viewport
+        ],
     });
 
-    // ===== Auto align itself to edges =====
-    useLayoutEffect(() => {
-        if (!open) return;
+    // ===== Interactions =====
+    const hover = useHover(context);
+    const focus = useFocus(context);
 
-        const triggerEl = triggerRef.current;
-        const tooltipEl = tooltipRef.current;
+    const role = useRole(context, {
+        role: "tooltip",
+    });
 
-        if (!triggerEl || !tooltipEl) return;
-
-        const triggerRect = triggerEl.getBoundingClientRect();
-        const tooltipRect = tooltipEl.getBoundingClientRect();
-
-        let top = triggerRect.top - tooltipRect.height - OFFSET;
-
-        let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2;
-
-        // Horizontal edge adjustment
-        left = Math.max(
-            EDGE_PADDING,
-            Math.min(left, window.innerWidth - tooltipRect.width - EDGE_PADDING),
-        );
-
-        // Top overflows -> place below
-        if (top < EDGE_PADDING) top = triggerRect.bottom + OFFSET;
-
-        // Bottom overflow -> move up to fit edge padding
-        if (top + tooltipRect.height > window.innerHeight - EDGE_PADDING)
-            top = window.innerHeight - tooltipRect.height - EDGE_PADDING;
-
-        setPosition({ top, left });
-    }, [open]);
+    const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, role]);
 
     return (
         <>
             {cloneElement(trigger, {
-                ref: mergeRefs(trigger.ref, triggerRef),
-                onMouseEnter: (e) => {
-                    trigger.props.onMouseEnter?.(e);
-                    setOpen(true);
-                },
+                ref: mergeRefs(trigger.ref, refs.setReference),
 
-                onMouseLeave: (e) => {
-                    trigger.props.onMouseLeave?.(e);
-                    setOpen(false);
-                },
-
-                onFocus: (e) => {
-                    trigger.props.onFocus?.(e);
-                    setOpen(true);
-                },
-
-                onBlur: (e) => {
-                    trigger.props.onBlur?.(e);
-                    setOpen(false);
-                },
+                ...getReferenceProps(),
             })}
 
             {open &&
                 createPortal(
                     <div
-                        ref={tooltipRef}
-                        role="tooltip"
-                        style={position}
+                        ref={refs.setFloating}
+                        style={{
+                            ...floatingStyles,
+                            opacity: refs.floating.current ? 1 : 0, // fix: flash at 0,0
+                        }}
                         className={`${styles.tooltip} ${className}`}
+                        {...getFloatingProps()}
                     >
                         {children}
                     </div>,
