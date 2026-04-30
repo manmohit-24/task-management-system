@@ -7,16 +7,13 @@ export default function LoginPage() {
     const navigate = useNavigate();
     const {
         mutate: login,
-        // isPending,
         isError,
         error,
-        isSuccess,
-    } = useLogin();
+    } = useLogin({
+        onSuccess: () => navigate("/"),
+    });
 
-    const onSubmit = async (data) => {
-        login(data);
-        if (isSuccess) navigate("/");
-    };
+    const onSubmit = async (data) => login(data);
 
     return (
         <>

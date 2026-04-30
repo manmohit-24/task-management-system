@@ -81,5 +81,5 @@
     flex-direction: column;
     gap: 0.5rem;
     color: var(--Accent-Color);
-    font: var(--Text-2);
+    font: var(--Text-1);
 }
