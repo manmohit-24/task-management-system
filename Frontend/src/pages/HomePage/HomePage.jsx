@@ -2,25 +2,25 @@ import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import { IconsDisplayAll } from "@/utils/Icons";
 
+import ThemeToggle from "@/features/themes/components/ThemeToggle.jsx";
+import Button from "@/features/auth/components/Button/Button";
+
 const HomePage = () => {
     const navigate = useNavigate();
 
     return (
-        <>
-            {/* <IconsDisplayAll />*/}
+        <div className="HomePageContainer">
+            <h1>Welcome to the Todo App</h1>
 
-            <div className="HomePageContainer">
-                <h1>Welcome to the Todo App</h1>
+            <Button
+                text="Login / Signup"
+                onClick={() => {
+                    navigate("login");
+                }}
+            ></Button>
 
-                <button
-                    onClick={() => {
-                        navigate("login");
-                    }}
-                >
-                    Login / Signup
-                </button>
-            </div>
-        </>
+            <ThemeToggle></ThemeToggle>
+        </div>
     );
 };
 
