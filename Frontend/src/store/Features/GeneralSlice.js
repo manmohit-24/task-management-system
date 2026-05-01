@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import getThemeColors from "../../Themes/ThemeColors";
+import getThemeColors from "../../features/themes/libs/getThemeColors";
 
 const GeneralSlice = createSlice({
     name: "GeneralData",
@@ -10,7 +10,7 @@ const GeneralSlice = createSlice({
             show: false,
             title: null,
             target: null,
-            targetId : null,
+            targetId: null,
         },
     },
     reducers: {
