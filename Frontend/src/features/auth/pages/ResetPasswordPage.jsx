@@ -1,15 +1,18 @@
-import { useState } from "react";
 import { Form } from "../";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import styles from "../styles/AuthPage.module.css";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
 
-    const [errorsMessage, setErrorsMessage] = useState("");
-
     const onSubmit = async (data) => {
         // Backend Logic here
+        navigate({
+            pathname: "/check-email",
+            search: createSearchParams({
+                email: data.email,
+            }).toString(),
+        });
     };
 
     return (
@@ -25,10 +28,9 @@ export default function ResetPasswordPage() {
                 onSubmit={onSubmit}
                 buttonText="Reset Password"
             />
-            <p className={styles.errorsContainer}>{errorsMessage}</p>
             <p>
                 <Link to={"/login"} className={styles.link}>
-                    Cancel Password
+                    Back to Login
                 </Link>
             </p>
         </>

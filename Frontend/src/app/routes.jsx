@@ -6,6 +6,7 @@ import {
     RegisterPage,
     VerifyEmailPage,
     ResetPasswordPage,
+    CheckEmailPage,
 } from "@/features/auth/";
 
 import App from "./App";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
                     {
                         path: "reset-password",
                         element: <ResetPasswordPage />,
+                    },
+                    {
+                        path: "check-email",
+                        element: <CheckEmailPage />,
                     },
                 ],
             },
