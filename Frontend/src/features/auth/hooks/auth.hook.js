@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { login, logout, register, checkActiveSession } from "../api/authService";
+import {
+    login,
+    logout,
+    register,
+    checkActiveSession,
+    checkUsernameAvailability,
+} from "../api/authService";
 
 export function useSession() {
     return useQuery({
@@ -64,5 +70,15 @@ export function useRegister(options) {
             queryClient.invalidateQueries({ queryKey: ["session"] });
             options?.onSuccess?.(...args);
         },
+    });
+}
+
+export function useUsernameAvailability(username) {
+    return useQuery({
+        queryKey: ["username-availability", username],
+        queryFn: () => checkUsernameAvailability(username),
+        enabled: !!username && username.length >= 3,
+        staleTime: 30_000,
+        retry: false,
     });
 }

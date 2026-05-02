@@ -46,3 +46,7 @@ export async function checkActiveSession() {
         method: "GET",
     });
 }
+
+export async function checkUsernameAvailability(username) {
+    return request(`/check-unique-username?username=${encodeURIComponent(username)}`);
+}

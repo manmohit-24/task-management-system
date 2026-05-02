@@ -1,7 +1,7 @@
 import { forwardRef, useId } from "react";
 import styles from "./Input.module.css";
 
-const Input = forwardRef(({ label, type = "text", className = "", ...props }, ref) => {
+const Input = forwardRef(({ label, type = "text", className = "", watch, ...props }, ref) => {
     const id = useId();
 
     return (
