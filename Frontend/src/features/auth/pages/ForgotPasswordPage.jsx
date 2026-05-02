@@ -17,11 +17,13 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <h1 className={styles.heading}>Forgot Password?</h1>
-            <p className={styles.subtext}>
-                Enter the email associated with the account and we’ll send a password reset link and
-                verification code.
-            </p>
+            <div className={styles.header}>
+                <h1 className={styles.heading}>Forgot Password?</h1>
+                <p className={styles.subtext}>
+                    Enter the email associated with the account and we’ll send a password reset link
+                    and verification code.
+                </p>
+            </div>
 
             <Form
                 inputsFormat={[

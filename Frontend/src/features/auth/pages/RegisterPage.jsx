@@ -30,39 +30,52 @@ export default function RegisterPage() {
 
     return (
         <>
-            <h1 className={styles.heading}>Create Account</h1>
+            <div className={styles.header}>
+                <h1 className={styles.heading}>Create Your Account</h1>
+                <p className={styles.subtext}>
+                    Sign up to get started. Create an account with email or continue with Google.
+                </p>
+            </div>
+
             <Form
                 inputsFormat={[
                     {
+                        name: "name",
                         label: "Name",
                         type: "text",
-                        name: "name",
                     },
                     {
+                        name: "username",
                         label: "Username",
                         type: "text",
-                        name: "username",
                     },
                     {
+                        name: "email",
                         label: "Email",
                         type: "email",
-                        name: "email",
                     },
                     {
+                        name: "password",
                         label: "Password",
                         type: "password",
-                        name: "password",
                     },
                 ]}
                 onSubmit={onSubmit}
-                buttonText="Continue with Email"
+                buttonText="Create Account"
+                className={styles.registerFormContainer}
             />
+
             {isError && <div className={styles.errorsContainer}>{error.message}</div>}
-            <span>or</span>
+
+            <div className={styles.divider}>
+                <span>or</span>
+            </div>
+
             <GoogleButton />
-            <p>
-                Already Have an account ?{" "}
-                <Link to={"/login"} className={styles.link}>
+
+            <p className={styles.footerText}>
+                Already have an account?{" "}
+                <Link to="/login" className={styles.link}>
                     Log in
                 </Link>
             </p>
