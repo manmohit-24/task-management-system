@@ -4,8 +4,18 @@ import { Link } from "react-router-dom";
 import config from "@/app/config";
 import HeaderThemeToggle from "../components/HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
+import { useIsAuthenticated } from "../hooks/auth.hook";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const AuthLayout = () => {
+    const navigate = useNavigate();
+    const isAuthenticated = useIsAuthenticated();
+
+    useEffect(() => {
+        if (isAuthenticated) navigate("/");
+    }, [isAuthenticated, navigate]);
+
     return (
         <div className={styles.page}>
             <header className={styles.header}>
