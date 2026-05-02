@@ -1,10 +1,10 @@
 import styles from "./Button.module.css";
 
-const Button = ({ text = "", className = "", ...props }) => {
+const Button = ({ children, className = "", variant = "primary", ...props }) => {
     return (
         <div>
-            <button className={`${className} ${styles.button}`} {...props}>
-                {text}
+            <button className={`${styles.button} ${className} ${styles[variant]}`} {...props}>
+                {children}
             </button>
         </div>
     );

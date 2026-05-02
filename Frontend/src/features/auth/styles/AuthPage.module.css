@@ -4,9 +4,14 @@
 
     position: relative;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     p {
-        font: var(--Text-1);
-        color: var(--Primary-Text);
+        font: var(--text-md);
+        color: var(--text=primary);
         width: 40rem;
         text-wrap: wrap;
         text-align: center;
@@ -14,41 +19,24 @@
     }
 }
 
-.logo {
-    height: 7rem !important;
-
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-}
-
 .formContainer {
-    height: 50rem;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .heading {
-    font: var(--Heading-1);
-    font-size: 3rem;
+    font: var(--heading-xl);
     text-align: center;
-    width: 40rem;
 
     &::after {
         display: block;
         content: "";
-
-        margin-top: 1rem;
-        width: 45rem;
-        border: solid rgba(0, 0, 0, 0.1) 0.1rem;
+        position: relative;
+        right: 5%;
+        width: 110%;
+        border: solid var(--border-subtle) 0.1rem;
     }
 
     &.noDecor {
@@ -59,7 +47,7 @@
 }
 
 .link {
-    font: var(--Text-1);
+    font: var(--text-md);
     color: rgba(100, 108, 255, 1);
     text-decoration: none;
     cursor: pointer;
@@ -80,6 +68,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    color: var(--Accent-Color);
-    font: var(--Text-1);
+    color: var(--error);
+    font: var(--text-md);
 }

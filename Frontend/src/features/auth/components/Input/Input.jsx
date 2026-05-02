@@ -1,30 +1,26 @@
-import { forwardRef, useEffect, useId, useState } from "react";
+import { forwardRef, useId } from "react";
 import styles from "./Input.module.css";
 
-const Input = forwardRef(({ label, type = "text", watch, ...props }, ref) => {
+const Input = forwardRef(({ label, type = "text", className = "", ...props }, ref) => {
     const id = useId();
 
-    const [labelClassname, setLabelClassname] = useState("passive");
-
-    const name = props.name;
-
-    useEffect(() => {
-        let val = watch(name);
-
-        if (val == "") setLabelClassname("passive");
-        else setLabelClassname("active");
-    }, [watch(name)]);
-
     return (
-        <div className={styles.input}>
-            <label className={labelClassname} htmlFor={id}>
+        <div className={styles.container}>
+            <input
+                id={id}
+                ref={ref}
+                type={type}
+                className={`${styles.input} ${className}`}
+                placeholder=" "
+                {...props}
+            />
+            <label className={styles.label} htmlFor={id}>
                 {label}
             </label>
-            <input id={id} type={type} ref={ref} {...props} />
         </div>
     );
 });
 
-Input.displayName = Input;
+Input.displayName = "Input";
 
 export default Input;

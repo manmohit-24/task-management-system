@@ -1,6 +1,5 @@
 import Button from "../Button/Button";
 import Icon from "@/utils/Icons";
-import styles from "./GoogleButton.module.css";
 
 export default function GoogleButton() {
     const GoogleLogin = async () => {
@@ -8,10 +7,9 @@ export default function GoogleButton() {
     };
 
     return (
-        <Button
-            text={<Icon name={"IconGoogleButton"} size={"M"} addionalclasses={styles.icon} />}
-            style={{ "--bg": "white" }}
-            onClick={GoogleLogin}
-        />
+        <Button variant="secondary" onClick={GoogleLogin}>
+            <Icon name={"IconGoogleLogo"} size={"M"} />
+            Continue with Google
+        </Button>
     );
 }

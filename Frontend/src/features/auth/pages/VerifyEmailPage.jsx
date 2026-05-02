@@ -1,24 +1,18 @@
-import { Button, OtpInput } from "../";
+import { Button } from "../";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Icon from "@/utils/Icons";
 import styles from "../styles/AuthPage.module.css";
 import { useRef } from "react";
-import { useState } from "react";
+import { Form } from "../";
 
 export default function VerifyEmailPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const email = searchParams.get("email");
     const otp = useRef();
-    const [error, setError] = useState("");
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = () => {
         console.log(otp.current);
-        if (!otp.current) {
-            setError("Please enter the valid otp");
-            return;
-        }
         navigate("/");
     };
     return (
@@ -29,37 +23,24 @@ export default function VerifyEmailPage() {
                 verification.
             </p>
             <br />
-            <form
+            <Form
+                inputsFormat={[
+                    {
+                        label: "OTP",
+                        type: "otp",
+                        name: "otp",
+                    },
+                ]}
                 onSubmit={onSubmit}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "0.5rem",
-                }}
-            >
-                <OtpInput
-                    onChange={(val) => {
-                        otp.current = val;
-                    }}
-                />
-                {error && <div className={styles.errorsContainer}>{error}</div>}{" "}
-                <Button text="Continue" type="submit" />
-            </form>
-            <Button
-                text={
-                    <>
-                        <Icon name={"IconGoogleLogo"} size={"M"} />
-                        Open Gmail
-                    </>
-                }
-                style={{
-                    "--bg": "var(--Primary-Bg)",
-                    color: "var(--Primary-Text)",
-                }}
-                onClick={() => window.open("https://mail.google.com", "_blank")}
+                buttonText="Continue"
             />
+            <Button
+                variant="secondary"
+                onClick={() => window.open("https://mail.google.com", "_blank")}
+            >
+                <Icon name={"IconGoogleLogo"} size={"M"} />
+                Open Gmail
+            </Button>
         </>
     );
 }

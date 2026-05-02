@@ -1,46 +1,61 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "./OtpInput.module.css";
-
-export default function OtpInput({ length = 4, onChange = () => {} }) {
+import Input from "../Input/Input";
+export default function OtpInput({ length = 4, value = "", onChange = () => {} }) {
     const [otp, setOtp] = useState(Array(length).fill(""));
     const inputsRef = useRef([]);
 
-    const focusInput = (index) => {
-        if (index >= 0 && index < length) {
-            inputsRef.current[index]?.focus();
+    const focusInput = (i) => {
+        if (i >= 0 && i < length) {
+            inputsRef.current[i]?.focus();
         }
     };
 
-    const handleChange = (value, index) => {
-        if (!/^\d*$/.test(value)) return;
+    useEffect(() => {
+        const next = Array(length).fill("");
+        value
+            .slice(0, length)
+            .split("")
+            .forEach((char, i) => {
+                next[i] = char;
+            });
 
-        const digit = value.slice(-1);
-        const updatedOtp = [...otp];
-        updatedOtp[index] = digit;
-        setOtp(updatedOtp);
+        setOtp(next);
+    }, [value, length]);
 
-        if (digit && index < length - 1) {
-            focusInput(index + 1);
-        }
+    const updateOtp = (nextOtp) => {
+        setOtp(nextOtp);
+        onChange(nextOtp.join(""));
+    };
 
-        if (updatedOtp.every((num) => num !== "")) {
-            onChange(updatedOtp.join(""));
+    const handleChange = (rawValue, i) => {
+        // only numbers allowed
+        if (!/^\d*$/.test(rawValue)) return;
+
+        const digit = rawValue.slice(-1);
+        const nextOtp = [...otp];
+        nextOtp[i] = digit;
+
+        updateOtp(nextOtp);
+
+        if (digit && i < length - 1) {
+            focusInput(i + 1);
         }
     };
 
-    const handleKeyDown = (e, index) => {
+    const handleKeyDown = (e, i) => {
         if (e.key === "Backspace") {
-            if (otp[index]) {
+            if (otp[i]) {
                 const updatedOtp = [...otp];
-                updatedOtp[index] = "";
+                updatedOtp[i] = "";
                 setOtp(updatedOtp);
             } else {
-                focusInput(index - 1);
+                focusInput(i - 1);
             }
         }
 
-        if (e.key === "ArrowLeft") focusInput(index - 1);
-        if (e.key === "ArrowRight") focusInput(index + 1);
+        if (e.key === "ArrowLeft") focusInput(i - 1);
+        if (e.key === "ArrowRight") focusInput(i + 1);
     };
 
     const handlePaste = (e) => {
@@ -66,16 +81,15 @@ export default function OtpInput({ length = 4, onChange = () => {} }) {
 
     return (
         <div className={styles.container}>
-            {otp.map((digit, index) => (
-                <input
-                    key={index}
-                    ref={(el) => (inputsRef.current[index] = el)}
+            {otp.map((digit, i) => (
+                <Input
+                    ref={(el) => (inputsRef.current[i] = el)}
+                    key={i}
                     type="text"
-                    inputMode="numeric"
                     maxLength={1}
                     value={digit}
-                    onChange={(e) => handleChange(e.target.value, index)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    onChange={(e) => handleChange(e.target.value, i)}
+                    onKeyDown={(e) => handleKeyDown(e, i)}
                     onPaste={handlePaste}
                     className={styles.input}
                 />

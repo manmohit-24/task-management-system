@@ -12,12 +12,7 @@ const HomePage = () => {
         <div className="HomePageContainer">
             <h1>Welcome to the Todo App</h1>
 
-            <Button
-                text="Login / Signup"
-                onClick={() => {
-                    navigate("login");
-                }}
-            ></Button>
+            <Button onClick={() => navigate("login")}>Login / SignUp</Button>
 
             <ThemeToggle></ThemeToggle>
         </div>
