@@ -15,9 +15,7 @@ export default function HomePage() {
     return (
         <main className={styles.page}>
             <section className={styles.hero}>
-                <div className={styles.logo}>
-                    <Icon name="IconLogo" size="XL" />
-                </div>
+                <Icon name="IconLogo" addionalclasses={styles.logo} />
 
                 <h1 className={styles.title}>{config.appName}</h1>
 

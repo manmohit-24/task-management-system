@@ -90,8 +90,8 @@ body {
     --text-disabled: var(--gray-400);
 
     --accent: var(--red-500);
-    --accent-bg: rgba(222, 76, 74, 0.1);
-    --hover-bg: rgba(202, 158, 87, 0.1);
+    --bg-accent: rgba(222, 76, 74, 0.1);
+    --bg-hover: rgba(202, 158, 87, 0.1);
 
     --border-subtle: rgba(0, 0, 0, 0.1);
     --border-muted: rgba(0, 0, 0, 0.2);
