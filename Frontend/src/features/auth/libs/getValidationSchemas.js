@@ -3,6 +3,30 @@ export default function getValidationSchemas(val) {
 }
 
 const validationsSchemas = {
+    identifier: {
+        required: "Email or username is required",
+        validate: (value) => {
+            const input = value?.trim();
+            if (!input) return "Email or username is required";
+
+            const isEmail = input.includes("@");
+
+            if (isEmail) {
+                const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+                return emailRegex.test(input) || "Invalid email address";
+            }
+
+            if (input.length < 3) return "Username must be at least 3 characters";
+            if (input.length > 20) return "Username cannot exceed 20 characters";
+
+            const usernameRegex = /^[a-zA-Z0-9._]+$/;
+            return (
+                usernameRegex.test(input) ||
+                "Username can only contain letters, numbers, dots, and underscores"
+            );
+        },
+    },
+
     email: {
         required: "Email is required",
         pattern: {
@@ -10,6 +34,7 @@ const validationsSchemas = {
             message: "Invalid email address",
         },
     },
+
     password: {
         required: "Password is required",
         minLength: {
@@ -17,6 +42,7 @@ const validationsSchemas = {
             message: "Password must be at least 8 characters",
         },
     },
+
     username: {
         required: "Username is required",
         minLength: {
@@ -32,6 +58,7 @@ const validationsSchemas = {
             message: "Username can only contain letters, numbers, dots, and underscores",
         },
     },
+
     name: {
         required: "Name is required",
         minLength: {
@@ -47,6 +74,7 @@ const validationsSchemas = {
             message: "Name can only contain letters, spaces, apostrophes, and hyphens",
         },
     },
+
     otp: {
         required: "OTP is required",
         minLength: {
