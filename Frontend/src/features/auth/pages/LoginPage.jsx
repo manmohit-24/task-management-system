@@ -1,7 +1,8 @@
 import { Form, GoogleButton } from "../";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "../styles/AuthPage.module.css";
+import styles from "./AuthPage.module.css";
 import { useLogin } from "../hooks/auth.hook";
+import config from "@/app/config";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -16,11 +17,12 @@ export default function LoginPage() {
     const onSubmit = async (data) => login(data);
 
     return (
-        <>
+        <div className={styles.container}>
             <div className={styles.header}>
                 <h1 className={styles.heading}>Welcome Back</h1>
                 <p className={styles.subtext}>
-                    Log in to continue to XYZ with the account credentials used during signup.
+                    Log in to continue to {config.appName} with the account credentials used during
+                    signup.
                 </p>
             </div>
 
@@ -64,6 +66,6 @@ export default function LoginPage() {
                     </Link>
                 </p>
             </div>
-        </>
+        </div>
     );
 }
