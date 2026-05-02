@@ -17,30 +17,40 @@ export default function VerifyEmailPage() {
     };
     return (
         <>
-            <h1 className={styles.heading}>Enter OTP to activate account</h1>
-            <p className="WrapText">
-                Enter the otp we sent to <b> {email} </b> to finish account setup and email
-                verification.
-            </p>
-            <br />
+            <div className={styles.header}>
+                <h1 className={styles.heading}>Verify Email</h1>
+                <p className={styles.subtext}>
+                    Enter the verification code sent to <b>{email}</b> to activate the account and
+                    complete email verification.
+                </p>
+            </div>
+
             <Form
                 inputsFormat={[
                     {
+                        name: "otp",
                         label: "OTP",
                         type: "otp",
-                        name: "otp",
+                        length: 4,
                     },
                 ]}
                 onSubmit={onSubmit}
-                buttonText="Continue"
+                buttonText="Verify Email"
             />
-            <Button
-                variant="secondary"
-                onClick={() => window.open("https://mail.google.com", "_blank")}
-            >
-                <Icon name={"IconGoogleLogo"} size={"M"} />
-                Open Gmail
-            </Button>
+
+            <div className={styles.footerLinks}>
+                <p className={styles.footerText}>
+                    Didn’t receive the code? Check the inbox or spam folder.
+                </p>
+
+                <Button
+                    variant="secondary"
+                    onClick={() => window.open("https://mail.google.com", "_blank")}
+                >
+                    <Icon name="IconGoogleLogo" size="M" />
+                    Open Gmail
+                </Button>
+            </div>
         </>
     );
 }
