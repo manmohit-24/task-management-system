@@ -72,6 +72,7 @@ body {
     --font-serif: Montserrat, system-ui, sans-serif;
     --font-sans: "Ubuntu Sans", system-ui, sans-serif;
 
+    --heading-xl: 700 2.8rem var(--font-serif);
     --heading-lg: 700 2.4rem var(--font-serif);
     --heading-md: 600 2rem var(--font-serif);
     --heading-sm: 500 1.6rem var(--font-serif);
@@ -96,6 +97,7 @@ body {
     --border-muted: rgba(0, 0, 0, 0.2);
     --border-strong: rgba(0, 0, 0, 0.3);
     --border-heavy: rgba(0, 0, 0, 0.4);
+    --error: #dc2626;
 
     /* Domain */
     --priority-1: var(--pink-500);
@@ -130,6 +132,7 @@ body {
 
     --accent-bg: rgba(222, 76, 74, 0.2);
     --hover-bg: rgba(202, 158, 87, 0.2);
+    --error: #f87171;
 
     --border-subtle: rgba(255, 255, 255, 0.1);
     --border-muted: rgba(255, 255, 255, 0.2);
