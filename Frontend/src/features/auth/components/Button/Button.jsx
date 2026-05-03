@@ -1,9 +1,9 @@
-import styles from "./Button.module.css";
+import "./Button.css";
 
-const Button = ({ text = "", className = "", ...props }) => {
+const Button = ({ text, className = "", ...props }) => {
     return (
         <div>
-            <button className={`${className} ${styles.button}`} {...props}>
+            <button className={`${className} ButtonComponent`} {...props}>
                 {text}
             </button>
         </div>

@@ -1,8 +1,8 @@
-.input {
+.InputComponent {
     --activeColor: rgba(25, 118, 210, 0.8);
     --bgColor: white;
     position: relative;
-    font: var(--Text-3);
+    font:var(--Text-3);
 
     & input {
         height: 4rem;

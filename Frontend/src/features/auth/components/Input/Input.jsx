@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useId, useState } from "react";
-import styles from "./Input.module.css";
-
+import "./Input.css";
 const Input = forwardRef(({ label, type = "text", watch, ...props }, ref) => {
     const id = useId();
 
@@ -16,7 +15,7 @@ const Input = forwardRef(({ label, type = "text", watch, ...props }, ref) => {
     }, [watch(name)]);
 
     return (
-        <div className={styles.input}>
+        <div className="InputComponent">
             <label className={labelClassname} htmlFor={id}>
                 {label}
             </label>
@@ -24,7 +23,5 @@ const Input = forwardRef(({ label, type = "text", watch, ...props }, ref) => {
         </div>
     );
 });
-
-Input.displayName = Input;
 
 export default Input;

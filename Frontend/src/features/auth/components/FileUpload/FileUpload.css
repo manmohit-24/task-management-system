@@ -1,4 +1,4 @@
-.container {
+.FileUploadContainer {
     border: 0.1rem dashed var(--Disabled);
     border-radius: 10px;
     padding: 2rem;
@@ -6,10 +6,10 @@
     aspect-ratio: 16/9;
     text-align: center;
     cursor: pointer;
-    margin-top: 3rem;
+    margin-top : 3rem;
     position: relative;
 
-    .label {
+    .FileUploadLabel {
         font-size: 2rem;
         width: 100%;
         height: 100%;
@@ -19,7 +19,7 @@
         font: var(--Heading-2);
         color: var(--Primary-Text);
     }
-    .input {
+    .FileUploadInput {
         width: 100%;
         height: 100%;
         display: flex;
@@ -30,14 +30,14 @@
         cursor: pointer;
     }
 
-    .cross {
+    .FileUploadCrossButton {
         display: flex;
         align-items: center;
         justify-content: center;
 
         z-index: 1;
         position: absolute;
-
+        
         top: -1rem;
         right: -1rem;
 
@@ -61,7 +61,7 @@
         border-radius: 10px;
     }
 
-    .heading {
+    .FileUploadHeading{
         position: absolute;
         top: -1.5rem;
         left: 1rem;
