@@ -30,52 +30,39 @@ export default function RegisterPage() {
 
     return (
         <>
-            <div className={styles.header}>
-                <h1 className={styles.heading}>Create Your Account</h1>
-                <p className={styles.subtext}>
-                    Sign up to get started. Create an account with email or continue with Google.
-                </p>
-            </div>
-
+            <h1 className={styles.heading}>Create Account</h1>
             <Form
                 inputsFormat={[
                     {
-                        name: "name",
                         label: "Name",
                         type: "text",
+                        name: "name",
                     },
                     {
-                        name: "username",
                         label: "Username",
                         type: "text",
+                        name: "username",
                     },
                     {
-                        name: "email",
                         label: "Email",
                         type: "email",
+                        name: "email",
                     },
                     {
-                        name: "password",
                         label: "Password",
                         type: "password",
+                        name: "password",
                     },
                 ]}
                 onSubmit={onSubmit}
-                buttonText="Create Account"
-                className={styles.registerFormContainer}
+                buttonText="Continue with Email"
             />
-
             {isError && <div className={styles.errorsContainer}>{error.message}</div>}
-
-            <div className={styles.divider}>
-                <span>or</span>
-            </div>
-
+            <span>or</span>
             <GoogleButton />
-
-            <p className={styles.footerText}>
-                Already have an account?{" "}
-                <Link to="/login" className={styles.link}>
+            <p>
+                Already Have an account ?{" "}
+                <Link to={"/login"} className={styles.link}>
                     Log in
                 </Link>
             </p>

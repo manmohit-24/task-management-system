@@ -17,53 +17,40 @@ export default function LoginPage() {
 
     return (
         <>
-            <div className={styles.header}>
-                <h1 className={styles.heading}>Welcome Back</h1>
-                <p className={styles.subtext}>
-                    Log in to continue to XYZ with the account credentials used during signup.
-                </p>
-            </div>
-
+            <h1 className={styles.heading}>Welcome Back to XYX</h1>
             <Form
                 inputsFormat={[
                     {
-                        name: "email",
                         label: "Email",
                         type: "email",
+                        name: "email",
                     },
                     {
-                        name: "password",
                         label: "Password",
                         type: "password",
+                        name: "password",
                     },
                 ]}
                 onSubmit={onSubmit}
-                buttonText="Log In"
+                buttonText="Log in"
             />
-
-            {isError && <div className={styles.errorsContainer}>{error.message}</div>}
-
-            <div className={styles.divider}>
-                <span>or</span>
-            </div>
-
+            {isError && <div className={styles.errorsContainer}>{error.message}</div>}{" "}
+            <span>or</span>
             <GoogleButton />
-
-            <div className={styles.footerLinks}>
-                <p className={styles.footerText}>
-                    Forgot the password?{" "}
-                    <Link to="/forgot-password" className={styles.link}>
-                        Reset it
-                    </Link>
-                </p>
-
-                <p className={styles.footerText}>
-                    Don’t have an account?{" "}
-                    <Link to="/register" className={styles.link}>
-                        Create one
-                    </Link>
-                </p>
-            </div>
+            <p>
+                Forgot Password ?
+                <Link to={"/forgot-password"} className={styles.link}>
+                    {" "}
+                    Reset Password
+                </Link>
+            </p>
+            <p>
+                No Account ?
+                <Link to={"/register"} className={styles.link}>
+                    {" "}
+                    Create Account
+                </Link>
+            </p>
         </>
     );
 }

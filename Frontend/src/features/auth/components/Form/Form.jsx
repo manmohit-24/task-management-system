@@ -16,7 +16,6 @@ const Form = ({
     buttonText,
     buttonStyle = {},
     onSubmit = () => {},
-    className = "",
 }) => {
     const {
         register,
@@ -26,7 +25,7 @@ const Form = ({
     } = useForm({ defaultValues: values });
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className={`${styles.container} ${className}`}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
             {inputsFormat.map((config, i) => {
                 const {
                     name = "",
