@@ -16,15 +16,17 @@ const Form = ({
         formState: { errors },
     } = useForm({ defaultValues: values });
 
+    let inputs = Array(inputsFormat.length);
+
     const commonValidations = {
-        email: {
+        Email: {
             required: "Email is required",
             pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: "Invalid email address",
             },
         },
-        password: {
+        Password: {
             required: "Password is required",
             minLength: {
                 value: 8,
@@ -33,38 +35,41 @@ const Form = ({
         },
     };
 
+    for (let i = 0; i < inputsFormat.length; i++) {
+        let obj = inputsFormat[i];
+
+        let validations = {
+            required: false,
+            ...(commonValidations[obj.label] || {}),
+            ...(obj.validations || {}),
+        };
+
+        delete obj.validations;
+
+        if (obj.type == "file") {
+            inputs[i] = <FileUpload key={i} {...obj}></FileUpload>;
+        } else {
+            inputs[i] = (
+                <div className={styles.input} key={i}>
+                    <Input
+                        key={i}
+                        {...obj}
+                        {...register(`${obj.label}`, { ...validations })}
+                        watch={watch}
+                    ></Input>
+
+                    <div className={styles.error}>
+                        {errors[obj.label] && errors[obj.label].message}
+                    </div>
+                </div>
+            );
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
-            {inputsFormat.map((field, i) => {
-                const { validations: customValidations = {}, label, type, ...rest } = field;
-
-                const lowerLabel = label.toLowerCase();
-
-                const validations = {
-                    required: false,
-                    ...(commonValidations[lowerLabel] || {}),
-                    ...customValidations,
-                };
-
-                if (type === "file")
-                    return <FileUpload key={i} label={label} type={type} {...rest} />;
-
-                return (
-                    <div className={styles.input} key={i}>
-                        <Input
-                            label={label}
-                            type={type}
-                            {...rest}
-                            {...register(lowerLabel, validations)}
-                            watch={watch}
-                        />
-
-                        <div className={styles.error}>{errors[lowerLabel]?.message}</div>
-                    </div>
-                );
-            })}
-
-            <Button text={buttonText} type="submit" style={buttonStyle} />
+            {inputs}
+            <Button text={buttonText} type="submit" style={buttonStyle}></Button>
         </form>
     );
 };
