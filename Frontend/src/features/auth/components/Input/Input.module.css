@@ -1,0 +1,78 @@
+.container {
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.input {
+    width: 100%;
+    height: 4rem;
+    padding: 1rem 0.6rem;
+    border: 0.1rem solid var(--border-muted);
+    border-radius: 0.5rem;
+    background-color: var(--bg-primary);
+    font: var(--text-md);
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+}
+
+.input:hover {
+    border-color: var(--border-strong);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--border-heavy);
+}
+
+.label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-inline: 0.3rem;
+    background-color: var(--bg-primary);
+    font: var(--text-md);
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition:
+        top 0.2s ease,
+        left 0.2s ease,
+        transform 0.2s ease,
+        color 0.2s ease,
+        font-size 0.2s ease,
+        font-weight 0.2s ease,
+        line-height 0.2s ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+    top: 0;
+    transform: translateY(-50%);
+    left: 0rem;
+    font: var(--text-sm);
+    color: var(--text-primary);
+}
+
+.passwordInput {
+    padding-right: 2.75rem;
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.85rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text-secondary, #6b7280);
+}
+
+.toggle:hover {
+    color: var(--text-primary, #111827);
+}
