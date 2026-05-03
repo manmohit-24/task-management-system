@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { login, logout, register, getUser, checkUsernameAvailability } from "../api/authService";
+import {
+    login,
+    logout,
+    register,
+    checkActiveSession,
+    checkUsernameAvailability,
+} from "../api/authService";
 
 export function useSession() {
     return useQuery({
         queryKey: ["session"],
-        queryFn: async () => {
-            const res = await getUser();
-            if (!res.success) return null;
-            return res.data;
-        },
+        queryFn: checkActiveSession,
         retry: false,
         staleTime: Infinity,
     });
@@ -51,6 +53,7 @@ export function useRegister(options) {
     return useMutation({
         mutationFn: async (data) => {
             const registerRes = await register(data);
+
             if (!registerRes.success) throw new Error(registerRes.message || "Registration failed");
 
             const loginRes = await login({
@@ -73,11 +76,7 @@ export function useRegister(options) {
 export function useUsernameAvailability(username) {
     return useQuery({
         queryKey: ["username-availability", username],
-        queryFn: async () => {
-            const res = await checkUsernameAvailability(username);
-            if (res.success) return res.data;
-            else return null;
-        },
+        queryFn: () => checkUsernameAvailability(username),
         enabled: !!username && username.length >= 3,
         staleTime: 30_000,
         retry: false,
