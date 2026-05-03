@@ -53,3 +53,26 @@
     font: var(--text-sm);
     color: var(--text-primary);
 }
+
+.passwordInput {
+    padding-right: 2.75rem;
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.85rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text-secondary, #6b7280);
+}
+
+.toggle:hover {
+    color: var(--text-primary, #111827);
+}
