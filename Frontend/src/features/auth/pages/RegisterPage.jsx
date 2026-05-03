@@ -1,32 +1,19 @@
 import { Form, GoogleButton } from "..";
-import { Link, useNavigate, createSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/AuthPage.module.css";
 import { useRegister } from "../hooks/auth.hook";
-import { useRef } from "react";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
-    const email = useRef("Your Email");
-
     const {
         mutate: register,
         isError,
         error,
     } = useRegister({
-        onSuccess: () => {
-            navigate({
-                pathname: "/verify-email",
-                search: createSearchParams({
-                    email: email.current,
-                }).toString(),
-            });
-        },
+        onSuccess: () => navigate("/"),
     });
 
-    const onSubmit = (data) => {
-        email.current = data.email;
-        register(data);
-    };
+    const onSubmit = (data) => register(data);
 
     return (
         <>

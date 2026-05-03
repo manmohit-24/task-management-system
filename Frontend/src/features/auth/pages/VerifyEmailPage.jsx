@@ -1,65 +1,61 @@
-import { Button, OtpInput } from "../";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button } from "../";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "@/utils/Icons";
 import styles from "../styles/AuthPage.module.css";
-import { useRef } from "react";
-import { useState } from "react";
 
 export default function VerifyEmailPage() {
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const email = searchParams.get("email");
-    const otp = useRef();
-    const [error, setError] = useState("");
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log(otp.current);
-        if (!otp.current) {
-            setError("Please enter the valid otp");
-            return;
-        }
-        navigate("/");
-    };
+    const Email = "";
+    const Name = "";
+
+    const isRegistration = Email && Name;
+
     return (
         <>
-            <h1 className={styles.heading}>Enter OTP to activate account</h1>
-            <p className="WrapText">
-                Enter the otp we sent to <b> {email} </b> to finish account setup and email
-                verification.
-            </p>
-            <br />
-            <form
-                onSubmit={onSubmit}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "0.5rem",
-                }}
-            >
-                <OtpInput
-                    onChange={(val) => {
-                        otp.current = val;
-                    }}
-                />
-                {error && <div className={styles.errorsContainer}>{error}</div>}{" "}
-                <Button text="Continue" type="submit" />
-            </form>
-            <Button
-                text={
-                    <>
-                        <Icon name={"IconGoogleLogo"} size={"M"} />
-                        Open Gmail
-                    </>
-                }
-                style={{
-                    "--bg": "var(--Primary-Bg)",
-                    color: "var(--Primary-Text)",
-                }}
-                onClick={() => window.open("https://mail.google.com", "_blank")}
-            />
+            <div className={styles.checkEmailImage} />
+            <h1 className={styles.heading}>Check Your Inbox</h1>
+
+            {isRegistration ? (
+                <>
+                    <p className="WrapText">
+                        Click on the link we sent to <b> {Email} </b> to finish account setup and
+                        email verification.
+                    </p>
+                    <br />
+                    {/* <a href="https://mail.google.com" target="_blank"> */}
+                    <Button
+                        text={
+                            <>
+                                <Icon name={"IconGoogleLogo"} size={"M"} />
+                                Open Gmail
+                            </>
+                        }
+                        style={{
+                            "--bg": "var(--Primary-Bg)",
+                            color: "var(--Primary-Text)",
+                        }}
+                        onClick={() => window.open("https://mail.google.com", "_blank")}
+                    />
+                    {/* </a> */}
+                    <Button text={"Verify Later"} onClick={() => navigate("edit-profile")} />
+                </>
+            ) : (
+                <>
+                    <p className="WrapText">
+                        if an account exists for <b> {Email} </b>, you we recieve an email with
+                        instructions on resetting your password.
+                    </p>
+                    <br />
+                    <a href="https://mail.google.com" target="_blank">
+                        <Button text="Open Gmail" />
+                    </a>
+                    <Link className={styles.link} to={"login"}>
+                        {" "}
+                        Back to Login{" "}
+                    </Link>
+                </>
+            )}
         </>
     );
 }
