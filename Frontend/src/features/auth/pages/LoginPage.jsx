@@ -14,18 +14,7 @@ export default function LoginPage() {
         onSuccess: () => navigate("/"),
     });
 
-    const onSubmit = (data) => {
-        const { identifier, password } = data;
-
-        const isEmail = identifier.includes("@");
-
-        login({
-            password,
-            ...(isEmail
-                ? { email: identifier.trim().toLowerCase() }
-                : { username: identifier.trim() }),
-        });
-    };
+    const onSubmit = async (data) => login(data);
 
     return (
         <div className={styles.container}>
@@ -40,9 +29,9 @@ export default function LoginPage() {
             <Form
                 inputsFormat={[
                     {
-                        name: "identifier",
-                        label: "Email or Username",
-                        type: "text",
+                        name: "email",
+                        label: "Email",
+                        type: "email",
                     },
                     {
                         name: "password",
