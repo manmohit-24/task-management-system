@@ -1,28 +1,12 @@
-.primary {
-    --bg: var(--text-primary);
-    --bg-hover: var(--text-secondary);
-    --bg-active: var(--bg-secondary);
-
-    --color: var(--bg-primary);
-    --color-active: var(--text-secondary);
-    border: none;
-}
-
-.secondary {
-    --bg: var(--bg-secondary);
-    --bg-hover: var(--bg-primary);
-    --bg-active: var(--text-secondary);
-
-    --color: var(--text-primary);
-    --color-active: var(--bg-secondary);
-    border: 0.1rem solid var(--border-subtle);
-}
-
 .button {
+    --bg: var(--Primary-Text);
+    --bgHover: rgba(from var(--bg) r g b/ 80%);
+    --bgActive: rgba(from var(--bg) r g b/60%);
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.5rem;
 
     width: 40rem;
     height: 4rem;
@@ -30,22 +14,22 @@
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
 
-    font: var(--text-primary);
+    font: var(--Text-1);
 
     background-color: var(--bg);
-    color: var(--color);
+    color: var(--Secondary-BG);
 
     cursor: pointer;
     transition: all 0.25s;
+    border: none;
     box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 5px;
 
     &:hover {
-        background-color: var(--bg-hover);
+        background-color: var(--bgHover);
         box-shadow: rgba(0, 0, 0, 0.24) 1px 1px 5px;
     }
     &:active,
     &:focus-visible {
-        background-color: var(--bg-active);
-        color: var(--color-active);
+        background-color: var(--bgActive);
     }
 }

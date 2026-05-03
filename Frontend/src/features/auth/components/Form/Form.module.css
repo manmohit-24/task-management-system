@@ -7,18 +7,14 @@
 }
 
 .input {
-    width: 100%;
+    width: fit-content;
+    height: 6rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-}
+    gap: 0.2rem;
 
-.otp {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-.error {
-    color: var(--error);
-    font: var(--text-sm);
+    .error {
+        color: var(--Accent-Color);
+        font: var(--Text-2);
+    }
 }

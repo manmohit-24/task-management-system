@@ -17,13 +17,12 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <h1 className={styles.heading}>Request Reset Password</h1>
+            <h1 className={styles.heading}>Enter Your Email To Reset Password </h1>
             <Form
                 inputsFormat={[
                     {
                         label: "Email",
                         type: "email",
-                        name: "email",
                     },
                 ]}
                 onSubmit={onSubmit}

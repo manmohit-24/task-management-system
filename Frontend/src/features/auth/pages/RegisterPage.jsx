@@ -31,38 +31,35 @@ export default function RegisterPage() {
     return (
         <>
             <h1 className={styles.heading}>Create Account</h1>
+            <p>or</p>
+            <GoogleButton />
             <Form
                 inputsFormat={[
                     {
                         label: "Name",
                         type: "text",
-                        name: "name",
                     },
                     {
                         label: "Username",
                         type: "text",
-                        name: "username",
                     },
                     {
                         label: "Email",
                         type: "email",
-                        name: "email",
                     },
                     {
                         label: "Password",
                         type: "password",
-                        name: "password",
                     },
                 ]}
                 onSubmit={onSubmit}
                 buttonText="Continue with Email"
-            />
-            {isError && <div className={styles.errorsContainer}>{error.message}</div>}
-            <span>or</span>
-            <GoogleButton />
+            />{" "}
+            {isError && <div className={styles.errorsContainer}>{error.message}</div>}{" "}
             <p>
-                Already Have an account ?{" "}
+                Already Have an account ?
                 <Link to={"/login"} className={styles.link}>
+                    {" "}
                     Log in
                 </Link>
             </p>

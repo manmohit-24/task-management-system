@@ -18,25 +18,23 @@ export default function LoginPage() {
     return (
         <>
             <h1 className={styles.heading}>Welcome Back to XYX</h1>
+            <p>or</p>
+            <GoogleButton />
             <Form
                 inputsFormat={[
                     {
                         label: "Email",
                         type: "email",
-                        name: "email",
                     },
                     {
                         label: "Password",
                         type: "password",
-                        name: "password",
                     },
                 ]}
                 onSubmit={onSubmit}
                 buttonText="Log in"
             />
             {isError && <div className={styles.errorsContainer}>{error.message}</div>}{" "}
-            <span>or</span>
-            <GoogleButton />
             <p>
                 Forgot Password ?
                 <Link to={"/reset-password"} className={styles.link}>

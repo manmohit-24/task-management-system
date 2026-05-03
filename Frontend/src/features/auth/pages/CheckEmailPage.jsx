@@ -16,10 +16,15 @@ export default function CheckEmailPage() {
                 on resetting your password.
             </p>
             <br />
-            <Button onClick={() => window.open("https://mail.google.com", "_blank")}>
-                <Icon name={"IconGoogleLogo"} size={"M"} />
-                Open Gmail
-            </Button>
+            <Button
+                text={
+                    <>
+                        <Icon name={"IconGoogleLogo"} size={"M"} />
+                        Open Gmail
+                    </>
+                }
+                onClick={() => window.open("https://mail.google.com", "_blank")}
+            />
             <Link className={styles.link} to={"login"}>
                 Back to Login
             </Link>
