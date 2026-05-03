@@ -22,7 +22,6 @@ const Form = ({
         register,
         control,
         handleSubmit,
-        watch,
         formState: { errors },
     } = useForm({ defaultValues: values });
 
@@ -34,7 +33,6 @@ const Form = ({
                     label = "",
                     type = "text",
                     validations: customValidations = {},
-                    component: CustomComponent,
                     ...rest
                 } = config;
 
@@ -42,23 +40,6 @@ const Form = ({
                     ...(getValidationSchemas(name) || {}),
                     ...customValidations,
                 };
-
-                if (CustomComponent) {
-                    return (
-                        <div className={styles.input} key={name || i}>
-                            <CustomComponent
-                                name={name}
-                                label={label}
-                                type={type}
-                                register={register}
-                                watch={watch}
-                                error={errors[name]?.message}
-                                validations={validations}
-                                {...rest}
-                            />
-                        </div>
-                    );
-                }
 
                 if (type === "file")
                     return (
@@ -97,7 +78,6 @@ const Form = ({
                         <Input
                             label={label}
                             type={type}
-                            watch={watch}
                             {...rest}
                             {...register(name, validations)}
                         />

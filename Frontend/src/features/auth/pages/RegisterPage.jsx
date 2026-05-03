@@ -3,7 +3,6 @@ import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import styles from "./AuthPage.module.css";
 import { useRegister } from "../hooks/auth.hook";
 import { useRef } from "react";
-import UsernameField from "../components/UsernameField/UsernameField";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -49,7 +48,6 @@ export default function RegisterPage() {
                         name: "username",
                         label: "Username",
                         type: "text",
-                        component: UsernameField,
                     },
                     {
                         name: "email",
