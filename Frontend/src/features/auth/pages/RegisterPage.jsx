@@ -1,6 +1,6 @@
 import { Form, GoogleButton } from "..";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
-import styles from "./AuthPage.module.css";
+import styles from "../styles/AuthPage.module.css";
 import { useRegister } from "../hooks/auth.hook";
 import { useRef } from "react";
 
@@ -29,7 +29,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className={styles.container}>
+        <>
             <div className={styles.header}>
                 <h1 className={styles.heading}>Create Your Account</h1>
                 <p className={styles.subtext}>
@@ -79,6 +79,6 @@ export default function RegisterPage() {
                     Log in
                 </Link>
             </p>
-        </div>
+        </>
     );
 }

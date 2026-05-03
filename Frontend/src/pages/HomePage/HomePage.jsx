@@ -1,30 +1,22 @@
-import styles from "./HomePage.module.css";
-import Icon from "@/utils/Icons";
-import config from "@/app/config";
-import Button from "@/features/auth/components/Button/Button";
 import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
+import { IconsDisplayAll } from "@/utils/Icons";
 
-export default function HomePage() {
+import ThemeToggle from "@/features/themes/components/ThemeToggle.jsx";
+import Button from "@/features/auth/components/Button/Button";
+
+const HomePage = () => {
     const navigate = useNavigate();
+
     return (
-        <main className={styles.page}>
-            <section className={styles.hero}>
-                <div className={styles.logo}>
-                    <Icon name="IconLogo" size="XL" />
-                </div>
+        <div className="HomePageContainer">
+            <h1>Welcome to the Todo App</h1>
 
-                <h1 className={styles.title}>{config.appName}</h1>
+            <Button onClick={() => navigate("login")}>Login / SignUp</Button>
 
-                <p className={styles.subtitle}>Organize work and life, simply. </p>
-
-                <div className={styles.actions}>
-                    <Button onClick={() => navigate("/login")}>Log In</Button>
-
-                    <Button onClick={() => navigate("/register")} variant="secondary">
-                        Create Account
-                    </Button>
-                </div>
-            </section>
-        </main>
+            <ThemeToggle></ThemeToggle>
+        </div>
     );
-}
+};
+
+export default HomePage;

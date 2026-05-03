@@ -1,10 +1,10 @@
 import { Button } from "../";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Icon from "@/utils/Icons";
-import styles from "./AuthPage.module.css";
+import styles from "../styles/AuthPage.module.css";
 import { useRef } from "react";
 import { Form } from "../";
-import WorkInProgress from "../../../components/WorkInProgress/WorkInProgress";
+
 export default function VerifyEmailPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -16,7 +16,7 @@ export default function VerifyEmailPage() {
         navigate("/");
     };
     return (
-        <div className={styles.container}>
+        <>
             <div className={styles.header}>
                 <h1 className={styles.heading}>Verify Email</h1>
                 <p className={styles.subtext}>
@@ -51,7 +51,6 @@ export default function VerifyEmailPage() {
                     Open Gmail
                 </Button>
             </div>
-            <WorkInProgress />
-        </div>
+        </>
     );
 }

@@ -1,7 +1,6 @@
 import { Form } from "..";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
-import styles from "./AuthPage.module.css";
-import WorkInProgress from "@/components/WorkInProgress/WorkInProgress";
+import styles from "../styles/AuthPage.module.css";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function ResetPasswordPage() {
     };
 
     return (
-        <div className={styles.container}>
+        <>
             <div className={styles.header}>
                 <h1 className={styles.heading}>Forgot Password?</h1>
                 <p className={styles.subtext}>
@@ -44,7 +43,6 @@ export default function ResetPasswordPage() {
                     Back to Login
                 </Link>
             </p>
-            <WorkInProgress />
-        </div>
+        </>
     );
 }

@@ -1,7 +1,7 @@
-import config from "@/app/config";
+import env from "@/app/env";
 
 async function request(path, options = {}) {
-    const response = await fetch(`${config.apiUrl}/users${path}`, {
+    const response = await fetch(`${env.apiUrl}/users${path}`, {
         credentials: "include",
         headers: {
             "Content-Type": "application/json",

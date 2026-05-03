@@ -1,14 +1,14 @@
 import { Button } from "../";
 import { Link, useSearchParams } from "react-router-dom";
 import Icon from "@/utils/Icons";
-import styles from "./AuthPage.module.css";
+import styles from "../styles/AuthPage.module.css";
 
 export default function CheckEmailPage() {
     const [searchParams] = useSearchParams();
 
     const email = searchParams.get("email") || "Your Email";
     return (
-        <div className={styles.container}>
+        <>
             <div className={styles.header}>
                 <h1 className={styles.heading}>Check Your Inbox</h1>
                 <p className={styles.subtext}>
@@ -33,6 +33,6 @@ export default function CheckEmailPage() {
                     Back to Login
                 </Link>
             </div>
-        </div>
+        </>
     );
 }
