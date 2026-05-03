@@ -1,8 +1,8 @@
-import { useEffect, useState, useId } from "react";
+import React, { useEffect, useState, useId } from "react";
 import "./FileUpload.css";
-import Icon from "@/utils/Icons";
+import Icon from "../../../utils/Icons";
 
-const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
+const FileUpload = ({ submitFile, label, init = undefined , ...props}) => {
     const id = useId();
     const [uploadedFile, setUploadedFile] = useState("");
     const [fileURL, setFileURL] = useState("");
@@ -10,7 +10,7 @@ const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
     useEffect(() => {
         submitFile(uploadedFile);
         // console.log(uploadedFile);
-
+        
         if (uploadedFile) {
             let reader = new FileReader();
             reader.readAsDataURL(uploadedFile);
@@ -59,8 +59,11 @@ const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
 
             {fileURL ? (
                 <>
-                    <button onClick={handleRemoveFile} className="FileUploadCrossButton">
-                        <Icon name={"IconCross"} size="L" />
+                    <button
+                        onClick={handleRemoveFile}
+                        className="FileUploadCrossButton"
+                    >
+                        <Icon name={"IconCross"} size="L"/>
                     </button>
                     <img src={fileURL} alt="Cover-Image" />
                 </>

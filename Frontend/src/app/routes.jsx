@@ -1,14 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage, Dashboard } from "../pages";
-import {
-    AuthLayout,
-    LoginPage,
-    RegisterPage,
-    VerifyEmailPage,
-    ResetPasswordPage,
-    EditProfilePage,
-} from "@/features/auth/";
-
+import { AuthPage, HomePage, Dashboard } from "../pages";
 import App from "./App";
 
 const router = createBrowserRouter([
@@ -17,37 +8,16 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             {
-                element: <AuthLayout />,
-                children: [
-                    {
-                        path: "login",
-                        element: <LoginPage />,
-                    },
-                    {
-                        path: "register",
-                        element: <RegisterPage />,
-                    },
-                    {
-                        path: "verify-email",
-                        element: <VerifyEmailPage />,
-                    },
-                    {
-                        path: "reset-password",
-                        element: <ResetPasswordPage />,
-                    },
-                    {
-                        path: "edit-profile",
-                        element: <EditProfilePage />,
-                    },
-                ],
-            },
-            {
                 index: true,
                 element: <HomePage />,
             },
             {
                 path: "home",
                 element: <HomePage />,
+            },
+            {
+                path: "auth/:authType",
+                element: <AuthPage />,
             },
             {
                 path: "app/:pageType/:tagId",
