@@ -9,16 +9,16 @@ async function request(path, options = {}) {
         ...options,
     });
 
-    const json = await response.json().catch(() => ({}));
+    const res = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-        const error = new Error(json?.message || "Something went wrong");
+        const error = new Error(res?.message || "Something went wrong");
         error.status = response.status;
-        error.json = json;
+        error.json = res;
         throw error;
     }
 
-    return json.data;
+    return res;
 }
 
 export async function login({ email, username, password }) {
@@ -41,7 +41,7 @@ export async function logout() {
     });
 }
 
-export async function checkActiveSession() {
+export async function getUser() {
     return request("/me", {
         method: "GET",
     });
