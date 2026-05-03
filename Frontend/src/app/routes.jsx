@@ -32,7 +32,7 @@ const router = createBrowserRouter([
                         element: <VerifyEmailPage />,
                     },
                     {
-                        path: "forgot-password",
+                        path: "reset-password",
                         element: <ResetPasswordPage />,
                     },
                     {

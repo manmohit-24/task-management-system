@@ -1,4 +1,4 @@
-import { Form } from "..";
+import { Form } from "../";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import styles from "../styles/AuthPage.module.css";
 
@@ -17,27 +17,20 @@ export default function ResetPasswordPage() {
 
     return (
         <>
-            <h1 className={styles.heading}>Forgot Password?</h1>
-            <p className={styles.subtext}>
-                Enter the email associated with the account and we’ll send a password reset link and
-                verification code.
-            </p>
-
+            <h1 className={styles.heading}>Request Reset Password</h1>
             <Form
                 inputsFormat={[
                     {
-                        name: "email",
-                        label: "Email Address",
+                        label: "Email",
                         type: "email",
+                        name: "email",
                     },
                 ]}
                 onSubmit={onSubmit}
-                buttonText="Send Reset Instructions"
+                buttonText="Reset Password"
             />
-
-            <p className={styles.footerText}>
-                Remembered the password?{" "}
-                <Link to="/login" className={styles.link}>
+            <p>
+                <Link to={"/login"} className={styles.link}>
                     Back to Login
                 </Link>
             </p>

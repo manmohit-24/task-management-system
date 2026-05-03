@@ -39,7 +39,7 @@ export default function LoginPage() {
             <GoogleButton />
             <p>
                 Forgot Password ?
-                <Link to={"/forgot-password"} className={styles.link}>
+                <Link to={"/reset-password"} className={styles.link}>
                     {" "}
                     Reset Password
                 </Link>
