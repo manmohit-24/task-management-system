@@ -9,16 +9,16 @@ async function request(path, options = {}) {
         ...options,
     });
 
-    const json = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-        const error = new Error(json?.message || "Something went wrong");
+        const error = new Error(data?.message || "Something went wrong");
         error.status = response.status;
-        error.json = json;
+        error.data = data;
         throw error;
     }
 
-    return json.data;
+    return data;
 }
 
 export async function login({ email, username, password }) {

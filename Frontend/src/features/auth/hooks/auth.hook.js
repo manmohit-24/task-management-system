@@ -35,8 +35,7 @@ export function useLogout(options) {
         mutationFn: logout,
 
         onSuccess: (...args) => {
-            queryClient.setQueryData(["session"], null);
-            queryClient.cancelQueries({ queryKey: ["session"] });
+            queryClient.invalidateQueries({ queryKey: ["session"] });
             options?.onSuccess?.(...args);
         },
     });
