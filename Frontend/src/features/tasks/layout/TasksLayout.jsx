@@ -1,4 +1,4 @@
-import { SideBar } from "../../../components";
+import { SideBar } from "../components";
 import { Outlet } from "react-router-dom";
 import styles from "./TasksLayout.module.css";
 

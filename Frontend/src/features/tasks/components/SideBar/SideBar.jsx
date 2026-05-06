@@ -1,11 +1,11 @@
 import "./SideBar.css";
-import Icon from "../../../utils/Icons";
-import SideBarHeader from "./SideBarHeader/SideBarHeader";
-import SideBarLabel from "./SideBarLabel/SideBarLabel";
+import Icon from "@/utils/Icons";
+import { SideBarHeader, SideBarLabel } from "../";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addTag } from "../../../store/Features/TodoSlice";
+import { addTag } from "@/store/Features/TodoSlice";
+
 const SideBar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();

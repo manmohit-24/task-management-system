@@ -1,11 +1,11 @@
 import "./SideBarLabel.css";
-import Icon from "../../../../utils/Icons";
+import Icon from "@/utils/Icons";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { setConfirmDelete } from "../../../../store/Features/GeneralSlice";
-import { deleteTag } from "../../../../store/Features/TodoSlice";
+import { setConfirmDelete } from "@/store/Features/GeneralSlice";
+import { deleteTag } from "@/store/Features/TodoSlice";
 import { useNavigate } from "react-router-dom";
-import { updateTag } from "../../../../store/Features/TodoSlice";
+import { updateTag } from "@/store/Features/TodoSlice";
 
 const SideBarLabel = ({
     title = "SideBarLabel",

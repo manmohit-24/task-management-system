@@ -1,15 +1,15 @@
-import './SideBarHeader.css';
-import Icon from '../../../../utils/Icons';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import "./SideBarHeader.css";
+import Icon from "@/utils/Icons";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const SideBarHeader = ({ toogleExpansion }) => {
-    let name = (useSelector((state) => state.AuthData.Name) || 'Name').split(' ')[0]; // only taking first name
+    let name = (useSelector((state) => state.AuthData.Name) || "Name").split(" ")[0]; // only taking first name
 
     const [isSideBarHeaderExpanded, setIsSideBarHeaderExpanded] = useState(false);
 
     let className = `SideBarHeaderContainer ${
-        isSideBarHeaderExpanded ? 'SideBarHeaderExpanded' : ''
+        isSideBarHeaderExpanded ? "SideBarHeaderExpanded" : ""
     }`;
 
     return (
@@ -20,24 +20,24 @@ const SideBarHeader = ({ toogleExpansion }) => {
                 onClick={() => setIsSideBarHeaderExpanded(!isSideBarHeaderExpanded)}
             >
                 <div className="SideBarHeaderProfileIcon">
-                    <Icon name={'IconProfileLight'} size="XL" />
+                    <Icon name={"IconProfileLight"} size="XL" />
                 </div>
 
                 <p className="SideBarHeaderText">{name}</p>
 
                 <div className="SideBarHeaderVIcon">
-                    <Icon name={'IconV'} size="XS" />
+                    <Icon name={"IconV"} size="XS" />
                 </div>
             </button>
 
             {/* ----------- SideBarHeader Right Section [ Bell Icon + SideBar Icon ] ----------- */}
             <div className="SideBarHeaderRight">
                 <button className="SideBarHeaderBellIcon">
-                    <Icon name={'IconBell'} size="M" />
+                    <Icon name={"IconBell"} size="M" />
                 </button>
 
                 <button className="SideBarHeaderSideBarIcon" onClick={toogleExpansion}>
-                    <Icon name={'IconSideBar'} size="M" />
+                    <Icon name={"IconSideBar"} size="M" />
                 </button>
             </div>
         </div>
