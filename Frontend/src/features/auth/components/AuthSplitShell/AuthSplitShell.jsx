@@ -1,10 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
-import styles from "./AuthLayoutSplit.module.css";
+import { Link } from "react-router-dom";
+import styles from "./AuthSplitShell.module.css";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
 import config from "@/app/config";
 
-export default function AuthLayoutSplit() {
+export default function AuthSplitShell({ children }) {
     return (
         <main className={styles.page}>
             <section className={styles.shell}>
@@ -33,9 +33,7 @@ export default function AuthLayoutSplit() {
                         <HeaderThemeToggle />
                     </div>
 
-                    <div className={styles.formShell}>
-                        <Outlet />
-                    </div>
+                    <div className={styles.formShell}>{children} </div>
                 </section>
             </section>
         </main>

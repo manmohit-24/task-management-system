@@ -11,6 +11,8 @@ import Input from "./components/Input/Input";
 import FileUpload from "./components/FileUpload/FileUpload";
 import GoogleButton from "./components/GoogleButton/GoogleButton";
 import OtpInput from "./components/OtpInput/OtpInput";
+import AuthCenteredShell from "./components/AuthCenteredShell/AuthCenteredShell";
+import AuthSplitShell from "./components/AuthSplitShell/AuthSplitShell";
 
 export {
     LoginPage,
@@ -26,4 +28,6 @@ export {
     Input,
     GoogleButton,
     OtpInput,
+    AuthCenteredShell,
+    AuthSplitShell,
 };

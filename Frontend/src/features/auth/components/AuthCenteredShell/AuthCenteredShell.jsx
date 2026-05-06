@@ -1,10 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
-import styles from "./AuthLayoutPlain.module.css";
+import { Link } from "react-router-dom";
+import styles from "./AuthCenteredShell.module.css";
 import config from "@/app/config";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
 
-export default function AuthLayoutPlain() {
+export default function AuthCenteredShell({ children }) {
     return (
         <div className={styles.page}>
             <div className={styles.bgGlowTop} />
@@ -25,9 +25,7 @@ export default function AuthLayoutPlain() {
             </header>
 
             <main className={styles.body}>
-                <section className={styles.authShell}>
-                    <Outlet />
-                </section>
+                <section className={styles.authShell}>{children}</section>
             </main>
         </div>
     );
