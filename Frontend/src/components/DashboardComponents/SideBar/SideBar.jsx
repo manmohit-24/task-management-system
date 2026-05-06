@@ -130,71 +130,69 @@ const SideBar = () => {
                 isSideBarExpanded ? "SideBarExpanded" : "SideBarCollapsed"
             }`}
         >
-                {/* --------------------- SideBarHeader --------------------- */}
-                <SideBarHeader toogleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)} />
+            {/* --------------------- SideBarHeader --------------------- */}
+            <SideBarHeader toogleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)} />
 
-                {/* --------------------- SideBarDefaultLabels --------------------- */}
-                <div className="SideBarDefaultLabels">{SideBarDefaultLabels}</div>
+            {/* --------------------- SideBarDefaultLabels --------------------- */}
+            <div className="SideBarDefaultLabels">{SideBarDefaultLabels}</div>
 
-                {/* --------------------- SideBarCustomListsHeading --------------------- */}
-                <div
-                    className={`SideBarCustomListsHeading ${isAddingNewList ? "AddingList" : ""} `}
-                >
-                    <button>{Heading}</button>
+            {/* --------------------- SideBarCustomListsHeading --------------------- */}
+            <div className={`SideBarCustomListsHeading ${isAddingNewList ? "AddingList" : ""} `}>
+                <button>{Heading}</button>
 
-                    <div className="SideBarCustomListsHeadingIcons">
-                        <button onClick={() => setIsAddingNewList(!isAddingNewList)}>
-                            <Icon name={"IconPlus"} size={"XS"} />
-                        </button>
+                <div className="SideBarCustomListsHeadingIcons">
+                    <button onClick={() => setIsAddingNewList(!isAddingNewList)}>
+                        <Icon name={"IconPlus"} size={"XS"} />
+                    </button>
 
-                        <button
-                            className={isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"}
-                            onClick={() => setIsCustomListsExpanded(!isCustomListsExpanded)}
-                        >
-                            <Icon name={"IconV"} size={"XS"} />
+                    <button
+                        className={isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"}
+                        onClick={() => setIsCustomListsExpanded(!isCustomListsExpanded)}
+                    >
+                        <Icon name={"IconV"} size={"XS"} />
+                    </button>
+                </div>
+
+                {isAddingNewList && (
+                    <div
+                        className="SideBarCustomListsAddListContainer"
+                        style={{ "--selectedColor": newListColor }}
+                        ref={newListRef}
+                        onKeyDownCapture={(e) => {
+                            if (e.key === "Enter") addNewList();
+                        }}
+                    >
+                        <div className="SideBarCustomListsAddListTag">
+                            <Icon name={"IconTagFilled"} size={"M"} />
+                            <input
+                                type="color"
+                                value={newListColor}
+                                onChange={(e) => setNewListColor(e.target.value)}
+                            />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="New List"
+                            value={newListName}
+                            onChange={(e) => setNewListName(e.target.value)}
+                        />
+
+                        <button className="SideBarCustomListsAddButton" onClick={addNewList}>
+                            <Icon name={"IconPlusFilled"} size={"S"} />
+                            Add Project
                         </button>
                     </div>
+                )}
+            </div>
 
-                    {isAddingNewList && (
-                        <div
-                            className="SideBarCustomListsAddListContainer"
-                            style={{ "--selectedColor": newListColor }}
-                            ref={newListRef}
-                            onKeyDownCapture={(e) => {
-                                if (e.key === "Enter") addNewList();
-                            }}
-                        >
-                            <div className="SideBarCustomListsAddListTag">
-                                <Icon name={"IconTagFilled"} size={"M"} />
-                                <input
-                                    type="color"
-                                    value={newListColor}
-                                    onChange={(e) => setNewListColor(e.target.value)}
-                                />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="New List"
-                                value={newListName}
-                                onChange={(e) => setNewListName(e.target.value)}
-                            />
-
-                            <button className="SideBarCustomListsAddButton" onClick={addNewList}>
-                                <Icon name={"IconPlusFilled"} size={"S"} />
-                                Add Project
-                            </button>
-                        </div>
-                    )}
-                </div>
-
-                {/* --------------------- SideBarCustomLists --------------------- */}
-                <div
-                    className={`SideBarCustomLists ${
-                        isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"
-                    }`}
-                >
-                    {SideBarCustomLists}
-                </div>
+            {/* --------------------- SideBarCustomLists --------------------- */}
+            <div
+                className={`SideBarCustomLists ${
+                    isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"
+                }`}
+            >
+                {SideBarCustomLists}
+            </div>
         </nav>
     );
 };

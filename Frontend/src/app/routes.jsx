@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage, Dashboard } from "../pages";
+import { HomePage } from "../pages";
 import {
     AuthLayout,
     LoginPage,
@@ -8,6 +8,8 @@ import {
     ResetPasswordPage,
     CheckEmailPage,
 } from "@/features/auth/";
+
+import { TasksLayout } from "../features/tasks";
 
 import App from "./App";
 
@@ -50,8 +52,8 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "app/:pageType/:tagId",
-                element: <Dashboard />,
+                path: "app/",
+                element: <TasksLayout />,
             },
         ],
     },
