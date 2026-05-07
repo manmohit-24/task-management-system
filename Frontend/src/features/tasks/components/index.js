@@ -1,5 +1,6 @@
 import SideBar from "./SideBar/SideBar";
-import SideBarHeader from "./SideBarHeader/SideBarHeader";
 import SideBarLabel from "./SideBarLabel/SideBarLabel";
+import SideBarHeader from "./SideBarHeader/SideBarHeader";
+import AddProjectDropDown from "./AddProjectDropDown/AddProjectDropDown";
 
-export { SideBar, SideBarHeader, SideBarLabel };
+export { SideBar, SideBarHeader, SideBarLabel, AddProjectDropDown };

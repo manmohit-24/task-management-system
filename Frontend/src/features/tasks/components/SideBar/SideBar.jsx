@@ -1,33 +1,23 @@
-import "./SideBar.css";
+import styles from "./SideBar.module.css";
 import Icon from "@/utils/Icons";
-import { SideBarHeader, SideBarLabel } from "../";
-import { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { SideBarHeader, SideBarLabel, AddProjectDropDown } from "../";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addTag } from "@/store/Features/TodoSlice";
+import { ChevronRight } from "lucide-react";
 
-const SideBar = () => {
+export default function SideBar() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const { pageType, tagId } = useParams();
+    const { tagId } = useParams();
 
     const [isSideBarExpanded, setIsSideBarExpanded] = useState(true);
     const [isCustomListsExpanded, setIsCustomListsExpanded] = useState(true);
 
-    const [isAddingNewList, setIsAddingNewList] = useState(false);
+    const Tags = useSelector((state) => state.TodoData.Tags);
 
-    const disAbledColor = useSelector((state) => state.GeneralData.ThemeColors.Disabled);
-    const [newListName, setNewListName] = useState("");
-    const [newListColor, setNewListColor] = useState(disAbledColor);
-    const newListRef = useRef(null);
+    const handleClick = (labelId) => navigate(`/app/todo/${labelId}`);
 
-    const Tags = pageType === "notes" ? {} : useSelector((state) => state.TodoData.Tags);
-
-    const handleClick = (labelId) =>
-        navigate(pageType === "notes" ? `app/notes/${labelId}` : `/app/todo/${labelId}`);
-
-    const numberOfTodayTasks = useSelector((state) => state.TodoData.NumberOfTodayTasks);
     const sections = useSelector((state) => state.TodoData.Sections);
 
     const getNumberOfTasks = (tagId) => {
@@ -40,25 +30,21 @@ const SideBar = () => {
         return count === 0 ? "" : count;
     };
 
-    const SideBarDefaultLabels = (
-        pageType === "notes"
-            ? []
-            : [
-                  {
-                      title: "Today",
-                      icon: "IconCalendarToday",
-                      id: "today",
-                      number: getNumberOfTasks("today") || "",
-                  }, // Later we will retrieve id from backend , id will help to organise tasks easily among labels
-                  {
-                      title: "Inbox",
-                      icon: "IconInbox",
-                      id: "inbox",
-                      number: getNumberOfTasks("inbox") || "",
-                  },
-                  { title: "Upcoming", icon: "IconCalendar1", id: "upcoming" },
-              ]
-    )?.map((item) => (
+    const SideBarDefaultLabels = [
+        {
+            title: "Today",
+            icon: "IconCalendarToday",
+            id: "today",
+            number: getNumberOfTasks("today") || "",
+        }, // Later we will retrieve id from backend , id will help to organise tasks easily among labels
+        {
+            title: "Inbox",
+            icon: "IconInbox",
+            id: "inbox",
+            number: getNumberOfTasks("inbox") || "",
+        },
+        { title: "Upcoming", icon: "IconCalendar1", id: "upcoming" },
+    ].map((item) => (
         <SideBarLabel
             title={item.title}
             icon={<Icon name={item.icon} size={"M"} />}
@@ -70,24 +56,6 @@ const SideBar = () => {
             tagColor="var(--Disabled)"
         />
     ));
-
-    useEffect(() => {
-        if (isAddingNewList) {
-            setNewListColor(disAbledColor);
-            setNewListName("");
-            document.querySelector(".SideBarCustomListsAddListContainer > input")?.focus();
-        }
-    }, [isAddingNewList]);
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (newListRef.current && !newListRef.current.contains(e.target)) {
-                if (!newListName && !newListColor) setIsAddingNewList(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [newListName, isAddingNewList, newListColor]);
 
     const SideBarCustomLists = Object.keys(Tags)?.map(
         (labelId) =>
@@ -107,87 +75,38 @@ const SideBar = () => {
             ),
     );
 
-    let Heading = pageType === "notes" ? "My NoteBooks" : "My Projects";
-
-    const addNewList = () => {
-        if (newListName) {
-            let tagId = `${newListName.replace(/[^a-zA-Z0-9]/g, "-")}${Date.now()}`;
-
-            if (newListColor === disAbledColor) {
-                setNewListColor("default");
-            }
-
-            dispatch(addTag({ tagId, tag: { title: newListName, tagColor: newListColor } }));
-            setNewListName("");
-            setNewListColor(disAbledColor);
-        }
-        setIsAddingNewList(false);
-    };
-
     return (
         <nav
-            className={`SideBarContainer ${
-                isSideBarExpanded ? "SideBarExpanded" : "SideBarCollapsed"
-            }`}
+            className={`${styles.container} ${styles[isSideBarExpanded ? "expanded" : "collapsed"]}`}
         >
             {/* --------------------- SideBarHeader --------------------- */}
             <SideBarHeader toogleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)} />
 
             {/* --------------------- SideBarDefaultLabels --------------------- */}
-            <div className="SideBarDefaultLabels">{SideBarDefaultLabels}</div>
+            <div className={styles.list}>{SideBarDefaultLabels}</div>
 
             {/* --------------------- SideBarCustomListsHeading --------------------- */}
-            <div className={`SideBarCustomListsHeading ${isAddingNewList ? "AddingList" : ""} `}>
-                <button>{Heading}</button>
+            <div className={styles.heading}>
+                <div>Workspaces</div>
 
-                <div className="SideBarCustomListsHeadingIcons">
-                    <button onClick={() => setIsAddingNewList(!isAddingNewList)}>
-                        <Icon name={"IconPlus"} size={"XS"} />
-                    </button>
+                <div className={styles.headingButtons}>
+                    <AddProjectDropDown className={styles.headingButton} />
 
                     <button
-                        className={isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"}
+                        className={styles.headingButton}
                         onClick={() => setIsCustomListsExpanded(!isCustomListsExpanded)}
                     >
-                        <Icon name={"IconV"} size={"XS"} />
+                        <ChevronRight
+                            size={16}
+                            className={`${styles.chervon}  ${isCustomListsExpanded ? styles.open : ""}`}
+                        />
                     </button>
                 </div>
-
-                {isAddingNewList && (
-                    <div
-                        className="SideBarCustomListsAddListContainer"
-                        style={{ "--selectedColor": newListColor }}
-                        ref={newListRef}
-                        onKeyDownCapture={(e) => {
-                            if (e.key === "Enter") addNewList();
-                        }}
-                    >
-                        <div className="SideBarCustomListsAddListTag">
-                            <Icon name={"IconTagFilled"} size={"M"} />
-                            <input
-                                type="color"
-                                value={newListColor}
-                                onChange={(e) => setNewListColor(e.target.value)}
-                            />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="New List"
-                            value={newListName}
-                            onChange={(e) => setNewListName(e.target.value)}
-                        />
-
-                        <button className="SideBarCustomListsAddButton" onClick={addNewList}>
-                            <Icon name={"IconPlusFilled"} size={"S"} />
-                            Add Project
-                        </button>
-                    </div>
-                )}
             </div>
 
             {/* --------------------- SideBarCustomLists --------------------- */}
             <div
-                className={`SideBarCustomLists ${
+                className={`${styles.list} ${
                     isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"
                 }`}
             >
@@ -195,5 +114,4 @@ const SideBar = () => {
             </div>
         </nav>
     );
-};
-export default SideBar;
+}

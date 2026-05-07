@@ -1,0 +1,119 @@
+.container {
+    --selectedColor: var(--text-disabled);
+
+    padding: 1rem;
+    background-color: var(--bg-primary);
+
+    opacity: 0.8;
+    backdrop-filter: blur(10px);
+
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
+
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr 10fr;
+
+    width: 22rem;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.icon,
+.input {
+    height: 3rem;
+}
+
+.icon {
+    position: relative;
+    aspect-ratio: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: solid 0.1rem rgba(from var(--selectedColor) r g b / 50%);
+    border-radius: 0.5rem;
+    transition-duration: 0.3s;
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    * {
+        color: var(--selectedColor);
+        fill: rgba(from var(--selectedColor) r g b / 50%);
+    }
+
+    &:hover {
+        border-color: rgba(from var(--selectedColor) r g b / 70%);
+        background-color: rgba(from var(--selectedColor) r g b / 10%);
+    }
+}
+
+.input {
+    border-radius: 0.5rem;
+    border: solid 0.1rem var(--border-muted);
+    padding: 0.5rem 0.8rem;
+    min-width: 0;
+    font: var(--text-md);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition-duration: 0.2s;
+
+    &:hover {
+        border-color: var(--border-subtle);
+    }
+
+    &:focus {
+        border-color: var(--border-strong);
+        outline: none;
+    }
+}
+
+.error {
+    color: var(--error);
+    font: var(--text-sm);
+    grid-column: -2 / -1;
+    font: var(--text-xs);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.addButton {
+    grid-column: 1 / -1;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: solid 0.1rem var(--accent);
+
+    font: var(--text-sm);
+    font-weight: 600;
+
+    background-color: var(--bg-primary);
+    color: var(--accent);
+    justify-self: center;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    transition-duration: 0.3s;
+
+    .addIcon {
+        color: var(--bg-primary);
+        fill: var(--accent);
+        transition-duration: 0.3s;
+    }
+
+    &:hover {
+        background-color: var(--accent);
+        color: var(--bg-primary);
+    }
+}

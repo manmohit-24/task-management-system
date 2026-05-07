@@ -1,0 +1,93 @@
+.container {
+    z-index: 10;
+    width: 22rem;
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    flex-shrink: 0;
+    transition-duration: 0.3s;
+}
+
+.expanded {
+    position: relative;
+    box-shadow: 0px 0px 2rem 0px rgba(0, 0, 0, 0.09);
+    height: 100vh;
+}
+.collapsed {
+    position: absolute;
+    transform: translateX(-95%);
+    box-shadow: 0px 0px 1.5rem 0px rgba(0, 0, 0, 0.15);
+    height: 98vh;
+    top: 1vh;
+    border-radius: 1rem;
+
+    &:hover {
+        transform: translateX(0);
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-block: 0.5rem;
+    max-height: 20rem;
+    transition-duration: 0.3s;
+}
+
+.heading {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+
+    position: relative;
+
+    &:hover {
+        background-color: var(--bg-hover);
+        .chervon {
+            opacity: 1;
+        }
+    }
+}
+
+.chervon {
+    opacity: 0;
+    transition-duration: 100ms;
+
+    &.open {
+        transform: rotate(90deg);
+    }
+}
+
+.headingButtons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.headingButton {
+    aspect-ratio: 1;
+    border: none;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--text-primary);
+
+    border-radius: 0.5rem;
+
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+.SideBarCustomLists.SideBarCustomListsCollapsed {
+    max-height: 0;
+    overflow: hidden;
+}
