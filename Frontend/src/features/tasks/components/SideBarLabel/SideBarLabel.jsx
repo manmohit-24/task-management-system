@@ -1,181 +1,168 @@
-import "./SideBarLabel.css";
-import Icon from "@/utils/Icons";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setConfirmDelete } from "@/store/Features/GeneralSlice";
-import { deleteTag } from "@/store/Features/TodoSlice";
-import { useNavigate } from "react-router-dom";
-import { updateTag } from "@/store/Features/TodoSlice";
+import styles from "./SideBarLabel.module.css";
+import { useEffect, useRef, useState } from "react";
+import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
+import { useForm } from "react-hook-form";
 
-const SideBarLabel = ({
-    title = "SideBarLabel",
-    icon = "",
-    number = "10",
+export default function SideBarLabel({
     id,
+    title = "New Project",
+    number = "",
     selected = false,
     onClick = () => {},
-    color = "var(--Disabled)",
-    isList = false,
-}) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    color = color === "default" ? "var(--Disabled)" : color;
-    const hoverColor = !isList && color === "var(--Disabled)" ? "var(--Accent-Color)" : color;
+    color = "var(--text-disabled)",
+    icon = <LayoutGrid size={16} />,
+    allowEdits = true,
+}) {
+    const [isEditing, setIsEditing] = useState(false);
+    const containerRef = useRef(null);
 
-    const expnadedOptionsRef = useRef(null);
-    const [expandedOptions, setExpandedOptions] = useState(false);
-    const [isEditting, setIsEditting] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        setFocus,
+        formState: { isDirty },
+    } = useForm({
+        defaultValues: {
+            title,
+            color,
+        },
+    });
 
-    const [newListName, setNewListName] = useState(title);
-    const [newListColor, setNewListColor] = useState(color);
+    const watchedColor = watch("color");
+    const watchedTitle = watch("title");
 
-    let className = `SideBarLabelContainer ${selected ? "SideBarLabelSelected" : " "}`;
+    // Open edit mode
+    function startEditing(e) {
+        e.stopPropagation();
+        setIsEditing(true);
+    }
 
-    const askDeleteConfirmation = (e) => {
+    // Save
+    function saveEdit(data, e) {
+        e?.stopPropagation();
+
+        // backend update logic here
+
+        console.log(data);
+        reset({ color: watchedColor, title: watchedTitle });
+
+        setIsEditing(false);
+    }
+
+    // Cancel + revert
+    function cancelEdit() {
+        reset({
+            title,
+            color,
+        });
+
+        setIsEditing(false);
+    }
+
+    // Delete
+    function askDeleteConfirmation(e) {
         e.stopPropagation();
 
-        dispatch(
-            setConfirmDelete({
-                show: true,
-                title: `Are you sure you want to delete Project <br/>
-                        <span style= "font-weight : bold;"> ${title}</span> ?`,
-                targetId: id,
-                target: "tag",
-            }),
-        );
-    };
+        // delete logic
+    }
 
-    const editList = () => {
-        if (newListName) {
-            dispatch(updateTag({ tagId: id, tag: { title: newListName, tagColor: newListColor } }));
-        }
-        setIsEditting(false);
-        setExpandedOptions(false);
-    };
-
+    // Autofocus
     useEffect(() => {
-        if (isList) {
-            setExpandedOptions(false);
-        }
-    }, [isList]);
+        if (isEditing) setFocus("title");
+    }, [isEditing, setFocus]);
 
+    // Outside click cancel
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (expnadedOptionsRef.current && !expnadedOptionsRef.current.contains(e.target)) {
-                if (newListName.trim() === title && newListColor === color) {
-                    setExpandedOptions(false);
-                    setIsEditting(false);
-                    setNewListColor(color);
-                    setNewListName(title);
-                }
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [newListName, newListColor, isEditting]);
+        if (!isEditing) return;
+
+        function handlePointerDown(e) {
+            if (containerRef.current && !containerRef.current.contains(e.target)) cancelEdit();
+        }
+
+        document.addEventListener("pointerdown", handlePointerDown);
+
+        return () => document.removeEventListener("pointerdown", handlePointerDown);
+    }, [isEditing]);
 
     return (
         <div
-            onClick={onClick}
-            className={className}
+            ref={containerRef}
             id={id}
-            style={{ "--color": newListColor, "--hover-color": hoverColor }}
+            onClick={() => {
+                if (!isEditing) onClick();
+            }}
+            className={`
+                ${styles.container}
+                ${selected ? styles.selected : ""}
+            `}
+            style={{
+                "--selectedColor": watchedColor,
+            }}
         >
-            {icon}
-            <span className={`SideBarLabelTitle`}>{title}</span>
+            <form className={styles.content} onSubmit={handleSubmit(saveEdit)}>
+                <div className={styles.left}>
+                    <div className={`${styles.icon} ${isEditing ? styles.iconEditMode : ""}`}>
+                        {icon}
+                        {isEditing && <input type="color" {...register("color")} />}
+                    </div>
 
-            <div className="SideBarLabelRight">
-                {number && (
-                    <span className={`SideBarLabelNumber ${isList ? "isList" : ""}`}>{number}</span>
-                )}
-                {isList && (
-                    <button
-                        className="SideBarLabelMore"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setExpandedOptions(!expandedOptions);
-                        }}
-                    >
-                        <Icon name={"IconDots3"} size="S" />
-                    </button>
-                )}
-            </div>
-
-            {isList && expandedOptions && (
-                <div className="SideBarLabelMoreOptions" ref={expnadedOptionsRef}>
-                    {isEditting ? (
-                        <div
-                            className="SideBarLabelEditListContainer"
-                            onKeyDownCapture={(e) => {
-                                if (e.key === "Enter") editList();
+                    {isEditing ? (
+                        <input
+                            className={styles.input}
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => {
+                                if (e.key === "Escape") {
+                                    cancelEdit();
+                                }
                             }}
-                        >
-                            <div className="SideBarLabelEditListTag">
-                                <Icon name={"IconTagFilled"} size={"M"} />
-                                <input
-                                    type="color"
-                                    value={newListColor}
-                                    onChange={(e) => setNewListColor(e.target.value)}
-                                />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="New List"
-                                value={newListName}
-                                onChange={(e) => setNewListName(e.target.value)}
-                            />
-                            <div className="SideBarLabelEditListButtons">
-                                <button
-                                    className="SideBarLabelEditListCancelButton"
-                                    onClick={() => setIsEditting(false)}
-                                >
-                                    <Icon name={"IconPlusFilled"} size={"S"} />
-                                    Cancel{" "}
-                                </button>
-
-                                <button
-                                    className="SideBarLabelEditListSaveButton"
-                                    onClick={editList}
-                                >
-                                    <Icon name={"IconTickFilled"} size={"S"} />
-                                    Save{" "}
-                                </button>
-                            </div>
-                        </div>
+                            {...register("title", {
+                                required: true,
+                            })}
+                        />
                     ) : (
-                        <>
-                            <button
-                                className="SideBarLabelEdit"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setIsEditting(true);
-                                }}
-                            >
-                                <Icon name={"IconEdit"} size="M" />
-                                Edit
-                            </button>
-
-                            <button
-                                className="SideBarLabelMove"
-                                // onClick={(e) => askDeleteConfirmation(e)}
-                            >
-                                <Icon name={"IconTagMove"} size="M" />
-                                Move
-                            </button>
-
-                            <button
-                                className="SideBarLabelDelete"
-                                onClick={(e) => askDeleteConfirmation(e)}
-                            >
-                                <Icon name={"IconBin"} size="M" />
-                                Delete
-                            </button>
-                        </>
+                        <span className={styles.title}>{watchedTitle}</span>
                     )}
                 </div>
-            )}
+
+                <div className={styles.right}>
+                    {allowEdits ? (
+                        <div className={styles.actions}>
+                            {isEditing ? (
+                                <button
+                                    type="submit"
+                                    disabled={!isDirty}
+                                    className={styles.saveButton}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Check size={15} />
+                                </button>
+                            ) : (
+                                <>
+                                    <button
+                                        type="button"
+                                        className={styles.editButton}
+                                        onClick={startEditing}
+                                    >
+                                        <Pencil size={14} />
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className={styles.deleteButton}
+                                        onClick={askDeleteConfirmation}
+                                    >
+                                        <Trash2 size={15} />
+                                    </button>
+                                </>
+                            )}
+                        </div>
+                    ) : (
+                        <span className={styles.number}>{number}</span>
+                    )}
+                </div>
+            </form>
         </div>
     );
-};
-
-export default SideBarLabel;
+}

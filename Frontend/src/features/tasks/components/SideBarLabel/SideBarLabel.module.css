@@ -1,0 +1,195 @@
+.container {
+    --transition: 200ms ease;
+    --color: var(--text-disabled);
+
+    width: 100%;
+    border-radius: 0.6rem;
+    color: var(--text-primary);
+
+    transition:
+        background-color var(--transition),
+        color var(--transition);
+
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+.selected,
+.selected:hover {
+    background-color: var(--bg-accent);
+    color: var(--accent);
+}
+
+.content {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 0.55rem 0.9rem;
+}
+
+.left {
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+    flex: 1;
+    cursor: pointer;
+}
+
+.icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+
+    svg {
+        color: var(--selectedColor);
+        fill: rgba(from var(--selectedColor) r g b / 50%);
+    }
+
+    &:hover {
+        border-color: rgba(from var(--selectedColor) r g b / 70%);
+        background-color: rgba(from var(--selectedColor) r g b / 10%);
+    }
+}
+
+.iconEditMode {
+    border: solid 0.1rem rgba(from var(--selectedColor) r g b / 50%);
+    aspect-ratio: 1;
+    padding: 0.3rem;
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+}
+
+.title {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font: var(--text-md);
+}
+
+.input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: var(--text-primary);
+    font: var(--text-md);
+
+    border-radius: 0.5rem;
+    border: solid 0.1rem var(--border-muted);
+    padding: 0.5rem 0.8rem;
+
+    transition: all var(--transition);
+
+    &:focus {
+        border-color: var(--border-muted);
+    }
+}
+
+.right {
+    display: flex;
+    align-items: center;
+
+    gap: 0.35rem;
+}
+
+.number {
+    font: var(--text-md);
+    color: var(--text-secondary);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+
+    gap: 0.15rem;
+
+    opacity: 0;
+
+    transform: translateX(4px);
+
+    pointer-events: none;
+
+    transition:
+        opacity var(--transition),
+        transform var(--transition);
+}
+
+.container:hover .actions,
+.container:focus-within .actions,
+.container.editing .actions {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.45rem;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition),
+        color var(--transition);
+}
+
+.actions button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.actions button svg {
+    stroke-width: 2.2;
+}
+
+.editButton {
+    color: var(--text-secondary);
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+.deleteButton {
+    color: var(--error);
+    &:hover {
+        background-color: rgba(from var(--error) r g b / 10%);
+    }
+}
+
+.saveButton {
+    color: var(--accent);
+    &:hover:not(:disabled) {
+        background-color: rgba(from var(--accent) r g b / 10%);
+    }
+}
