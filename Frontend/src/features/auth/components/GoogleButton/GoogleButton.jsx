@@ -1,8 +1,8 @@
 import Button from "../Button/Button";
-import Icon from "@/utils/Icons";
 import WorkInProgress from "@/components/WorkInProgress/WorkInProgress";
 import styles from "./GoogleButton.module.css";
 import { useNavigate } from "react-router-dom";
+import { Google } from "@/features/shared/components/Icons";
 
 export default function GoogleButton() {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function GoogleButton() {
     return (
         <div className={styles.wrapper}>
             <Button variant="secondary" onClick={GoogleLogin}>
-                <Icon name="IconGoogleLogo" size="M" />
+                <Google size={20} />
                 Continue with Google
             </Button>
 

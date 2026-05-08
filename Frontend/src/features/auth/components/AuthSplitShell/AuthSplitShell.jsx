@@ -3,6 +3,7 @@ import styles from "./AuthSplitShell.module.css";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
 import config from "@/app/config";
+import { Logo } from "@/features/shared/components/Icons";
 
 export default function AuthSplitShell({ children }) {
     return (
@@ -10,7 +11,7 @@ export default function AuthSplitShell({ children }) {
             <section className={styles.shell}>
                 <aside className={styles.showcase}>
                     <Link to="/" className={styles.brand}>
-                        <Icon name="IconLogo" addionalclasses={styles.logo} />
+                        <Logo size={45} />
 
                         <div className={styles.brandText}>
                             <span className={styles.title}>{config.appName}</span>

@@ -3,6 +3,7 @@ import styles from "./AuthCenteredShell.module.css";
 import config from "@/app/config";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
+import { Logo } from "@/features/shared/components/Icons";
 
 export default function AuthCenteredShell({ children }) {
     return (
@@ -13,8 +14,7 @@ export default function AuthCenteredShell({ children }) {
 
             <header className={styles.header}>
                 <Link to="/" className={styles.brand}>
-                    <Icon name="IconLogo" addionalclasses={styles.logo} />
-
+                    <Logo size={45} />
                     <div className={styles.brandText}>
                         <span className={styles.title}>{config.appName}</span>
                         <span className={styles.subtitle}>Organize work and life, simply.</span>

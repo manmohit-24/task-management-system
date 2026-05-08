@@ -32,11 +32,6 @@
     text-decoration: none;
 }
 
-.logo {
-    width: 4.4rem;
-    height: 4.4rem;
-}
-
 .brandText {
     display: flex;
     flex-direction: column;

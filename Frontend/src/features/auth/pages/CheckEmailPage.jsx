@@ -1,7 +1,7 @@
 import { Button } from "../";
 import { Link, useSearchParams } from "react-router-dom";
-import Icon from "@/utils/Icons";
 import styles from "./AuthPage.module.css";
+import { Google } from "@/features/shared/components/Icons";
 
 export default function CheckEmailPage() {
     const [searchParams] = useSearchParams();
@@ -21,7 +21,7 @@ export default function CheckEmailPage() {
 
             <div className={styles.footerLinks}>
                 <Button onClick={() => window.open("https://mail.google.com", "_blank")}>
-                    <Icon name="IconGoogleLogo" size="M" />
+                    <Google size={20} />
                     Open Gmail
                 </Button>
 

@@ -22,6 +22,8 @@
 
     cursor: pointer;
 
+    color: var(--text-disabled);
+
     transition:
         background-color 180ms ease,
         transform 140ms ease;
@@ -35,11 +37,7 @@
     }
 
     &.expanded {
-        * {
-            fill: var(--text-primary);
-            color: var(--text-primary);
-            stroke-color: var(--text-primary);
-        }
+        color: var(--text-primary);
     }
 }
 

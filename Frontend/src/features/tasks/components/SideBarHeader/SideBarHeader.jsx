@@ -1,12 +1,12 @@
 import styles from "./SideBarHeader.module.css";
-import Icon from "@/utils/Icons";
 import config from "@/app/config";
+import { Logo, Sidebar } from "@/features/shared/components/Icons/";
 
 export default function SideBarHeader({ IsExpanded, toggleExpansion }) {
     return (
         <header className={styles.container}>
             <div className={styles.brand}>
-                <Icon name="IconLogo" size={"XL"} />
+                <Logo size={28} />
                 <p>{config.appName}</p>
             </div>
 
@@ -15,7 +15,7 @@ export default function SideBarHeader({ IsExpanded, toggleExpansion }) {
                 onClick={toggleExpansion}
                 aria-label="Toggle sidebar"
             >
-                <Icon name="IconSideBar" size={"M"} />
+                <Sidebar size={20} />
             </button>
         </header>
     );
