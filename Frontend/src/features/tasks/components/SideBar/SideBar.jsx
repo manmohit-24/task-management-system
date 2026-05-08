@@ -80,7 +80,10 @@ export default function SideBar() {
             className={`${styles.container} ${styles[isSideBarExpanded ? "expanded" : "collapsed"]}`}
         >
             {/* --------------------- SideBarHeader --------------------- */}
-            <SideBarHeader toogleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)} />
+            <SideBarHeader
+                IsExpanded={isSideBarExpanded}
+                toggleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)}
+            />
 
             {/* --------------------- SideBarDefaultLabels --------------------- */}
             <div className={styles.list}>{SideBarDefaultLabels}</div>

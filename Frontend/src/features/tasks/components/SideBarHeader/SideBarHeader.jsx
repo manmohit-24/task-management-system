@@ -1,46 +1,22 @@
-import "./SideBarHeader.css";
+import styles from "./SideBarHeader.module.css";
 import Icon from "@/utils/Icons";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import config from "@/app/config";
 
-const SideBarHeader = ({ toogleExpansion }) => {
-    let name = (useSelector((state) => state.AuthData.Name) || "Name").split(" ")[0]; // only taking first name
-
-    const [isSideBarHeaderExpanded, setIsSideBarHeaderExpanded] = useState(false);
-
-    let className = `SideBarHeaderContainer ${
-        isSideBarHeaderExpanded ? "SideBarHeaderExpanded" : ""
-    }`;
-
+export default function SideBarHeader({ IsExpanded, toggleExpansion }) {
     return (
-        <div className={className}>
-            {/* ----------- SideBarHeader Left Section [ Profile Icon + Name ] ----------- */}
-            <button
-                className="SideBarHeaderLeft"
-                onClick={() => setIsSideBarHeaderExpanded(!isSideBarHeaderExpanded)}
-            >
-                <div className="SideBarHeaderProfileIcon">
-                    <Icon name={"IconProfileLight"} size="XL" />
-                </div>
-
-                <p className="SideBarHeaderText">{name}</p>
-
-                <div className="SideBarHeaderVIcon">
-                    <Icon name={"IconV"} size="XS" />
-                </div>
-            </button>
-
-            {/* ----------- SideBarHeader Right Section [ Bell Icon + SideBar Icon ] ----------- */}
-            <div className="SideBarHeaderRight">
-                <button className="SideBarHeaderBellIcon">
-                    <Icon name={"IconBell"} size="M" />
-                </button>
-
-                <button className="SideBarHeaderSideBarIcon" onClick={toogleExpansion}>
-                    <Icon name={"IconSideBar"} size="M" />
-                </button>
+        <header className={styles.container}>
+            <div className={styles.brand}>
+                <Icon name="IconLogo" size={"XL"} />
+                <p>{config.appName}</p>
             </div>
-        </div>
+
+            <button
+                className={`${styles.sidebarButton} ${IsExpanded ? styles.expanded : ""}`}
+                onClick={toggleExpansion}
+                aria-label="Toggle sidebar"
+            >
+                <Icon name="IconSideBar" size={"M"} />
+            </button>
+        </header>
     );
-};
-export default SideBarHeader;
+}
