@@ -52,15 +52,7 @@
 
     border-radius: 0.5rem;
 
-    svg {
-        color: var(--selectedColor);
-        fill: rgba(from var(--selectedColor) r g b / 50%);
-    }
-
-    &:hover {
-        border-color: rgba(from var(--selectedColor) r g b / 70%);
-        background-color: rgba(from var(--selectedColor) r g b / 10%);
-    }
+    color: var(--selectedColor);
 }
 
 .iconEditMode {
@@ -76,6 +68,11 @@
         height: 100%;
         opacity: 0;
         cursor: pointer;
+    }
+
+    &:hover {
+        border-color: rgba(from var(--selectedColor) r g b / 70%);
+        background-color: rgba(from var(--selectedColor) r g b / 10%);
     }
 }
 

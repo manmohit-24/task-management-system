@@ -1,79 +1,48 @@
 import styles from "./SideBar.module.css";
-import Icon from "@/utils/Icons";
-import { SideBarHeader, SideBarLabel, AddProjectDropDown } from "../";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { SideBarHeader, SideBarLabel, AddProjectDropDown } from "..";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
+import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
+import { Today } from "@/features/shared/components/Icons";
 
 export default function SideBar() {
+    const { id } = useParams();
     const navigate = useNavigate();
 
-    const { tagId } = useParams();
-
     const [isSideBarExpanded, setIsSideBarExpanded] = useState(true);
-    const [isCustomListsExpanded, setIsCustomListsExpanded] = useState(true);
+    const [isWorkspaceExpanded, setIsWorkspaceExpanded] = useState(true);
 
-    const Tags = useSelector((state) => state.TodoData.Tags);
-
-    const handleClick = (labelId) => navigate(`/app/todo/${labelId}`);
-
-    const sections = useSelector((state) => state.TodoData.Sections);
-
-    const getNumberOfTasks = (tagId) => {
-        let count = 0;
-
-        Object.keys(Tags[tagId]?.sections || {}).forEach((sectionId) => {
-            if (sectionId.split("-")[0] !== "Completed") count += sections[sectionId]?.number || 0;
-        });
-
-        return count === 0 ? "" : count;
+    const handleNavigation = (projectId) => {
+        navigate(`/app/${projectId}`);
     };
 
-    const SideBarDefaultLabels = [
+    const defaults = [
         {
-            title: "Today",
-            icon: "IconCalendarToday",
             id: "today",
-            number: getNumberOfTasks("today") || "",
-        }, // Later we will retrieve id from backend , id will help to organise tasks easily among labels
-        {
-            title: "Inbox",
-            icon: "IconInbox",
-            id: "inbox",
-            number: getNumberOfTasks("inbox") || "",
+            title: "Today",
+            number: "0",
+            color: "var(--text-disabled)",
+            icon: <Today size={20} />,
+            allowEdits: false,
         },
-        { title: "Upcoming", icon: "IconCalendar1", id: "upcoming" },
-    ].map((item) => (
-        <SideBarLabel
-            title={item.title}
-            icon={<Icon name={item.icon} size={"M"} />}
-            id={item.id}
-            number={item.number || ""}
-            key={item.id}
-            selected={item.id === tagId}
-            onClick={() => handleClick(item.id)}
-            tagColor="var(--Disabled)"
-        />
-    ));
+        {
+            id: "inbox",
+            title: "Inbox",
+            number: "0",
+            color: "var(--text-disabled)",
+            icon: <Inbox size={20} />,
+            allowEdits: false,
+        },
+    ];
 
-    const SideBarCustomLists = Object.keys(Tags)?.map(
-        (labelId) =>
-            labelId !== "inbox" &&
-            labelId !== "today" && (
-                <SideBarLabel
-                    title={Tags[labelId]?.title}
-                    icon={<Icon name={"IconTagFilled"} size={"M"} />}
-                    id={labelId}
-                    number={getNumberOfTasks(labelId)}
-                    key={labelId}
-                    selected={labelId === tagId}
-                    onClick={() => handleClick(labelId)}
-                    color={Tags[labelId]?.tagColor}
-                    isList={true}
-                />
-            ),
-    );
+    const projects = [
+        {
+            id: "new123",
+            title: "New Project",
+            number: "0",
+            color: "var(--text-disabled)",
+        },
+    ];
 
     return (
         <nav
@@ -86,7 +55,16 @@ export default function SideBar() {
             />
 
             {/* --------------------- SideBarDefaultLabels --------------------- */}
-            <div className={styles.list}>{SideBarDefaultLabels}</div>
+            <div className={styles.list}>
+                {defaults.map((project) => (
+                    <SideBarLabel
+                        key={project.id}
+                        {...project}
+                        selected={id == project.id}
+                        onClick={handleNavigation}
+                    />
+                ))}
+            </div>
 
             {/* --------------------- SideBarCustomListsHeading --------------------- */}
             <div className={styles.heading}>
@@ -97,11 +75,11 @@ export default function SideBar() {
 
                     <button
                         className={styles.headingButton}
-                        onClick={() => setIsCustomListsExpanded(!isCustomListsExpanded)}
+                        onClick={() => setIsWorkspaceExpanded(!isWorkspaceExpanded)}
                     >
                         <ChevronRight
                             size={16}
-                            className={`${styles.chervon}  ${isCustomListsExpanded ? styles.open : ""}`}
+                            className={`${styles.chervon}  ${isWorkspaceExpanded ? styles.open : ""}`}
                         />
                     </button>
                 </div>
@@ -109,11 +87,17 @@ export default function SideBar() {
 
             {/* --------------------- SideBarCustomLists --------------------- */}
             <div
-                className={`${styles.list} ${
-                    isCustomListsExpanded ? "" : "SideBarCustomListsCollapsed"
-                }`}
+                className={`${styles.list} ${isWorkspaceExpanded ? "" : styles.collapsedWorkspace}`}
             >
-                {SideBarCustomLists}
+                {projects.map((project) => (
+                    <SideBarLabel
+                        key={project.id}
+                        {...project}
+                        icon={<LayoutGrid size={20} />}
+                        selected={id == project.id}
+                        onClick={handleNavigation}
+                    />
+                ))}
             </div>
         </nav>
     );
