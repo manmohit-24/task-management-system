@@ -1,0 +1,137 @@
+/* ---------------- Trigger ---------------- */
+
+.dropdownTrigger {
+    display: flex;
+    background-color: transparent;
+}
+
+.profileTrigger {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    width: 3.5rem;
+    padding: 0.45rem;
+
+    overflow: hidden;
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+    transition:
+        width 0.2s ease,
+        background-color 180ms ease;
+
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+.profileTriggerOpen {
+    width: 15rem;
+    background-color: var(--bg-hover);
+}
+
+.userInfo {
+    overflow: hidden;
+    opacity: 0;
+    width: 0;
+
+    transform: translateX(-0.5rem);
+    text-align: left;
+
+    transition:
+        width 240ms ease,
+        opacity 180ms ease,
+        transform 240ms ease;
+
+    & > p {
+        margin: 0;
+        white-space: nowrap;
+
+        font: var(--text-sm);
+        font-weight: 600;
+
+        color: var(--text-primary);
+    }
+
+    & > span {
+        display: block;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        font: var(--text-xs);
+        color: var(--text-secondary);
+    }
+}
+
+.chevron {
+    color: var(--text-disabled);
+}
+
+.userInfoOpen {
+    width: 12rem;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ---------------- Dropdown ---------------- */
+
+.dropdownMenu {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    background-color: rgb(from var(--bg-secondary) r g b / 0.7);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+
+    margin: 0.35rem 0;
+
+    background-color: var(--border-subtle);
+}
+
+.theme {
+    padding: 0.8rem;
+
+    .label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font: var(--text-sm);
+        margin-bottom: 0.5rem;
+    }
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    color: var(--text-primary);
+    padding: 0.8rem;
+
+    border: none;
+    border-radius: 0.9rem;
+    font: var(--text-sm);
+    background-color: transparent;
+
+    cursor: pointer;
+
+    transition: background-color 160ms ease;
+
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+.logout {
+    color: var(--error);
+}
