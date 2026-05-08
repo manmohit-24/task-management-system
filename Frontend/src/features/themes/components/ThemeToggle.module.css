@@ -43,8 +43,16 @@
     cursor: pointer;
     font: var(--text-sm);
     transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--text-primary);
+    }
 }
 
 .active {
     color: var(--bg-secondary);
+
+    &:hover {
+        color: var(--bg-secondary);
+    }
 }

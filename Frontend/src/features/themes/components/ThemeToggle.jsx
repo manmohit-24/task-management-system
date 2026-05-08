@@ -29,7 +29,7 @@ export default function ThemeToggle() {
                         aria-pressed={userTheme === id}
                         className={`${styles.button} ${userTheme === id ? styles.active : ""}`}
                     >
-                        <Icon size={16} strokeWidth={2.1} />
+                        <Icon size={18} strokeWidth={1.9} />
                         <span>{label}</span>
                     </button>
                 ))}
