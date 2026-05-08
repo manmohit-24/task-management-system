@@ -1,10 +1,11 @@
 import { Button } from "../";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Icon from "@/utils/Icons";
 import styles from "./AuthPage.module.css";
 import { useRef } from "react";
 import { Form } from "../";
 import WorkInProgress from "../../../components/WorkInProgress/WorkInProgress";
+import { Google } from "@/features/shared/components/Icons";
+
 export default function VerifyEmailPage() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -47,7 +48,7 @@ export default function VerifyEmailPage() {
                     variant="secondary"
                     onClick={() => window.open("https://mail.google.com", "_blank")}
                 >
-                    <Icon name="IconGoogleLogo" size="M" />
+                    <Google size={20} />
                     Open Gmail
                 </Button>
             </div>

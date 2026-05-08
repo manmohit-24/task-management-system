@@ -1,16 +1,17 @@
-import { Outlet, Link } from "react-router-dom";
-import styles from "./AuthLayoutSplit.module.css";
+import { Link } from "react-router-dom";
+import styles from "./AuthSplitShell.module.css";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import Icon from "@/utils/Icons";
 import config from "@/app/config";
+import { Logo } from "@/features/shared/components/Icons";
 
-export default function AuthLayoutSplit() {
+export default function AuthSplitShell({ children }) {
     return (
         <main className={styles.page}>
             <section className={styles.shell}>
                 <aside className={styles.showcase}>
                     <Link to="/" className={styles.brand}>
-                        <Icon name="IconLogo" addionalclasses={styles.logo} />
+                        <Logo size={45} />
 
                         <div className={styles.brandText}>
                             <span className={styles.title}>{config.appName}</span>
@@ -33,9 +34,7 @@ export default function AuthLayoutSplit() {
                         <HeaderThemeToggle />
                     </div>
 
-                    <div className={styles.formShell}>
-                        <Outlet />
-                    </div>
+                    <div className={styles.formShell}>{children} </div>
                 </section>
             </section>
         </main>

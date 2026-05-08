@@ -1,8 +1,5 @@
 // -----------DashboardComponents-----------------------
 import ConfirmDeleteAlert from "./DashboardComponents/ConfirmDeleteAlert/ConfirmDeleteAlert";
-import SideBar from "./DashboardComponents/SideBar/SideBar";
-import SideBarHeader from "./DashboardComponents/SideBar/SideBarHeader/SideBarHeader";
-import SideBarLabel from "./DashboardComponents/SideBar/SideBarLabel/SideBarLabel";
 import DashboardHeader from "./DashboardComponents/DashboardHeader/DashboardHeader";
 // ------------TodoComponents------------------
 import TodoCheckBox from "./TodoComponents/TodoCheckBox/TodoCheckBox";
@@ -16,9 +13,6 @@ import TodoDatePicker from "./TodoComponents/TodoDatePicker/TodoDatePicker";
 export {
     // -----------DashboardComponents-----------------------
     ConfirmDeleteAlert,
-    SideBar,
-    SideBarHeader,
-    SideBarLabel,
     DashboardHeader,
     // ------------TodoComponents------------------
     TodoCheckBox,
