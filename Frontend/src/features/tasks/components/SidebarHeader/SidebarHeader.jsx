@@ -1,8 +1,8 @@
-import styles from "./SideBarHeader.module.css";
+import styles from "./SidebarHeader.module.css";
 import config from "@/app/config";
 import { Logo, Sidebar } from "@/features/shared/components/Icons/";
 
-export default function SideBarHeader({ IsExpanded, toggleExpansion }) {
+export default function SidebarHeader({ IsExpanded, toggleExpansion }) {
     return (
         <header className={styles.container}>
             <div className={styles.brand}>

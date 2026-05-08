@@ -1,9 +1,9 @@
-import styles from "./SideBarLabel.module.css";
+import styles from "./SidebarLabel.module.css";
 import { useEffect, useRef, useState } from "react";
 import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 
-export default function SideBarLabel({
+export default function SidebarLabel({
     id,
     title = "New Project",
     number = "",

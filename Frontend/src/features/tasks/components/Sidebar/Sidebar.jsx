@@ -1,15 +1,15 @@
-import styles from "./SideBar.module.css";
+import styles from "./Sidebar.module.css";
 import { useState } from "react";
-import { SideBarHeader, SideBarLabel, AddProjectDropDown } from "..";
+import { SidebarHeader, SidebarLabel, AddProjectDropDown } from "..";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
 import { Today } from "@/features/shared/components/Icons";
 
-export default function SideBar() {
+export default function Sidebar() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [isSideBarExpanded, setIsSideBarExpanded] = useState(true);
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
     const [isWorkspaceExpanded, setIsWorkspaceExpanded] = useState(true);
 
     const handleNavigation = (projectId) => {
@@ -46,18 +46,18 @@ export default function SideBar() {
 
     return (
         <nav
-            className={`${styles.container} ${styles[isSideBarExpanded ? "expanded" : "collapsed"]}`}
+            className={`${styles.container} ${styles[isSidebarExpanded ? "expanded" : "collapsed"]}`}
         >
-            {/* --------------------- SideBarHeader --------------------- */}
-            <SideBarHeader
-                IsExpanded={isSideBarExpanded}
-                toggleExpansion={() => setIsSideBarExpanded(!isSideBarExpanded)}
+            {/* --------------------- SidebarHeader --------------------- */}
+            <SidebarHeader
+                IsExpanded={isSidebarExpanded}
+                toggleExpansion={() => setIsSidebarExpanded(!isSidebarExpanded)}
             />
 
-            {/* --------------------- SideBarDefaultLabels --------------------- */}
+            {/* --------------------- SidebarDefaultLabels --------------------- */}
             <div className={styles.list}>
                 {defaults.map((project) => (
-                    <SideBarLabel
+                    <SidebarLabel
                         key={project.id}
                         {...project}
                         selected={id == project.id}
@@ -66,7 +66,7 @@ export default function SideBar() {
                 ))}
             </div>
 
-            {/* --------------------- SideBarCustomListsHeading --------------------- */}
+            {/* --------------------- SidebarCustomListsHeading --------------------- */}
             <div className={styles.heading}>
                 <div>Workspaces</div>
 
@@ -85,12 +85,12 @@ export default function SideBar() {
                 </div>
             </div>
 
-            {/* --------------------- SideBarCustomLists --------------------- */}
+            {/* --------------------- SidebarCustomLists --------------------- */}
             <div
                 className={`${styles.list} ${isWorkspaceExpanded ? "" : styles.collapsedWorkspace}`}
             >
                 {projects.map((project) => (
-                    <SideBarLabel
+                    <SidebarLabel
                         key={project.id}
                         {...project}
                         icon={<LayoutGrid size={20} />}
