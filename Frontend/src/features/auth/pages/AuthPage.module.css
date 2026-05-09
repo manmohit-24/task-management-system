@@ -1,7 +1,7 @@
 .checkEmailImage {
     width: 20rem;
     height: 20rem;
-    background: url("/assets/Icons/Check-Email.png") no-repeat;
+    background: url("/assets/images/checkEmail.png") no-repeat;
     background-size: contain;
 }
 

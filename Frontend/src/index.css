@@ -16,12 +16,12 @@
 
 @font-face {
     font-family: "Ubuntu Sans";
-    src: url("../assets/Fonts/UbuntuSans.ttf") format("truetype");
+    src: url("../assets/fonts/UbuntuSans.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Montserrat";
-    src: url("../assets/Fonts/Montserrat.ttf") format("truetype");
+    src: url("../assets/fonts/Montserrat.ttf") format("truetype");
 }
 
 /*                 --------***--------                 */
