@@ -14,3 +14,10 @@ export function createProject({ name, color }) {
         body: JSON.stringify({ name, color }),
     });
 }
+
+export function updateProject({ id, name, color }) {
+    return request(`/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ name, color }),
+    });
+}
