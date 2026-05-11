@@ -4,10 +4,13 @@ import { SidebarHeader, SidebarLabel, AddProjectDropDown } from "..";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
 import { Today } from "@/features/shared/components/Icons";
+import { useProjects } from "../../hooks/project.hooks";
 
 export default function Sidebar() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { data } = useProjects();
+    const allProjects = data ?? [];
 
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
     const [isWorkspaceExpanded, setIsWorkspaceExpanded] = useState(true);
@@ -19,7 +22,7 @@ export default function Sidebar() {
     const defaults = [
         {
             id: "today",
-            title: "Today",
+            name: "Today",
             number: "0",
             color: "var(--text-disabled)",
             icon: <Today size={20} />,
@@ -27,7 +30,7 @@ export default function Sidebar() {
         },
         {
             id: "inbox",
-            title: "Inbox",
+            name: "Inbox",
             number: "0",
             color: "var(--text-disabled)",
             icon: <Inbox size={20} />,
@@ -35,14 +38,14 @@ export default function Sidebar() {
         },
     ];
 
-    const projects = [
-        {
-            id: "new123",
-            title: "New Project",
+    let projects = allProjects
+        .filter((p) => !p.isInbox)
+        .map((p) => ({
+            id: p?._id ?? "",
+            name: p?.name ?? "",
             number: "0",
             color: "var(--text-disabled)",
-        },
-    ];
+        }));
 
     return (
         <nav

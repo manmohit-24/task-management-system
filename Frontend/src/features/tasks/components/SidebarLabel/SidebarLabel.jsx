@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 export default function SidebarLabel({
     id,
-    title = "New Project",
+    name = "New Project",
     number = "",
     selected = false,
     onClick = () => {},
@@ -25,7 +25,7 @@ export default function SidebarLabel({
         formState: { isDirty },
     } = useForm({
         defaultValues: {
-            title,
+            title: name,
             color,
         },
     });
@@ -54,7 +54,7 @@ export default function SidebarLabel({
     // Cancel + revert
     function cancelEdit() {
         reset({
-            title,
+            title: name,
             color,
         });
 
