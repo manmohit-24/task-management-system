@@ -1,25 +1,6 @@
-import config from "@/app/config";
+import createClient from "@/features/shared/libs/createClient";
 
-async function request(path, options = {}) {
-    const response = await fetch(`${config.apiUrl}/users${path}`, {
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        ...options,
-    });
-
-    const res = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-        const error = new Error(res?.message || "Something went wrong");
-        error.status = response.status;
-        error.json = res;
-        throw error;
-    }
-
-    return res;
-}
+const request = createClient("/users");
 
 export async function login({ email, username, password }) {
     return request("/login", {
