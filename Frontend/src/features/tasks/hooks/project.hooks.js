@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProjects } from "../api/project.service";
+import { getProjects, createProject } from "../api/project.service";
 
 export function useProjects() {
     return useQuery({
@@ -10,6 +10,21 @@ export function useProjects() {
             return res.data;
         },
         retry: false,
-        staleTime: Infinity,
+        staleTime: 10_000,
+    });
+}
+
+export function useCreateProject(options) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: createProject,
+        onSuccess: (...args) => {
+            queryClient.invalidateQueries("projects");
+            options?.onSuccess?.(...args);
+        },
+        onError: (...args) => {
+            options.onError(...args);
+        },
     });
 }
