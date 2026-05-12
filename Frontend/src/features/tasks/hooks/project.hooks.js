@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProjects, createProject, updateProject } from "../api/project.service";
+import { getProjects, createProject, updateProject, deleteProject } from "../api/project.service";
 
 export function useProjects() {
     return useQuery({
@@ -34,6 +34,21 @@ export function useUpdateProject(options) {
 
     return useMutation({
         mutationFn: updateProject,
+        onSuccess(...args) {
+            queryClient.invalidateQueries("projects");
+            options?.onSuccess?.(...args);
+        },
+        onError(...args) {
+            options?.onError?.(...args);
+        },
+    });
+}
+
+export function useDeleteProject(options) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: deleteProject,
         onSuccess(...args) {
             queryClient.invalidateQueries("projects");
             options?.onSuccess?.(...args);

@@ -21,3 +21,9 @@ export function updateProject({ id, name, color }) {
         body: JSON.stringify({ name, color }),
     });
 }
+
+export function deleteProject({ id }) {
+    return request(`/${id}`, {
+        method: "DELETE",
+    });
+}

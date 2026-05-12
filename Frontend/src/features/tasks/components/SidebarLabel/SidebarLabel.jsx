@@ -2,7 +2,8 @@ import styles from "./SidebarLabel.module.css";
 import { useEffect, useRef, useState } from "react";
 import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useUpdateProject } from "../../hooks/project.hooks";
+import { useUpdateProject, useDeleteProject } from "../../hooks/project.hooks";
+import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 
 export default function SidebarLabel({
     id,
@@ -16,6 +17,7 @@ export default function SidebarLabel({
 }) {
     const [isEditing, setIsEditing] = useState(false);
     const containerRef = useRef(null);
+    const { showConfirmDelete } = useConfirmDelete();
 
     const {
         register,
@@ -35,6 +37,7 @@ export default function SidebarLabel({
     const { mutate: updateProject } = useUpdateProject({
         onError: (error) => setError(error),
     });
+    const { mutate: deleteProject } = useDeleteProject();
 
     const watchedColor = watch("color");
     const watchedName = watch("name");
@@ -72,6 +75,19 @@ export default function SidebarLabel({
         e.stopPropagation();
 
         // delete logic
+        showConfirmDelete({
+            title: watchedName ? `Delete project "${watchedName}"?` : "Delete this project ?",
+            description: (
+                <>
+                    All sections, todos, and related data inside this project will be permanently
+                    deleted.
+                    <br />
+                    <br />
+                    This action cannot be undone
+                </>
+            ),
+            onConfirm: () => deleteProject({ id }),
+        });
     }
 
     // Autofocus
