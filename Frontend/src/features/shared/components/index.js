@@ -1,3 +1,5 @@
 import Dropdown from "./Dropdown/Dropdown";
 import Avatar from "./Avatar/Avatar";
-export { Dropdown, Avatar };
+import Modal from "./Modal/Modal";
+
+export { Dropdown, Avatar, Modal };
