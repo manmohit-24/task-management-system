@@ -2,10 +2,12 @@ import styles from "./SidebarLabel.module.css";
 import { useEffect, useRef, useState } from "react";
 import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useUpdateProject, useDeleteProject } from "../../hooks/project.hooks";
+import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 
 export default function SidebarLabel({
     id,
-    title = "New Project",
+    name = "New Project",
     number = "",
     selected = false,
     onClick = () => {},
@@ -15,6 +17,7 @@ export default function SidebarLabel({
 }) {
     const [isEditing, setIsEditing] = useState(false);
     const containerRef = useRef(null);
+    const { showConfirmDelete } = useConfirmDelete();
 
     const {
         register,
@@ -22,16 +25,22 @@ export default function SidebarLabel({
         reset,
         watch,
         setFocus,
+        setError,
         formState: { isDirty },
     } = useForm({
         defaultValues: {
-            title,
+            name,
             color,
         },
     });
 
+    const { mutate: updateProject } = useUpdateProject({
+        onError: (error) => setError(error),
+    });
+    const { mutate: deleteProject } = useDeleteProject();
+
     const watchedColor = watch("color");
-    const watchedTitle = watch("title");
+    const watchedName = watch("name");
 
     // Open edit mode
     function startEditing(e) {
@@ -45,8 +54,8 @@ export default function SidebarLabel({
 
         // backend update logic here
 
-        console.log(data);
-        reset({ color: watchedColor, title: watchedTitle });
+        updateProject({ id, name: data.name, color: data.color });
+        reset({ color: watchedColor, name: watchedName });
 
         setIsEditing(false);
     }
@@ -54,7 +63,7 @@ export default function SidebarLabel({
     // Cancel + revert
     function cancelEdit() {
         reset({
-            title,
+            name: name,
             color,
         });
 
@@ -66,11 +75,24 @@ export default function SidebarLabel({
         e.stopPropagation();
 
         // delete logic
+        showConfirmDelete({
+            title: watchedName ? `Delete project "${watchedName}"?` : "Delete this project ?",
+            description: (
+                <>
+                    All sections, todos, and related data inside this project will be permanently
+                    deleted.
+                    <br />
+                    <br />
+                    This action cannot be undone
+                </>
+            ),
+            onConfirm: () => deleteProject({ id }),
+        });
     }
 
     // Autofocus
     useEffect(() => {
-        if (isEditing) setFocus("title");
+        if (isEditing) setFocus("name");
     }, [isEditing, setFocus]);
 
     // Outside click cancel
@@ -117,12 +139,12 @@ export default function SidebarLabel({
                                     cancelEdit();
                                 }
                             }}
-                            {...register("title", {
+                            {...register("name", {
                                 required: true,
                             })}
                         />
                     ) : (
-                        <span className={styles.title}>{watchedTitle}</span>
+                        <span className={styles.name}>{watchedName}</span>
                     )}
                 </div>
 

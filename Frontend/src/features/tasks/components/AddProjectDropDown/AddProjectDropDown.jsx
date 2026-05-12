@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Dropdown } from "@/features/shared/components/";
 import { getThemeColor } from "@/features/themes/libs/themeColors";
 import { useForm } from "react-hook-form";
+import { useCreateProject } from "../../hooks/project.hooks";
 
 export default function AddProjectDropDown({ className }) {
     const [open, setOpen] = useState(false);
@@ -15,6 +16,7 @@ export default function AddProjectDropDown({ className }) {
         handleSubmit,
         formState: { errors },
         setFocus,
+        setError,
         reset,
     } = useForm({
         defaultValues: {
@@ -22,19 +24,22 @@ export default function AddProjectDropDown({ className }) {
         },
     });
 
-    const addNewProject = (data) => {
-        console.log(data);
-        // Backend logic here
-        reset();
-        setOpen(false);
-    };
+    const { mutate: createProject } = useCreateProject({
+        onError: (error) => {
+            setError(error);
+        },
+        onSuccess: () => {
+            setOpen(false);
+            reset();
+        },
+    });
 
     useEffect(() => {
-        setFocus("title");
+        setFocus("name");
     }, [setFocus, open]);
 
     const onOpenChange = (val) => {
-        if (!watch("title")) reset();
+        if (!watch("name")) reset();
         setOpen(val);
     };
 
@@ -48,7 +53,7 @@ export default function AddProjectDropDown({ className }) {
             <form
                 className={styles.container}
                 style={{ "--selectedColor": watch("color") }}
-                onSubmit={handleSubmit(addNewProject)}
+                onSubmit={handleSubmit(createProject)}
             >
                 <div className={styles.icon}>
                     <LayoutGrid size={18} />
@@ -59,9 +64,9 @@ export default function AddProjectDropDown({ className }) {
                     type="text"
                     placeholder="New List"
                     className={styles.input}
-                    {...register("title", { required: "Please enter a title" })}
+                    {...register("name", { required: "Please enter a name" })}
                 />
-                <div className={styles.error}>{errors.title?.message}</div>
+                <div className={styles.error}>{errors.name?.message}</div>
 
                 <button type="submit" className={styles.addButton}>
                     <CirclePlus size={16} className={styles.addIcon} />
