@@ -2,7 +2,6 @@ import styles from "./Toolbar.module.css";
 import { useParams } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import { SquareKanban } from "lucide-react";
-import { useState } from "react";
 import { AddSection } from "@/features/shared/components/Icons";
 import { useProjects } from "../../hooks/project.hooks";
 
@@ -12,16 +11,8 @@ const DEFAULT_PROJECTS = {
     inbox: "Inbox",
 };
 
-export default function Toolbar() {
+export default function Toolbar({ view, onToogleView }) {
     const { id } = useParams();
-
-    const [view, setView] = useState("list");
-
-    const handleToggleView = () => {
-        const nextView = view === "list" ? "board" : "list";
-
-        setView(nextView);
-    };
 
     const { data: projects } = useProjects();
 
@@ -45,7 +36,7 @@ export default function Toolbar() {
                 <button
                     type="button"
                     className={styles.actionButton}
-                    onClick={handleToggleView}
+                    onClick={onToogleView}
                     title="Change view"
                 >
                     <SquareKanban

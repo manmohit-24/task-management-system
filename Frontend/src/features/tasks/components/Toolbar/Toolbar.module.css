@@ -35,7 +35,7 @@
 }
 
 .projectName {
-    font: var(--heading-lg);
+    font: var(--heading-xl);
     color: var(--text-primary);
 
     white-space: nowrap;

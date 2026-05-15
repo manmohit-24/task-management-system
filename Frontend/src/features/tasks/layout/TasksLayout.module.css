@@ -1,10 +1,4 @@
 .page {
-    --sidebar-expanded-width: 22rem;
-    --sidebar-collapsed-width: 5rem;
-    --sidebar-hover-buffer: 3rem;
-    --content-max-width: 1050px;
-    --content-horizontal-padding: 4rem;
-
     position: relative;
 
     width: 100vw;
@@ -25,80 +19,42 @@
     z-index: 1000;
 
     height: 100vh;
-
-    transition: width 0.22s ease;
-}
-
-/* ---------- SIDEBAR STATES ---------- */
-
-.sidebarExpanded .sidebar {
-    width: var(--sidebar-expanded-width);
-}
-
-.sidebarCollapsed .sidebar {
-    width: var(--sidebar-collapsed-width);
-}
-
-.sidebarCollapsed .sidebar:hover {
-    width: var(--sidebar-expanded-width);
 }
 
 /* ---------- MAIN CONTENT ---------- */
 
 .content {
-    height: 100vh;
+    height: 100%;
 
     display: flex;
     justify-content: center;
 
     overflow: hidden;
+    padding-right: 4rem;
 
-    transition: padding-left 0.22s ease;
+    padding-left: 26rem;
+
+    transition: padding-left 0.2s ease;
 }
-
-/*
-    Expanded layout:
-    content pushed right more.
-*/
-
-.sidebarExpanded .content {
-    padding-left: calc(var(--sidebar-expanded-width) + var(--content-horizontal-padding));
-
-    padding-right: var(--content-horizontal-padding);
-}
-
-/*
-    Collapsed layout:
-    content expands leftward,
-    but keeps safe hover zone.
-*/
 
 .sidebarCollapsed .content {
-    padding-left: calc(var(--sidebar-collapsed-width) + var(--sidebar-hover-buffer));
-
-    padding-right: var(--content-horizontal-padding);
+    padding-left: 5rem;
 }
 
 /* ---------- CENTERED CONTENT ---------- */
 
 .contentInner {
-    width: min(100%, var(--content-max-width));
-
-    min-width: 0;
-    min-height: 0;
-
     display: flex;
     flex-direction: column;
 
     overflow: hidden;
+    transition: width 0.1s ease;
 }
 
-/* ---------- PAGE CONTENT ---------- */
+.list .contentInner {
+    width: min(100%, 1100px);
+}
 
-.pageContent {
-    flex: 1;
-
-    min-height: 0;
-
-    overflow-y: auto;
+.board .contentInner {
+    width: 100%;
 }

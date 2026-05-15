@@ -1,0 +1,54 @@
+.pageContent {
+    flex: 1;
+
+    min-height: 0;
+    min-width: 0;
+
+    overflow: hidden;
+}
+
+/* ---------- SECTIONS CONTAINER ---------- */
+
+.sectionsContainer {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    min-height: 0;
+    min-width: 0;
+}
+
+/* ---------- LIST VIEW ---------- */
+
+.listView .sectionsContainer {
+    flex-direction: column;
+
+    gap: 3.5rem;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 1rem 0 4rem;
+}
+
+/* ---------- BOARD VIEW ---------- */
+
+.boardView .sectionsContainer {
+    display: flex;
+    align-items: stretch;
+
+    gap: 2.5rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 1rem 0 2rem;
+}
+
+.boardView .sectionsContainer > * {
+    flex: 0 0 22rem;
+
+    min-width: 30rem;
+    max-width: 30rem;
+}

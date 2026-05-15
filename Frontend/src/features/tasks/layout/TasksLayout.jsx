@@ -1,18 +1,38 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar } from "../components";
+import { Sidebar, Toolbar, TasksPageContent } from "../components";
 import { useState } from "react";
 
+const getSideBarStoredState = () => {
+    const storedValue = localStorage.getItem("isSidebarExpanded");
+    if (storedValue === null) return true;
+    return storedValue === "true";
+};
+
+const getStoredViewState = () => {
+    const storedValue = localStorage.getItem("view");
+    if (storedValue === null) return "list";
+    return storedValue;
+};
+
 export default function TasksLayout() {
-    const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
-        const storedValue = localStorage.getItem("isSidebarExpanded");
-        if (storedValue === null) return true;
-        return storedValue === "true";
-    });
+    //  Sidebar expansion state
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(getSideBarStoredState());
 
     const onToggleSidebarExpansion = () => {
         setIsSidebarExpanded((p) => {
             localStorage.setItem("isSidebarExpanded", String(!p));
             return !p;
+        });
+    };
+
+    //  Page View Layout state
+    const [view, setView] = useState(getStoredViewState());
+
+    const onToggleView = () => {
+        setView((p) => {
+            const next = p === "list" ? "board" : "list";
+            localStorage.setItem("view", next);
+            return next;
         });
     };
 
@@ -29,11 +49,11 @@ export default function TasksLayout() {
                 />
             </aside>
 
-            <main className={styles.content}>
+            <main className={`${styles.content} ${view === "board" ? styles.board : styles.list}`}>
                 <div className={styles.contentInner}>
-                    <Toolbar />
+                    <Toolbar view={view} onToogleView={onToggleView} />
 
-                    <section className={styles.pageContent}></section>
+                    <TasksPageContent view={view} />
                 </div>
             </main>
         </div>

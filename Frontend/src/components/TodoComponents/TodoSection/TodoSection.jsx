@@ -12,9 +12,9 @@ const TodoSection = ({ sectionId }) => {
     const dispatch = useDispatch();
     const view = useSelector((state) => state.TodoData.View);
 
-    const { sectionName, tagId, todos, number } = useSelector(
-        (state) => state.TodoData.Sections[sectionId] || {},
-    );
+    const { sectionName, tagId, todos, number } = {
+        sectionName: sectionId,
+    };
 
     const isEditable = !(
         tagId === "upcoming" ||
@@ -101,7 +101,7 @@ const TodoSection = ({ sectionId }) => {
     return (
         <section className={containerClass}>
             {/*------------------ Section Heading ------------------ */}
-            {!(view === "List" && sectionName === "Not Sectioned")  && (
+            {!(view === "List" && sectionName === "Not Sectioned") && (
                 <div className="TodoSectionHeadingContainer">
                     <div className="TodoSectionHeadingLeftIcons">
                         <button className="TodoSectionHeadingDragIcon">
