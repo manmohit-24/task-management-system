@@ -1,20 +1,104 @@
 .page {
-    height: 100vh;
+    --sidebar-expanded-width: 22rem;
+    --sidebar-collapsed-width: 5rem;
+    --sidebar-hover-buffer: 3rem;
+    --content-max-width: 1050px;
+    --content-horizontal-padding: 4rem;
+
+    position: relative;
+
     width: 100vw;
+    height: 100vh;
+
     overflow: hidden;
-    display: flex;
-    gap: 5rem;
+
+    background-color: var(--bg-primary);
 }
 
-.body {
-    /* Main */
-    grid-row: 2/3;
-    grid-column: 2/3;
-    display: flex;
-    flex-direction: column;
+/* ---------- SIDEBAR ---------- */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+
     height: 100vh;
-    width: 100%;
+
+    transition: width 0.22s ease;
+}
+
+/* ---------- SIDEBAR STATES ---------- */
+
+.sidebarExpanded .sidebar {
+    width: var(--sidebar-expanded-width);
+}
+
+.sidebarCollapsed .sidebar {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebarCollapsed .sidebar:hover {
+    width: var(--sidebar-expanded-width);
+}
+
+/* ---------- MAIN CONTENT ---------- */
+
+.content {
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
 
     overflow: hidden;
-    background-color: var(--Primary-BG);
+
+    transition: padding-left 0.22s ease;
+}
+
+/*
+    Expanded layout:
+    content pushed right more.
+*/
+
+.sidebarExpanded .content {
+    padding-left: calc(var(--sidebar-expanded-width) + var(--content-horizontal-padding));
+
+    padding-right: var(--content-horizontal-padding);
+}
+
+/*
+    Collapsed layout:
+    content expands leftward,
+    but keeps safe hover zone.
+*/
+
+.sidebarCollapsed .content {
+    padding-left: calc(var(--sidebar-collapsed-width) + var(--sidebar-hover-buffer));
+
+    padding-right: var(--content-horizontal-padding);
+}
+
+/* ---------- CENTERED CONTENT ---------- */
+
+.contentInner {
+    width: min(100%, var(--content-max-width));
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+/* ---------- PAGE CONTENT ---------- */
+
+.pageContent {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
 }
