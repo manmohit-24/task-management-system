@@ -52,7 +52,7 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "app/",
+                path: "app/:id",
                 element: <TasksLayout />,
             },
         ],

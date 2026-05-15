@@ -113,7 +113,7 @@ export default function SidebarLabel({
             ref={containerRef}
             id={id}
             onClick={() => {
-                if (!isEditing) onClick();
+                if (!isEditing) onClick(id);
             }}
             className={`
                 ${styles.container}
