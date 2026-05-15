@@ -1,6 +1,5 @@
 // -----------DashboardComponents-----------------------
 import ConfirmDeleteAlert from "./DashboardComponents/ConfirmDeleteAlert/ConfirmDeleteAlert";
-import DashboardHeader from "./DashboardComponents/DashboardHeader/DashboardHeader";
 // ------------TodoComponents------------------
 import TodoCheckBox from "./TodoComponents/TodoCheckBox/TodoCheckBox";
 import TodoTaskCard from "./TodoComponents/TodoTaskCard/TodoTaskCard";
@@ -13,7 +12,6 @@ import TodoDatePicker from "./TodoComponents/TodoDatePicker/TodoDatePicker";
 export {
     // -----------DashboardComponents-----------------------
     ConfirmDeleteAlert,
-    DashboardHeader,
     // ------------TodoComponents------------------
     TodoCheckBox,
     TodoTaskCard,
