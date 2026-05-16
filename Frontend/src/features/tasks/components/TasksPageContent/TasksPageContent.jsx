@@ -1,17 +1,11 @@
 import styles from "./TasksPageContent.module.css";
-
 import { useParams } from "react-router-dom";
-
-import { TodoSection, TodoAddSection, TodoEditTask } from "@/components";
+import { TasksSection } from "../";
 
 export default function TasksPageContent({ view }) {
     const { id } = useParams();
 
-    const editingTaskId = null;
-
-    // Temporary mock data.
-
-    const sections = ["Today Tasks", "Work", "Personal", "Completed-Tasks"];
+    const sections = [];
 
     if (id === "upcoming") {
         return null;
@@ -25,12 +19,8 @@ export default function TasksPageContent({ view }) {
         >
             <div className={styles.sectionsContainer}>
                 {sections.map((sectionId) => (
-                    <TodoSection key={sectionId} sectionId={sectionId} />
+                    <TasksSection key={sectionId} sectionId={sectionId} view={view} />
                 ))}
-
-                <TodoAddSection />
-
-                {editingTaskId && <TodoEditTask id={editingTaskId} />}
             </div>
         </section>
     );
