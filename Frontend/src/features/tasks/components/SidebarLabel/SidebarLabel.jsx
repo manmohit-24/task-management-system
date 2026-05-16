@@ -1,9 +1,11 @@
 import styles from "./SidebarLabel.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useUpdateProject, useDeleteProject } from "../../hooks/project.hooks";
 import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
+import { InlineEditor } from "@/features/shared/components";
+import { useNavigate } from "react-router-dom";
 
 export default function SidebarLabel({
     id,
@@ -12,11 +14,11 @@ export default function SidebarLabel({
     selected = false,
     onClick = () => {},
     color = "var(--text-disabled)",
-    icon = <LayoutGrid size={16} />,
+    icon = <LayoutGrid size={20} />,
     allowEdits = true,
 }) {
+    const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
-    const containerRef = useRef(null);
     const { showConfirmDelete } = useConfirmDelete();
 
     const {
@@ -52,10 +54,16 @@ export default function SidebarLabel({
     function saveEdit(data, e) {
         e?.stopPropagation();
 
-        // backend update logic here
+        updateProject({
+            id,
+            name: data.name,
+            color: data.color,
+        });
 
-        updateProject({ id, name: data.name, color: data.color });
-        reset({ color: watchedColor, name: watchedName });
+        reset({
+            color: watchedColor,
+            name: watchedName,
+        });
 
         setIsEditing(false);
     }
@@ -63,7 +71,7 @@ export default function SidebarLabel({
     // Cancel + revert
     function cancelEdit() {
         reset({
-            name: name,
+            name,
             color,
         });
 
@@ -71,10 +79,9 @@ export default function SidebarLabel({
     }
 
     // Delete
-    function askDeleteConfirmation(e) {
+    function onDelete(e) {
         e.stopPropagation();
 
-        // delete logic
         showConfirmDelete({
             title: watchedName ? `Delete project "${watchedName}"?` : "Delete this project ?",
             description: (
@@ -86,7 +93,10 @@ export default function SidebarLabel({
                     This action cannot be undone
                 </>
             ),
-            onConfirm: () => deleteProject({ id }),
+            onConfirm: () => {
+                deleteProject({ id });
+                if (selected) navigate("/app/inbox");
+            },
         });
     }
 
@@ -95,96 +105,88 @@ export default function SidebarLabel({
         if (isEditing) setFocus("name");
     }, [isEditing, setFocus]);
 
-    // Outside click cancel
-    useEffect(() => {
-        if (!isEditing) return;
+    if (!isEditing)
+        return (
+            <div
+                id={id}
+                onClick={() => onClick(id)}
+                className={`${styles.container} ${selected ? styles.selected : ""}`}
+                style={{ "--selectedColor": watchedColor }}
+            >
+                <div className={styles.content} onSubmit={handleSubmit(saveEdit)}>
+                    <div className={styles.left}>
+                        <div className={`${styles.icon} ${isEditing ? styles.iconEditMode : ""}`}>
+                            {icon}
+                        </div>
+                        <span className={styles.name}>{watchedName}</span>
+                    </div>
 
-        function handlePointerDown(e) {
-            if (containerRef.current && !containerRef.current.contains(e.target)) cancelEdit();
-        }
+                    <div className={styles.right}>
+                        {allowEdits ? (
+                            <div className={styles.actions}>
+                                <>
+                                    <button className={styles.editButton} onClick={startEditing}>
+                                        <Pencil size={14} />
+                                    </button>
 
-        document.addEventListener("pointerdown", handlePointerDown);
-
-        return () => document.removeEventListener("pointerdown", handlePointerDown);
-    }, [isEditing]);
+                                    <button className={styles.deleteButton} onClick={onDelete}>
+                                        <Trash2 size={15} />
+                                    </button>
+                                </>
+                            </div>
+                        ) : (
+                            <span className={styles.number}>{number}</span>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
 
     return (
         <div
-            ref={containerRef}
             id={id}
-            onClick={() => {
-                if (!isEditing) onClick(id);
-            }}
-            className={`
-                ${styles.container}
-                ${selected ? styles.selected : ""}
-            `}
-            style={{
-                "--selectedColor": watchedColor,
-            }}
+            className={`${styles.container} ${selected ? styles.selected : ""}`}
+            style={{ "--selectedColor": watchedColor }}
         >
-            <form className={styles.content} onSubmit={handleSubmit(saveEdit)}>
-                <div className={styles.left}>
-                    <div className={`${styles.icon} ${isEditing ? styles.iconEditMode : ""}`}>
-                        {icon}
-                        {isEditing && <input type="color" {...register("color")} />}
-                    </div>
+            <InlineEditor
+                open={isEditing}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        cancelEdit();
+                    }
 
-                    {isEditing ? (
+                    setIsEditing(open);
+                }}
+            >
+                <form className={styles.content} onSubmit={handleSubmit(saveEdit)}>
+                    <div className={styles.left}>
+                        <div className={`${styles.icon} ${isEditing ? styles.iconEditMode : ""}`}>
+                            {icon}
+                            <input type="color" {...register("color")} />
+                        </div>
                         <input
                             className={styles.input}
                             onClick={(e) => e.stopPropagation()}
-                            onKeyDown={(e) => {
-                                if (e.key === "Escape") {
-                                    cancelEdit();
-                                }
-                            }}
                             {...register("name", {
                                 required: true,
                             })}
                         />
-                    ) : (
-                        <span className={styles.name}>{watchedName}</span>
-                    )}
-                </div>
+                    </div>
 
-                <div className={styles.right}>
-                    {allowEdits ? (
+                    <div className={styles.right}>
                         <div className={styles.actions}>
-                            {isEditing ? (
-                                <button
-                                    type="submit"
-                                    disabled={!isDirty}
-                                    className={styles.saveButton}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <Check size={15} />
-                                </button>
-                            ) : (
-                                <>
-                                    <button
-                                        type="button"
-                                        className={styles.editButton}
-                                        onClick={startEditing}
-                                    >
-                                        <Pencil size={14} />
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className={styles.deleteButton}
-                                        onClick={askDeleteConfirmation}
-                                    >
-                                        <Trash2 size={15} />
-                                    </button>
-                                </>
-                            )}
+                            <button
+                                type="submit"
+                                disabled={!isDirty}
+                                className={styles.saveButton}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <Check size={15} />
+                            </button>
                         </div>
-                    ) : (
-                        <span className={styles.number}>{number}</span>
-                    )}
-                </div>
-            </form>
+                    </div>
+                </form>
+            </InlineEditor>
         </div>
     );
 }

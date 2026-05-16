@@ -5,7 +5,7 @@ import { TasksSection } from "../";
 export default function TasksPageContent({ view }) {
     const { id } = useParams();
 
-    const sections = [];
+    const sections = [1, 2, 3];
 
     if (id === "upcoming") {
         return null;

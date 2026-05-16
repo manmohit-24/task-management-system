@@ -1,8 +1,8 @@
 import styles from "./TasksSection.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
-import Dropdown from "@/features/shared/components/Dropdown/Dropdown";
+import { Dropdown, InlineEditor } from "@/features/shared/components/";
 
 import {
     GripVertical,
@@ -18,19 +18,12 @@ export default function TasksSection({
     sectionId = "section-1",
     sectionName = "Backlog",
     todos = {},
-    view = "List",
-    onUpdateSection = (data) => {
-        console.log("update", data);
-    },
-    onDeleteSection = (id) => {
-        console.log("delete", id);
-    },
+    view = "list",
 }) {
     const { showConfirmDelete } = useConfirmDelete();
 
     const [collapsedTasks, setCollapsedTasks] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const containerRef = useRef(null);
     const [menuOpen, setMenuOpen] = useState(false);
 
     const {
@@ -48,25 +41,21 @@ export default function TasksSection({
 
     const watchedSectionName = watch("sectionName");
 
-    function startEditing(e) {
+    const startEditing = (e) => {
         e?.stopPropagation();
 
         setMenuOpen(false);
         setIsEditing(true);
-    }
+    };
 
-    function saveEdit(data) {
-        onUpdateSection({
-            sectionId,
-            sectionName: data.sectionName,
-        });
-
+    const saveEdit = (data) => {
+        console.log(data);
         reset({
             sectionName: data.sectionName,
         });
 
         setIsEditing(false);
-    }
+    };
 
     function cancelEdit() {
         reset({
@@ -88,7 +77,7 @@ export default function TasksSection({
 
             description: "All tasks inside this section will be permanently deleted.",
 
-            onConfirm: () => onDeleteSection(sectionId),
+            onConfirm: () => console.log("Deleted"),
         });
     }
 
@@ -101,29 +90,11 @@ export default function TasksSection({
         }
     }, [isEditing, setFocus]);
 
-    // outside click cancel
-    useEffect(() => {
-        if (!isEditing) return;
-
-        function handlePointerDown(e) {
-            if (containerRef.current && !containerRef.current.contains(e.target)) {
-                cancelEdit();
-            }
-        }
-
-        document.addEventListener("pointerdown", handlePointerDown);
-
-        return () => {
-            document.removeEventListener("pointerdown", handlePointerDown);
-        };
-    }, [isEditing]);
-
     return (
         <section
-            ref={containerRef}
             className={`
             ${styles.container}
-            ${styles[`${view.toLowerCase()}View`]}
+            ${styles[`${view}View`]}
             ${collapsedTasks ? styles.collapsed : ""}
         `}
         >
@@ -196,28 +167,31 @@ export default function TasksSection({
                             </Dropdown>
                         </>
                     ) : (
-                        <div className={styles.editForm}>
-                            <input
-                                {...register("sectionName", {
-                                    required: true,
-                                })}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Escape") {
-                                        cancelEdit();
-                                    }
-                                }}
-                            />
+                        <InlineEditor
+                            open={isEditing}
+                            onOpenChange={(open) => {
+                                if (!open) cancelEdit();
+                                setIsEditing(open);
+                            }}
+                        >
+                            <div className={styles.editForm}>
+                                <input
+                                    {...register("sectionName", {
+                                        required: true,
+                                    })}
+                                />
 
-                            <div className={styles.editActions}>
-                                <button type="button" onClick={cancelEdit}>
-                                    Cancel
-                                </button>
+                                <div className={styles.editActions}>
+                                    <button type="button" onClick={cancelEdit}>
+                                        Cancel
+                                    </button>
 
-                                <button type="submit" disabled={!isDirty}>
-                                    Save
-                                </button>
+                                    <button type="submit" disabled={!isDirty}>
+                                        Save
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </InlineEditor>
                     )}
                 </form>
 
