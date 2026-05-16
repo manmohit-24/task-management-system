@@ -1,5 +1,5 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar, TasksPageContent } from "../components";
+import { Sidebar, Toolbar, TasksSection } from "../components";
 import { useState } from "react";
 
 const getSideBarStoredState = () => {
@@ -20,8 +20,9 @@ export default function TasksLayout() {
 
     const onToggleSidebarExpansion = () => {
         setIsSidebarExpanded((p) => {
-            localStorage.setItem("isSidebarExpanded", String(!p));
-            return !p;
+            const next = !p;
+            localStorage.setItem("isSidebarExpanded", String(next));
+            return next;
         });
     };
 
@@ -29,6 +30,7 @@ export default function TasksLayout() {
     const [view, setView] = useState(getStoredViewState());
 
     const onToggleView = () => {
+        console.log("FAAAH");
         setView((p) => {
             const next = p === "list" ? "board" : "list";
             localStorage.setItem("view", next);
@@ -36,11 +38,16 @@ export default function TasksLayout() {
         });
     };
 
+    // Placeholder content
+    const sections = [1, 2, 3];
+
     return (
         <div
-            className={`${styles.page} ${
-                isSidebarExpanded ? styles.sidebarExpanded : styles.sidebarCollapsed
-            }`}
+            className={`
+                ${styles.page}
+                ${isSidebarExpanded ? styles.sidebarExpanded : styles.sidebarCollapsed}
+                ${view === "board" ? styles.boardView : styles.listView}
+            `}
         >
             <aside className={styles.sidebar}>
                 <Sidebar
@@ -49,13 +56,19 @@ export default function TasksLayout() {
                 />
             </aside>
 
-            <main className={`${styles.content} ${view === "board" ? styles.board : styles.list}`}>
+            <div className={styles.content}>
                 <div className={styles.contentInner}>
                     <Toolbar view={view} onToogleView={onToggleView} />
 
-                    <TasksPageContent view={view} />
+                    <main className={styles.pageContent}>
+                        <div className={styles.sectionsContainer}>
+                            {sections.map((sectionId) => (
+                                <TasksSection key={sectionId} sectionId={sectionId} view={view} />
+                            ))}
+                        </div>
+                    </main>
                 </div>
-            </main>
+            </div>
         </div>
     );
 }
