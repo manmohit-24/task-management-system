@@ -11,7 +11,7 @@ const DEFAULT_PROJECTS = {
     inbox: "Inbox",
 };
 
-export default function Toolbar({ view, onToogleView }) {
+export default function Toolbar({ view, onToggleView, onAddSection }) {
     const { id } = useParams();
 
     const { data: projects } = useProjects();
@@ -36,7 +36,7 @@ export default function Toolbar({ view, onToogleView }) {
                 <button
                     type="button"
                     className={styles.actionButton}
-                    onClick={onToogleView}
+                    onClick={onToggleView}
                     title="Change view"
                 >
                     <SquareKanban
@@ -45,7 +45,12 @@ export default function Toolbar({ view, onToogleView }) {
                     />
                 </button>
                 {canAddSection && (
-                    <button type="button" className={styles.actionButton} title="Add new section">
+                    <button
+                        type="button"
+                        className={styles.actionButton}
+                        onClick={onAddSection}
+                        title="Add new section"
+                    >
                         <AddSection size={18} />
                     </button>
                 )}

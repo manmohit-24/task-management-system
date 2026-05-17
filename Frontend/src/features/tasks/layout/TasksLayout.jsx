@@ -1,5 +1,5 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar, TasksSection } from "../components";
+import { Sidebar, Toolbar, TasksSection, AddSection } from "../components";
 import { useState } from "react";
 
 const getSideBarStoredState = () => {
@@ -40,6 +40,7 @@ export default function TasksLayout() {
 
     // Placeholder content
     const sections = [1, 2, 3];
+    const [addingSection, setAddingSection] = useState(false);
 
     return (
         <div
@@ -58,13 +59,22 @@ export default function TasksLayout() {
 
             <div className={styles.content}>
                 <div className={styles.contentInner}>
-                    <Toolbar view={view} onToogleView={onToggleView} />
+                    <Toolbar
+                        view={view}
+                        onToggleView={onToggleView}
+                        onAddSection={() => setAddingSection((p) => !p)}
+                    />
 
                     <main className={styles.pageContent}>
                         <div className={styles.sectionsContainer}>
                             {sections.map((sectionId) => (
                                 <TasksSection key={sectionId} sectionId={sectionId} view={view} />
                             ))}
+                            <AddSection
+                                open={addingSection}
+                                onOpenChange={setAddingSection}
+                                view={view}
+                            />
                         </div>
                     </main>
                 </div>
