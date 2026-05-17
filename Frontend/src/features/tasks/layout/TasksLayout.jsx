@@ -3,6 +3,7 @@ import { Sidebar, Toolbar, TasksSection, AddSection } from "../components";
 import { useState } from "react";
 import { useSections } from "../hooks/section.hooks";
 import { useParams } from "react-router-dom";
+import { useInboxId } from "../hooks/project.hooks";
 
 const getSideBarStoredState = () => {
     const storedValue = localStorage.getItem("isSidebarExpanded");
@@ -17,7 +18,10 @@ const getStoredViewState = () => {
 };
 
 export default function TasksLayout() {
-    const { id: projectId } = useParams();
+    const { id } = useParams();
+    const inboxId = useInboxId();
+
+    const projectId = id === "inbox" ? inboxId : id;
 
     //  Sidebar expansion state
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(getSideBarStoredState());
