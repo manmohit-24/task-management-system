@@ -3,15 +3,19 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { InlineEditor } from "@/features/shared/components";
 import { AddSection as AddSectionIcon } from "@/features/shared/components/Icons";
+import { useCreateSection } from "../../hooks/section.hooks";
 
-export default function AddSection({ open = false, onOpenChange = () => {}, view = "list" }) {
+export default function AddSection({
+    open = false,
+    onOpenChange = () => {},
+    view = "list",
+    projectId,
+}) {
     const { register, handleSubmit, reset, setFocus, watch } = useForm({
         defaultValues: { name: "" },
     });
 
-    const createSection = (data) => {
-        console.log(data);
-    };
+    const { mutate: createSection } = useCreateSection();
 
     const watchedSectionName = watch("name");
 
@@ -25,6 +29,7 @@ export default function AddSection({ open = false, onOpenChange = () => {}, view
 
         createSection({
             name: data.name,
+            projectId,
         });
 
         reset();

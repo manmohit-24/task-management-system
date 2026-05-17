@@ -1,6 +1,8 @@
 import styles from "./TasksLayout.module.css";
 import { Sidebar, Toolbar, TasksSection, AddSection } from "../components";
 import { useState } from "react";
+import { useSections } from "../hooks/section.hooks";
+import { useParams } from "react-router-dom";
 
 const getSideBarStoredState = () => {
     const storedValue = localStorage.getItem("isSidebarExpanded");
@@ -15,6 +17,8 @@ const getStoredViewState = () => {
 };
 
 export default function TasksLayout() {
+    const { id: projectId } = useParams();
+
     //  Sidebar expansion state
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(getSideBarStoredState());
 
@@ -30,7 +34,6 @@ export default function TasksLayout() {
     const [view, setView] = useState(getStoredViewState());
 
     const onToggleView = () => {
-        console.log("FAAAH");
         setView((p) => {
             const next = p === "list" ? "board" : "list";
             localStorage.setItem("view", next);
@@ -38,8 +41,10 @@ export default function TasksLayout() {
         });
     };
 
-    // Placeholder content
-    const sections = [1, 2, 3];
+    // Section
+    const { data } = useSections(projectId);
+    const sections = data ?? [];
+
     const [addingSection, setAddingSection] = useState(false);
 
     return (
@@ -67,13 +72,20 @@ export default function TasksLayout() {
 
                     <main className={styles.pageContent}>
                         <div className={styles.sectionsContainer}>
-                            {sections.map((sectionId) => (
-                                <TasksSection key={sectionId} sectionId={sectionId} view={view} />
+                            {sections.map(({ _id, name, project }) => (
+                                <TasksSection
+                                    key={_id}
+                                    id={_id}
+                                    name={name}
+                                    projectId={project}
+                                    view={view}
+                                />
                             ))}
                             <AddSection
                                 open={addingSection}
                                 onOpenChange={setAddingSection}
                                 view={view}
+                                projectId={projectId}
                             />
                         </div>
                     </main>

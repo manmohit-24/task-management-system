@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 import { Dropdown, InlineEditor } from "@/features/shared/components/";
+import { useDeleteSection, useUpdateSection } from "../../hooks/section.hooks";
 
 import {
     GripVertical,
@@ -14,13 +15,10 @@ import {
     FolderInput,
 } from "lucide-react";
 
-export default function TasksSection({
-    sectionId = "section-1",
-    sectionName = "Backlog",
-    todos = {},
-    view = "list",
-}) {
+export default function TasksSection({ id, name = "Backlog", view = "list", projectId }) {
     const { showConfirmDelete } = useConfirmDelete();
+    const { mutate: deleteSection } = useDeleteSection();
+    const { mutate: updateSection } = useUpdateSection();
 
     const [collapsedTasks, setCollapsedTasks] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -34,12 +32,10 @@ export default function TasksSection({
         setFocus,
         formState: { isDirty },
     } = useForm({
-        defaultValues: {
-            sectionName,
-        },
+        defaultValues: { name },
     });
 
-    const watchedSectionName = watch("sectionName");
+    const watchedName = watch("name");
 
     const startEditing = (e) => {
         e?.stopPropagation();
@@ -49,9 +45,9 @@ export default function TasksSection({
     };
 
     const saveEdit = (data) => {
-        console.log(data);
+        updateSection({ id, name: data.name, projectId });
         reset({
-            sectionName: data.sectionName,
+            name: data.name,
         });
 
         setIsEditing(false);
@@ -59,7 +55,7 @@ export default function TasksSection({
 
     function cancelEdit() {
         reset({
-            sectionName,
+            name: name,
         });
 
         setIsEditing(false);
@@ -69,15 +65,12 @@ export default function TasksSection({
         e?.stopPropagation();
 
         setMenuOpen(false);
-
         showConfirmDelete({
-            title: watchedSectionName
-                ? `Delete section "${watchedSectionName}" ?`
-                : "Delete this section ?",
+            title: watchedName ? `Delete section "${watchedName}" ?` : "Delete this section ?",
 
             description: "All tasks inside this section will be permanently deleted.",
 
-            onConfirm: () => console.log("Deleted"),
+            onConfirm: () => deleteSection({ id, projectId }),
         });
     }
 
@@ -86,7 +79,7 @@ export default function TasksSection({
     // autofocus
     useEffect(() => {
         if (isEditing) {
-            setFocus("sectionName");
+            setFocus("name");
         }
     }, [isEditing, setFocus]);
 
@@ -123,7 +116,7 @@ export default function TasksSection({
                     {!isEditing ? (
                         <>
                             <div className={styles.title}>
-                                <h2>{watchedSectionName}</h2>
+                                <h2>{watchedName}</h2>
 
                                 <p>{todosComponents.length}</p>
                             </div>
@@ -176,7 +169,7 @@ export default function TasksSection({
                         >
                             <div className={styles.editForm}>
                                 <input
-                                    {...register("sectionName", {
+                                    {...register("name", {
                                         required: true,
                                     })}
                                 />
