@@ -1,0 +1,61 @@
+/* ROOT */
+
+.dropdownTrigger {
+    display: flex;
+}
+
+/* TRIGGER */
+
+.trigger {
+    height: 2.5rem;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.7rem;
+    background: var(--bg-secondary);
+    color: var(--date-color, var(--text-secondary));
+    cursor: pointer;
+
+    transition:
+        background 120ms ease,
+        transform 120ms ease,
+        opacity 120ms ease;
+}
+
+.trigger:hover {
+    background: var(--bg-hover);
+}
+
+/* ACTIVE */
+
+.active {
+    background: var(--bg-accent);
+    transform: scale(0.95);
+}
+
+/* DROPDOWN */
+
+.dropdown {
+    animation: dropdownEnter 140ms ease;
+    transform-origin: top right;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: transparent;
+}
+
+@keyframes dropdownEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-0.4rem) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

@@ -91,7 +91,10 @@ export default function Dropdown({
                 ref={triggerRef}
                 type="button"
                 disabled={disabled}
-                onClick={() => onOpenChange(!open)}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenChange(!open);
+                }}
                 aria-haspopup="menu"
                 aria-expanded={open}
                 className={`${styles.trigger} ${className.trigger}`}

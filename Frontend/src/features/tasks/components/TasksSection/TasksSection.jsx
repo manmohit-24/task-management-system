@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 import { Dropdown, InlineEditor } from "@/features/shared/components/";
 import { useDeleteSection, useUpdateSection } from "../../hooks/section.hooks";
+import { MOCK_TASKS } from "./mockTasks.jsx";
+import { TaskCard } from "../";
 
 import {
     GripVertical,
@@ -74,7 +76,7 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
         });
     }
 
-    const todosComponents = [];
+    const todos = MOCK_TASKS;
 
     // autofocus
     useEffect(() => {
@@ -118,7 +120,7 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
                             <div className={styles.title}>
                                 <h2>{watchedName}</h2>
 
-                                <p>{todosComponents.length}</p>
+                                <p>{todos.length}</p>
                             </div>
 
                             <Dropdown
@@ -193,7 +195,11 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
 
             {/* CONTENT */}
             <div className={styles.content}>
-                <div className={styles.todos}>{todosComponents}</div>
+                <div className={styles.todos}>
+                    {todos.map((task) => (
+                        <TaskCard key={task.id} {...task} view={view} />
+                    ))}
+                </div>
 
                 <div className={styles.addTask}>{/* Todo Add Task Here  */}</div>
             </div>

@@ -5,6 +5,8 @@ import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import Toolbar from "./Toolbar/Toolbar";
 import TasksSection from "./TasksSection/TasksSection";
 import AddSection from "./AddSection/AddSection";
+import TaskCard from "./TaskCard/TaskCard";
+import DatePickerDropdown from "./DatePickerDropdown/DatePickerDropdown";
 
 export {
     Sidebar,
@@ -14,4 +16,6 @@ export {
     Toolbar,
     TasksSection,
     AddSection,
+    TaskCard,
+    DatePickerDropdown,
 };
