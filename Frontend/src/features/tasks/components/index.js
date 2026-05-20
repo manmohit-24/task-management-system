@@ -7,6 +7,7 @@ import TasksSection from "./TasksSection/TasksSection";
 import AddSection from "./AddSection/AddSection";
 import TaskCard from "./TaskCard/TaskCard";
 import DatePickerDropdown from "./DatePickerDropdown/DatePickerDropdown";
+import TaskCheckbox from "./TaskCheckbox/TaskCheckbox";
 
 export {
     Sidebar,
@@ -18,4 +19,5 @@ export {
     AddSection,
     TaskCard,
     DatePickerDropdown,
+    TaskCheckbox,
 };

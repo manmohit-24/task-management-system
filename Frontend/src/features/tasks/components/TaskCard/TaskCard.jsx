@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import styles from "./TaskCard.module.css";
-import { TodoCheckBox } from "@/components";
 import { LayoutGrid } from "lucide-react";
 import { ListTree } from "@/features/shared/components/Icons";
-import { DatePickerDropdown } from "../";
+import { DatePickerDropdown, TaskCheckbox } from "../";
 
 export default function TaskCard({
     id,
@@ -27,7 +26,7 @@ export default function TaskCard({
     parentTaskCompleted = false,
 }) {
     const [expandedSubTasks, setExpandedSubTasks] = useState(false);
-    const isCompleted = parentTaskCompleted || completed;
+    const [isCompleted, setIsCompleted] = useState(parentTaskCompleted || completed);
 
     const subTaskCount = subTasks.length;
     const remainingSubTasks = useMemo(() => {
@@ -63,7 +62,11 @@ export default function TaskCard({
                     {view === "board" ? (
                         <>
                             <div className={styles.boardHeader}>
-                                <TodoCheckBox checked={isCompleted} />
+                                <TaskCheckbox
+                                    checked={isCompleted}
+                                    priority={priority}
+                                    onCheckChange={setIsCompleted}
+                                />
                                 <h4 className={styles.boardTitle}>{content}</h4>
                             </div>
 
@@ -89,8 +92,11 @@ export default function TaskCard({
                     ) : (
                         <>
                             <div className={styles.header}>
-                                <TodoCheckBox checked={isCompleted} />
-
+                                <TaskCheckbox
+                                    checked={isCompleted}
+                                    priority={priority}
+                                    onCheckChange={setIsCompleted}
+                                />
                                 <div className={styles.textContent}>
                                     <h4 className={styles.title}>{content}</h4>
 
@@ -105,6 +111,7 @@ export default function TaskCard({
                                     value={dueDate}
                                     onChange={handleDateChange}
                                     disabled={isCompleted}
+                                    triggerClassName={`${styles.project} ${styles.metaItem}`}
                                 />
 
                                 {subTaskCount > 0 && (

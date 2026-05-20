@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import todoService from "../../../services/TodoServices";
 import { addTodo, setEditingTaskId, addSubTask } from "../../../store/Features/TodoSlice";
-import TodoDatePicker from "../TodoDatePicker/TodoDatePicker";
-import { getPrettyDate } from "../../../utils/prettyDate";
+import TodoDatePicker from "../../../features/shared/components/DatePicker/DatePicker";
+import { getRelativeDueDate } from "@/features/shared/libs/relativeDueDate";
 const TodoAddTask = ({
     isForSubTask = false,
     sectionId = "NotSectioned",
@@ -53,7 +53,7 @@ const TodoAddTask = ({
                 task: formData.task,
                 description: formData.description,
                 priority: priority,
-                dueDate: dueDate?.toString() ,
+                dueDate: dueDate?.toString(),
                 sectionId: sectionId,
                 completed: false,
                 subTasks: {},
@@ -86,7 +86,7 @@ const TodoAddTask = ({
     };
 
     useEffect(() => {
-        setDateIconColor(getPrettyDate(dueDate)[1]);
+        setDateIconColor(getRelativeDueDate(dueDate)[1]);
     }, [dueDate]);
 
     useEffect(() => {
@@ -125,115 +125,100 @@ const TodoAddTask = ({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-
     return (
-        <form className={contianerClassName} onSubmit={handleSubmit(addTaskClick)} onClick={(e) => {
-            e.stopPropagation();
-            if(!addingTask) setAddingTask(true);
-        }}>
+        <form
+            className={contianerClassName}
+            onSubmit={handleSubmit(addTaskClick)}
+            onClick={(e) => {
+                e.stopPropagation();
+                if (!addingTask) setAddingTask(true);
+            }}
+        >
             {/* {addingTask && ( */}
-                <>
-                    <div className="TodoAddTaskContentContainer">
-                        <div className="TodoAddTaskInputContainer">
-                            <textarea
-                                className="TodoAddTaskTitleInput"
-                                rows={1}
-                                placeholder="Task..."
-                                {...register("task", {
-                                    onChange: (e) => {
-                                        e.target.style.height = "auto"; // reset to shrink if needed
-                                        e.target.style.height = `${e.target.scrollHeight}px`; // set to fit
-                                    },
-                                })}
-                            />
-                            <textarea
-                                className="TodoAddTaskDescriptionInput"
-                                rows={1}
-                                placeholder="Description..."
-                                {...register("description", {
-                                    onChange: (e) => {
-                                        e.target.style.height = "auto"; // reset to shrink if needed
-                                        e.target.style.height = `${e.target.scrollHeight}px`; // set to fit
-                                    },
-                                })}
-                            />
-                        </div>
-
-                        <div className="TodoAddTaskRightButtons">
-                            <button
-                                type="button"
-                                className="TodoAddTaskDateButton"
-                                onClick={() => setExpandedDatePicker(!expandedDatePicker)}
-                                style={{ "--IconColor": dateIconColor }}
-                            >
-                                <Icon name={"IconCalendar2"} />
-                            </button>
-
-                            {expandedDatePicker && (
-                                <div ref={datePickerRef} className="TodoAddTaskDatePickerContainer">
-                                    <TodoDatePicker dueDate={dueDate} setDateValue={setDueDate} />
-                                </div>
-                            )}
-
-                            <button
-                                type="button"
-                                className="TodoAddTaskPriorityButton"
-                                id={`P${priority}Flag`}
-                                onClick={() =>
-                                    setPrioritySelectorExpanded(!prioritySelectorExpanded)
-                                }
-                            >
-                                <Icon name={"IconFlag"} />
-                            </button>
-
-                            {prioritySelectorExpanded && (
-                                <div
-                                    className="TodoAddTaskPrioritySelectorContainer"
-                                    ref={prioritySelectorRef}
-                                >
-                                    <button
-                                        id="P1Flag"
-                                        type="button"
-                                        onClick={() => setPriority(1)}
-                                    >
-                                        <Icon name={"IconFlag"} />
-                                        <span>P1</span>
-                                    </button>
-                                    <button
-                                        id="P2Flag"
-                                        type="button"
-                                        onClick={() => setPriority(2)}
-                                    >
-                                        <Icon name={"IconFlag"} />
-                                        <span>P2</span>
-                                    </button>
-                                    <button
-                                        id="P3Flag"
-                                        type="button"
-                                        onClick={() => setPriority(3)}
-                                    >
-                                        <Icon name={"IconFlag"} />
-                                        <span>P3</span>
-                                    </button>
-                                    <button
-                                        id="P4Flag"
-                                        type="button"
-                                        onClick={() => setPriority(4)}
-                                    >
-                                        <Icon name={"IconFlag"} />
-                                        <span>P4</span>
-                                    </button>
-                                </div>
-                            )}
-
-                            <button type="submit" className="TodoAddTaskMoreButton" name="more">
-                                <Icon name={"IconDots3"} />
-                            </button>
-                        </div>
+            <>
+                <div className="TodoAddTaskContentContainer">
+                    <div className="TodoAddTaskInputContainer">
+                        <textarea
+                            className="TodoAddTaskTitleInput"
+                            rows={1}
+                            placeholder="Task..."
+                            {...register("task", {
+                                onChange: (e) => {
+                                    e.target.style.height = "auto"; // reset to shrink if needed
+                                    e.target.style.height = `${e.target.scrollHeight}px`; // set to fit
+                                },
+                            })}
+                        />
+                        <textarea
+                            className="TodoAddTaskDescriptionInput"
+                            rows={1}
+                            placeholder="Description..."
+                            {...register("description", {
+                                onChange: (e) => {
+                                    e.target.style.height = "auto"; // reset to shrink if needed
+                                    e.target.style.height = `${e.target.scrollHeight}px`; // set to fit
+                                },
+                            })}
+                        />
                     </div>
 
-                    <div className="TodoAddTaskDivider" />
-                </>
+                    <div className="TodoAddTaskRightButtons">
+                        <button
+                            type="button"
+                            className="TodoAddTaskDateButton"
+                            onClick={() => setExpandedDatePicker(!expandedDatePicker)}
+                            style={{ "--IconColor": dateIconColor }}
+                        >
+                            <Icon name={"IconCalendar2"} />
+                        </button>
+
+                        {expandedDatePicker && (
+                            <div ref={datePickerRef} className="TodoAddTaskDatePickerContainer">
+                                <TodoDatePicker dueDate={dueDate} setDateValue={setDueDate} />
+                            </div>
+                        )}
+
+                        <button
+                            type="button"
+                            className="TodoAddTaskPriorityButton"
+                            id={`P${priority}Flag`}
+                            onClick={() => setPrioritySelectorExpanded(!prioritySelectorExpanded)}
+                        >
+                            <Icon name={"IconFlag"} />
+                        </button>
+
+                        {prioritySelectorExpanded && (
+                            <div
+                                className="TodoAddTaskPrioritySelectorContainer"
+                                ref={prioritySelectorRef}
+                            >
+                                <button id="P1Flag" type="button" onClick={() => setPriority(1)}>
+                                    <Icon name={"IconFlag"} />
+                                    <span>P1</span>
+                                </button>
+                                <button id="P2Flag" type="button" onClick={() => setPriority(2)}>
+                                    <Icon name={"IconFlag"} />
+                                    <span>P2</span>
+                                </button>
+                                <button id="P3Flag" type="button" onClick={() => setPriority(3)}>
+                                    <Icon name={"IconFlag"} />
+                                    <span>P3</span>
+                                </button>
+                                <button id="P4Flag" type="button" onClick={() => setPriority(4)}>
+                                    <Icon name={"IconFlag"} />
+                                    <span>P4</span>
+                                </button>
+                            </div>
+                        )}
+
+                        <button type="submit" className="TodoAddTaskMoreButton" name="more">
+                            <Icon name={"IconDots3"} />
+                        </button>
+                    </div>
+                </div>
+
+                <div className="TodoAddTaskDivider" />
+            </>
             {/* )} */}
 
             <div className="TodoAddTaskBottomButtons">

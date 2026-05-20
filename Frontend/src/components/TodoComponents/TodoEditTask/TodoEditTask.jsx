@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import TodoCheckBox from "../TodoCheckBox/TodoCheckBox";
 import "./TodoEditTask.css";
 import Icon from "../../../utils/Icons";
-import { getPrettyDate } from "../../../utils/prettyDate";
+import { getRelativeDueDate } from "@/features/shared/libs/relativeDueDate";
 import { useSelector, useDispatch } from "react-redux";
 import todoService from "../../../services/TodoServices";
 import { toogleTodoCompleted, updateTodo, deleteTodo } from "../../../store/Features/TodoSlice";
-import TodoDatePicker from "../TodoDatePicker/TodoDatePicker";
+import TodoDatePicker from "../../../features/shared/components/DatePicker/DatePicker";
 import TodoAddTask from "../TodoAddTask/TodoAddTask";
 import { setEditingTaskId } from "../../../store/Features/TodoSlice";
-import { TaskCard } from "@/features/tasks/components";
+import { TaskCard, TaskCheckbox as TodoCheckBox } from "@/features/tasks/components";
+
 const TodoEditTask = ({ id }) => {
     const dispatch = useDispatch();
     const todo = useSelector((state) => state.TodoData.Todos[id]);
@@ -195,7 +195,7 @@ const TodoEditTask = ({ id }) => {
     }, [todo]);
 
     useEffect(() => {
-        setDateIconColor(getPrettyDate(dueDate)[1]);
+        setDateIconColor(getRelativeDueDate(dueDate)[1]);
         saveTaskData({ dueDate: dueDate?.toString() });
     }, [dueDate]);
 
@@ -348,7 +348,7 @@ const TodoEditTask = ({ id }) => {
                             style={{ "--color": dateIconColor }}
                         >
                             <Icon name="IconCalendar2" size="S" />
-                            <p>{getPrettyDate(dueDate)[0]}</p>
+                            <p>{getRelativeDueDate(dueDate)[0]}</p>
                         </button>
                         {expandedDatePicker && (
                             <div className="TodoEditTaskDatePicker" ref={datePickerRef}>

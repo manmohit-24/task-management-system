@@ -1,9 +1,8 @@
 import styles from "./DatePickerDropdown.module.css";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarDays } from "lucide-react";
-import { Dropdown } from "@/features/shared/components";
-import { TodoDatePicker } from "@/components";
-import { getPrettyDate } from "@/utils/prettyDate";
+import { Dropdown, DatePicker } from "@/features/shared/components";
+import { getRelativeDueDate } from "@/features/shared/libs/relativeDueDate";
+import { CalendarDays } from "../../../shared/components/Icons";
 
 export default function DatePickerDropdown({
     value,
@@ -12,6 +11,7 @@ export default function DatePickerDropdown({
     debounceMs = 1200,
     triggerClassName = "",
     dropdownClassName = "",
+    iconOnly = false,
 }) {
     const [open, setOpen] = useState(false);
     const [localDate, setLocalDate] = useState(value);
@@ -34,7 +34,7 @@ export default function DatePickerDropdown({
         return () => clearTimeout(timeout);
     }, [localDate, debounceMs, onChange]);
 
-    const [prettyDate, dateColor] = useMemo(() => getPrettyDate(localDate), [localDate]);
+    const relativeDueDate = useMemo(() => getRelativeDueDate(localDate), [localDate]);
 
     return (
         <Dropdown
@@ -51,23 +51,24 @@ export default function DatePickerDropdown({
                 `,
             }}
             trigger={
-                <button
-                    type="button"
+                <div
+                    disabled={disabled}
                     className={`
                         ${styles.trigger}
-                        ${triggerClassName}
                         ${open ? styles.active : ""}
+                        ${disabled ? styles.disabled : ""}
+                        ${triggerClassName}
                     `}
                     style={{
-                        "--date-color": dateColor,
+                        "--date-color": relativeDueDate.color,
                     }}
                 >
                     <CalendarDays size={16} />
-                    <span>{prettyDate}</span>
-                </button>
+                    {!iconOnly && <span>{relativeDueDate.label}</span>}
+                </div>
             }
         >
-            <TodoDatePicker dueDate={localDate} setDateValue={setLocalDate} />
+            <DatePicker dueDate={localDate} setDateValue={setLocalDate} />
         </Dropdown>
     );
 }

@@ -155,19 +155,21 @@
 
 /* COMPLETED */
 
-.completed .content {
-    opacity: 0.72;
+.completed {
+    .content {
+        opacity: 0.5;
+        filter: saturate(1);
+    }
+    .title,
+    .description {
+        text-decoration: line-through;
+    }
 
-    filter: saturate(0.72);
-}
-
-.completed .title,
-.completed .boardTitle {
-    text-decoration: line-through;
-}
-
-.completed * {
-    color: var(--text-disabled);
+    h4,
+    span,
+    p {
+        color: var(--text-disabled);
+    }
 }
 
 /* LIST LAYOUT */
