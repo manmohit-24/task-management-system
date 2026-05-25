@@ -25,28 +25,15 @@
 
 /* ACTIVE */
 
-.active &,
+.active,
 .active * {
     transform: scale(0.95);
 }
 
 /* DROPDOWN */
-
 .dropdown {
     animation: dropdownEnter 140ms ease;
     transform-origin: top right;
     border-radius: 1rem;
     overflow: hidden;
-}
-
-@keyframes dropdownEnter {
-    from {
-        opacity: 0;
-        transform: translateY(-0.4rem) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
