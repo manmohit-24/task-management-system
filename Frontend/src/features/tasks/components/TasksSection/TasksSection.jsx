@@ -5,7 +5,7 @@ import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 import { Dropdown, InlineEditor } from "@/features/shared/components/";
 import { useDeleteSection, useUpdateSection } from "../../hooks/section.hooks";
 import { MOCK_TASKS } from "./mockTasks.jsx";
-import { TaskCard } from "../";
+import { TaskCard, AddTask } from "../";
 
 import {
     GripVertical,
@@ -119,7 +119,6 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
                         <>
                             <div className={styles.title}>
                                 <h2>{watchedName}</h2>
-
                                 <p>{todos.length}</p>
                             </div>
 
@@ -199,9 +198,8 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
                     {todos.map((task) => (
                         <TaskCard key={task.id} {...task} view={view} />
                     ))}
+                    <AddTask view={view} />
                 </div>
-
-                <div className={styles.addTask}>{/* Todo Add Task Here  */}</div>
             </div>
         </section>
     );
