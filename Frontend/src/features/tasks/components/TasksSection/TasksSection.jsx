@@ -1,7 +1,7 @@
 import styles from "./TasksSection.module.css";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
+import { useConfirmDelete } from "@/shared/confirmDelete";
 import { Dropdown, InlineEditor } from "@/shared/components/";
 import { useDeleteSection, useUpdateSection } from "../../hooks/section.hooks";
 import { TaskCard, AddTask } from "../";

@@ -4,5 +4,6 @@ import Modal from "./Modal/Modal";
 import InlineEditor from "./InlineEditor/InlineEditor";
 import DatePicker from "./DatePicker/DatePicker";
 import WorkInProgress from "./WorkInProgress/WorkInProgress";
+import Button from "./Button/Button";
 
-export { Dropdown, Avatar, Modal, InlineEditor, DatePicker, WorkInProgress };
+export { Dropdown, Avatar, Modal, InlineEditor, DatePicker, WorkInProgress, Button };

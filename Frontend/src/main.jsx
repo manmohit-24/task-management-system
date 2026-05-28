@@ -4,7 +4,7 @@ import "@/index.css";
 import AppRouter from "@/app/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/shared/themes/";
-import { ConfirmDeleteProvider } from "./app/providers/ConfirmDeleteProvider";
+import { ConfirmDeleteProvider } from "@/shared/confirmDelete";
 
 const queryClient = new QueryClient();
 

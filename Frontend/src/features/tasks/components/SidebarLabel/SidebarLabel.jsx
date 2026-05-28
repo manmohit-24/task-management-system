@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { LayoutGrid, Pencil, Trash2, Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useUpdateProject, useDeleteProject } from "../../hooks/project.hooks";
-import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
+import { useConfirmDelete } from "@/shared/confirmDelete";
 import { InlineEditor } from "@/shared/components";
 import { useNavigate } from "react-router-dom";
 
