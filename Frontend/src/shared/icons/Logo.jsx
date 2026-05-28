@@ -1,11 +1,11 @@
-import { useThemes } from "@/features/themes/hooks/useTheme";
+import { useTheme } from "@/shared/themes";
 
 export default function Logo({ size = 16, className = "", ...props }) {
-    const { activeTheme } = useThemes();
+    const { resolvedTheme } = useTheme();
     const light = "#ffffff";
     const dark = "#262626";
 
-    const isDark = activeTheme == "dark";
+    const isDark = resolvedTheme == "dark";
     return (
         <div className={`Icon ${className}`}>
             <svg

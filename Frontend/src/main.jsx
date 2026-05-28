@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "@/index.css";
 import AppRouter from "@/app/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "@/features/themes/context/ThemesProvider";
+import { ThemeProvider } from "@/shared/themes/";
 import { ConfirmDeleteProvider } from "./app/providers/ConfirmDeleteProvider";
 
 const queryClient = new QueryClient();

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import styles from "./AuthCenteredShell.module.css";
 import config from "@/app/config";
-import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
 import { Logo } from "@/shared/icons";
+import { ThemeToggle } from "@/shared/themes";
 
 export default function AuthCenteredShell({ children }) {
     return (
@@ -20,7 +20,7 @@ export default function AuthCenteredShell({ children }) {
                     </div>
                 </Link>
 
-                <HeaderThemeToggle />
+                <ThemeToggle variant="icon" />
             </header>
 
             <main className={styles.body}>

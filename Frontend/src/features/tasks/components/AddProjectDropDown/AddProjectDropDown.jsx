@@ -2,13 +2,13 @@ import styles from "./AddProjectDropDown.module.css";
 import { Plus, CirclePlus, LayoutGrid } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Dropdown } from "@/shared/components/";
-import { getThemeColor } from "@/features/themes/libs/themeColors";
+import { getThemeToken } from "@/shared/themes";
 import { useForm } from "react-hook-form";
 import { useCreateProject } from "../../hooks/project.hooks";
 
 export default function AddProjectDropDown({ className }) {
     const [open, setOpen] = useState(false);
-    const disabledCol = getThemeColor("Disabled");
+    const disabledCol = getThemeToken("--disabled");
 
     const {
         register,
