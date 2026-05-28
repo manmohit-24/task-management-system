@@ -3,15 +3,17 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { DatePickerDropdown, PrioritySelectorDropdown } from "../";
 import { Expand, CirclePlus } from "lucide-react";
+import { useCreateTask } from "../../hooks/tasks.hooks";
 
 export default function AddTask({
     isForSubTask = false,
-    sectionId = "NotSectioned",
+    sectionId = null,
     projectId = null,
-    view = undefined,
-    parentTaskId = undefined,
+    view = "list",
+    parentTaskId = null,
 }) {
     const { register, handleSubmit, reset, setFocus } = useForm();
+    const { mutate: createTask } = useCreateTask();
 
     const isToday = sectionId === "Today";
 
@@ -26,7 +28,11 @@ export default function AddTask({
 
     sectionId = isToday ? "NotSectioned-inbox" : sectionId;
 
-    const addTaskClick = async (formData, e) => {};
+    const addTaskClick = (data) => {
+        createTask({ ...data, projectId, sectionId, parentTaskId, dueDate, priority });
+        setAddingTask(false);
+        reset();
+    };
 
     const cancelAddingTask = () => {
         setAddingTask(false);

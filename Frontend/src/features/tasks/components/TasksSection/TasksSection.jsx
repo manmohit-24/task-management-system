@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { useConfirmDelete } from "@/app/providers/ConfirmDeleteProvider";
 import { Dropdown, InlineEditor } from "@/features/shared/components/";
 import { useDeleteSection, useUpdateSection } from "../../hooks/section.hooks";
-import { MOCK_TASKS } from "./mockTasks.jsx";
 import { TaskCard, AddTask } from "../";
+import { useTasks } from "../../hooks/tasks.hooks.js";
 
 import {
     GripVertical,
@@ -21,6 +21,9 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
     const { showConfirmDelete } = useConfirmDelete();
     const { mutate: deleteSection } = useDeleteSection();
     const { mutate: updateSection } = useUpdateSection();
+
+    const { data } = useTasks({ projectId, sectionId: id, parentTaskId: null });
+    const todos = data ?? [];
 
     const [collapsedTasks, setCollapsedTasks] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -69,14 +72,10 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
         setMenuOpen(false);
         showConfirmDelete({
             title: watchedName ? `Delete section "${watchedName}" ?` : "Delete this section ?",
-
             description: "All tasks inside this section will be permanently deleted.",
-
             onConfirm: () => deleteSection({ id, projectId }),
         });
     }
-
-    const todos = MOCK_TASKS;
 
     // autofocus
     useEffect(() => {
@@ -196,9 +195,9 @@ export default function TasksSection({ id, name = "Backlog", view = "list", proj
             <div className={styles.content}>
                 <div className={styles.todos}>
                     {todos.map((task) => (
-                        <TaskCard key={task.id} {...task} view={view} />
+                        <TaskCard key={task._id} {...task} id={task._id} view={view} />
                     ))}
-                    <AddTask view={view} />
+                    <AddTask view={view} sectionId={id} projectId={projectId} />
                 </div>
             </div>
         </section>

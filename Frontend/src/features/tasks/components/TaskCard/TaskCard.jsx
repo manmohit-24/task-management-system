@@ -3,6 +3,7 @@ import styles from "./TaskCard.module.css";
 import { LayoutGrid } from "lucide-react";
 import { ListTree } from "@/features/shared/components/Icons";
 import { DatePickerDropdown, TaskCheckbox } from "../";
+import { useToggleTask } from "../../hooks/tasks.hooks";
 
 export default function TaskCard({
     id,
@@ -12,21 +13,15 @@ export default function TaskCard({
     completed = false,
     dueDate = new Date(),
     subTasks = [],
-    section = {
-        id: "section-1",
-        name: "UI Polish",
-    },
-    project = {
-        id: "project-1",
-        name: "Frontend",
-        color: "#8b5cf6",
-    },
+    section,
+    project,
     isSubTask = false,
     view = "list",
     parentTaskCompleted = false,
 }) {
     const [expandedSubTasks, setExpandedSubTasks] = useState(false);
     const [isCompleted, setIsCompleted] = useState(parentTaskCompleted || completed);
+    const { mutate: toogleTask } = useToggleTask();
 
     const subTaskCount = subTasks.length;
     const remainingSubTasks = useMemo(() => {
@@ -40,9 +35,9 @@ export default function TaskCard({
         ${expandedSubTasks ? styles.expanded : ""}
     `;
 
-    async function handleToggleCompleted(e) {
-        e.stopPropagation();
-        console.log("toggle completed");
+    async function handleToggle(val) {
+        setIsCompleted(val);
+        toogleTask({ id, project, section });
     }
     const handleDateChange = async (val) => {
         console.log({
@@ -65,7 +60,7 @@ export default function TaskCard({
                                 <TaskCheckbox
                                     checked={isCompleted}
                                     priority={priority}
-                                    onCheckChange={setIsCompleted}
+                                    onCheckChange={handleToggle}
                                 />
                                 <h4 className={styles.boardTitle}>{content}</h4>
                             </div>
@@ -95,7 +90,7 @@ export default function TaskCard({
                                 <TaskCheckbox
                                     checked={isCompleted}
                                     priority={priority}
-                                    onCheckChange={setIsCompleted}
+                                    onCheckChange={handleToggle}
                                 />
                                 <div className={styles.textContent}>
                                     <h4 className={styles.title}>{content}</h4>
