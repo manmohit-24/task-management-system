@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import styles from "./TaskCard.module.css";
 import { LayoutGrid } from "lucide-react";
-import { ListTree } from "@/features/shared/components/Icons";
+import { ListTree } from "@/shared/icons";
 import { DatePickerDropdown, TaskCheckbox } from "../";
 import { useToggleTask } from "../../hooks/tasks.hooks";
 

@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./AuthCenteredShell.module.css";
 import config from "@/app/config";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
-import Icon from "@/utils/Icons";
-import { Logo } from "@/features/shared/components/Icons";
+import { Logo } from "@/shared/icons";
 
 export default function AuthCenteredShell({ children }) {
     return (

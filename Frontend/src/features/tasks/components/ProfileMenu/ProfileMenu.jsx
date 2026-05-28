@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserCog, LockKeyhole, LogOut, ChevronUp, SunMoon } from "lucide-react";
-import { Dropdown, Avatar } from "@/features/shared/components";
+import { Dropdown, Avatar } from "@/shared/components";
 import ThemeToggle from "@/features/themes/components/ThemeToggle";
 import styles from "./ProfileMenu.module.css";
 import { useSession, useLogout } from "@/features/auth/hooks/auth.hook";

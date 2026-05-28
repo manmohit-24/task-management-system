@@ -1,8 +1,8 @@
 import styles from "./DatePickerDropdown.module.css";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Dropdown, DatePicker } from "@/features/shared/components";
-import { getRelativeDueDate } from "@/features/shared/libs/relativeDueDate";
-import { CalendarDays } from "../../../shared/components/Icons";
+import { Dropdown, DatePicker } from "@/shared/components";
+import { getRelativeDueDate } from "@/shared/libs/relativeDueDate";
+import { CalendarDays } from "@/shared/icons";
 
 export default function DatePickerDropdown({
     value,

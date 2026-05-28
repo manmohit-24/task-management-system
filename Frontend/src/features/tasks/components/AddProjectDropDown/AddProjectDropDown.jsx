@@ -1,7 +1,7 @@
 import styles from "./AddProjectDropDown.module.css";
 import { Plus, CirclePlus, LayoutGrid } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Dropdown } from "@/features/shared/components/";
+import { Dropdown } from "@/shared/components/";
 import { getThemeColor } from "@/features/themes/libs/themeColors";
 import { useForm } from "react-hook-form";
 import { useCreateProject } from "../../hooks/project.hooks";

@@ -18,11 +18,6 @@
     padding: 3.2rem;
 }
 
-.logo {
-    width: 5.6rem;
-    height: 5.6rem;
-}
-
 .title {
     font: var(--heading-xl);
     color: var(--text-primary);

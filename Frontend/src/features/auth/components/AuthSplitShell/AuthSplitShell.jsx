@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import styles from "./AuthSplitShell.module.css";
 import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
-import Icon from "@/utils/Icons";
 import config from "@/app/config";
-import { Logo } from "@/features/shared/components/Icons";
+import { Logo } from "@/shared/icons";
 
 export default function AuthSplitShell({ children }) {
     return (

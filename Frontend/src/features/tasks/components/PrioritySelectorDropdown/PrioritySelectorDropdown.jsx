@@ -1,6 +1,6 @@
 import styles from "./PrioritySelectorDropdown.module.css";
 import { useEffect, useRef, useState } from "react";
-import { Dropdown } from "@/features/shared/components";
+import { Dropdown } from "@/shared/components";
 import { FlagTriangleRight } from "lucide-react";
 
 export default function PrioritySelectorDropdown({

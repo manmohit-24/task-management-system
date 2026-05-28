@@ -1,5 +1,4 @@
 import { useEffect, useState, useId } from "react";
-import Icon from "@/utils/Icons";
 import styles from "./FileUpload.module.css";
 
 const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
@@ -60,7 +59,7 @@ const FileUpload = ({ submitFile, label, init = undefined, ...props }) => {
             {fileURL ? (
                 <>
                     <button onClick={handleRemoveFile} className={styles.cross}>
-                        <Icon name={"IconCross"} size="L" />
+                        X
                     </button>
                     <img src={fileURL} alt="Cover-Image" />
                 </>

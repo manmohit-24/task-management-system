@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { Modal } from "@/features/shared/components/";
+import { Modal } from "@/shared/components/";
 import styles from "./ConfirmDeleteProvider.module.css";
 import { X } from "lucide-react";
 

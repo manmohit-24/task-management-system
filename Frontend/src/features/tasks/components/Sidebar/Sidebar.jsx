@@ -7,7 +7,7 @@ import { useProjects } from "../../hooks/project.hooks";
 
 import { SidebarLabel, AddProjectDropDown } from "..";
 import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
-import { Logo, Sidebar as SidebarIcon, Today } from "@/features/shared/components/Icons/";
+import { Logo, Sidebar as SidebarIcon, Today } from "@/shared/icons";
 
 export default function Sidebar({ isSidebarExpanded = true, onToggleSidebarExpansion = () => {} }) {
     const { id } = useParams();

@@ -1,7 +1,7 @@
 import { Button } from "../";
 import { Link, useSearchParams } from "react-router-dom";
 import styles from "./AuthPage.module.css";
-import { Google } from "@/features/shared/components/Icons";
+import { Google } from "@/shared/icons";
 
 export default function CheckEmailPage() {
     const [searchParams] = useSearchParams();

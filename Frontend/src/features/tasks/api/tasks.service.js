@@ -1,5 +1,5 @@
-import createClient from "@/features/shared/libs/createClient.js";
-import createQueryString from "../../shared/libs/createQueryString";
+import createClient from "@/shared/libs/createClient.js";
+import createQueryString from "@/shared/libs/createQueryString";
 
 const request = createClient("/todo");
 

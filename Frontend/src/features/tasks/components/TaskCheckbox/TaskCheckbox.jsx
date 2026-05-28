@@ -1,5 +1,5 @@
 import styles from "./TaskCheckbox.module.css";
-import { Tick } from "@/features/shared/components/Icons";
+import { Tick } from "@/shared/icons";
 
 export default function TaskCheckbox({
     priority = 4,

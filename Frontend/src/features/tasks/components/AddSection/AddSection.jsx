@@ -1,8 +1,8 @@
 import styles from "./AddSection.module.css";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { InlineEditor } from "@/features/shared/components";
-import { AddSection as AddSectionIcon } from "@/features/shared/components/Icons";
+import { InlineEditor } from "@/shared/components";
+import { AddSection as AddSectionIcon } from "@/shared/icons";
 import { useCreateSection } from "../../hooks/section.hooks";
 
 export default function AddSection({

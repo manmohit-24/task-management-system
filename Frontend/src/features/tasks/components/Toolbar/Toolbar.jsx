@@ -2,7 +2,7 @@ import styles from "./Toolbar.module.css";
 import { useParams } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import { SquareKanban } from "lucide-react";
-import { AddSection } from "@/features/shared/components/Icons";
+import { AddSection } from "@/shared/icons";
 import { useProjects } from "../../hooks/project.hooks";
 
 const DEFAULT_PROJECTS = {
