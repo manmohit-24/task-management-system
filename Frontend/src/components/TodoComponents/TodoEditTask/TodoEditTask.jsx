@@ -1,20 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import TodoCheckBox from "../TodoCheckBox/TodoCheckBox";
 import "./TodoEditTask.css";
 import Icon from "../../../utils/Icons";
-import { getPrettyDate } from "../../../utils/prettyDate";
+import { getRelativeDueDate } from "@/features/shared/libs/relativeDueDate";
 import { useSelector, useDispatch } from "react-redux";
 import todoService from "../../../services/TodoServices";
-import { toogleTodoCompleted, updateTodo , deleteTodo } from "../../../store/Features/TodoSlice";
-import TodoDatePicker from "../TodoDatePicker/TodoDatePicker";
+import { toogleTodoCompleted, updateTodo, deleteTodo } from "../../../store/Features/TodoSlice";
+import TodoDatePicker from "../../../features/shared/components/DatePicker/DatePicker";
 import TodoAddTask from "../TodoAddTask/TodoAddTask";
-import TodoTaskCard from "../TodoTaskCard/TodoTaskCard";
 import { setEditingTaskId } from "../../../store/Features/TodoSlice";
+import { TaskCard, TaskCheckbox as TodoCheckBox } from "@/features/tasks/components";
 
 const TodoEditTask = ({ id }) => {
     const dispatch = useDispatch();
-    const todo = useSelector((state) => state.TodoData.Todos[id]);    
-    
+    const todo = useSelector((state) => state.TodoData.Todos[id]);
+
     const [dueDate, setDueDate] = useState(todo.dueDate);
     const [expandedDatePicker, setExpandedDatePicker] = useState(false);
     const [dateIconColor, setDateIconColor] = useState("var(--Disabled)");
@@ -27,7 +26,7 @@ const TodoEditTask = ({ id }) => {
     const [taskValue, setTaskValue] = useState(todo.task);
     const [descriptionValue, setDescriptionValue] = useState(todo.description);
     const taskRef = useRef(null);
-    const descriptionRef = useRef(null);    
+    const descriptionRef = useRef(null);
 
     const [editingTask, setEditingTask] = useState(false);
 
@@ -55,7 +54,7 @@ const TodoEditTask = ({ id }) => {
     for (const { id, completed: subTaskCompleted } of subTasksState) {
         const subTaskCard = (
             <div className="TodoTaskCardSubTask" key={id}>
-                <TodoTaskCard
+                <TaskCard
                     id={id}
                     parentTaskCompleted={parentTaskCompleted || todo.completed}
                     view={"List"}
@@ -100,8 +99,7 @@ const TodoEditTask = ({ id }) => {
     };
 
     const closeWindow = () => {
-
-        if(!taskValue && !descriptionValue && subTasksTotal === 0) {
+        if (!taskValue && !descriptionValue && subTasksTotal === 0) {
             dispatch(deleteTodo({ todoId: id }));
         }
 
@@ -140,7 +138,6 @@ const TodoEditTask = ({ id }) => {
     let todoPath = [];
 
     console.log(todo);
-    
 
     let rootParentSectionId = todo.sectionId;
     useSelector((state) => {
@@ -170,11 +167,11 @@ const TodoEditTask = ({ id }) => {
 
     let [rootParentTag, rootParentTagColor] = useSelector((state) => [
         state.TodoData.Tags[state.TodoData.Sections[rootParentSectionId]?.tagId]?.title,
-        state.TodoData.Tags[state.TodoData.Sections[rootParentSectionId]?.tagId]?.tagColor ,
+        state.TodoData.Tags[state.TodoData.Sections[rootParentSectionId]?.tagId]?.tagColor,
     ]);
 
-    rootParentTagColor = rootParentTagColor ==="default" ? "var(--Disabled)" : rootParentTagColor;
-    
+    rootParentTagColor = rootParentTagColor === "default" ? "var(--Disabled)" : rootParentTagColor;
+
     const rootParentSectionName = useSelector(
         (state) => state.TodoData.Sections[rootParentSectionId]?.sectionName,
     );
@@ -198,7 +195,7 @@ const TodoEditTask = ({ id }) => {
     }, [todo]);
 
     useEffect(() => {
-        setDateIconColor(getPrettyDate(dueDate)[1]);
+        setDateIconColor(getRelativeDueDate(dueDate)[1]);
         saveTaskData({ dueDate: dueDate?.toString() });
     }, [dueDate]);
 
@@ -236,7 +233,11 @@ const TodoEditTask = ({ id }) => {
                 </button>
 
                 <div className="TodoEditTaskHeader">
-                    <button type="button" className="TodoEditTaskTagButton" style={{ "--tagColor": rootParentTagColor }}>
+                    <button
+                        type="button"
+                        className="TodoEditTaskTagButton"
+                        style={{ "--tagColor": rootParentTagColor }}
+                    >
                         <Icon name={"IconTag"} size="XS" />
                         <span>{rootParentTag}</span>
                         /
@@ -347,7 +348,7 @@ const TodoEditTask = ({ id }) => {
                             style={{ "--color": dateIconColor }}
                         >
                             <Icon name="IconCalendar2" size="S" />
-                            <p>{getPrettyDate(dueDate)[0]}</p>
+                            <p>{getRelativeDueDate(dueDate)[0]}</p>
                         </button>
                         {expandedDatePicker && (
                             <div className="TodoEditTaskDatePicker" ref={datePickerRef}>

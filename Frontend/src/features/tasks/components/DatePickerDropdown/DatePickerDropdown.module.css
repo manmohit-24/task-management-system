@@ -1,0 +1,39 @@
+/* ROOT */
+
+.dropdownTrigger {
+    display: flex;
+}
+
+/* TRIGGER */
+
+.trigger {
+    height: 2.5rem;
+    border-radius: 0.5rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.7rem;
+    color: var(--date-color, var(--text-secondary)) !important;
+
+    transition:
+        background 120ms ease,
+        transform 120ms ease,
+        opacity 120ms ease;
+}
+
+/* ACTIVE */
+
+.active,
+.active * {
+    transform: scale(0.95);
+}
+
+/* DROPDOWN */
+.dropdown {
+    animation: dropdownEnter 140ms ease;
+    transform-origin: top right;
+    border-radius: 1rem;
+    overflow: hidden;
+}

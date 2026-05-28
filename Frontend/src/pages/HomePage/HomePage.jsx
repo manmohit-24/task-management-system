@@ -27,7 +27,9 @@ export default function HomePage() {
                             <p>
                                 Welcome Back <b>{user.name}</b> !!! Continue You Goals
                             </p>
-                            <Button onClick={() => navigate("/app/")}>Continue to tasks</Button>
+                            <Button onClick={() => navigate("/app/today")}>
+                                Continue to tasks
+                            </Button>
                             <Button variant="secondary" onClick={async () => logout()}>
                                 Logout
                             </Button>

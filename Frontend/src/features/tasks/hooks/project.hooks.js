@@ -1,6 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjects, createProject, updateProject, deleteProject } from "../api/project.service";
 
+export function useInboxId() {
+    const { data: projects } = useProjects();
+    return projects?.find((project) => project.isInbox)?._id;
+}
+
 export function useProjects() {
     return useQuery({
         queryKey: ["projects"],
