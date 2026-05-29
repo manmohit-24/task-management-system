@@ -1,0 +1,47 @@
+.container {
+    flex-shrink: 0;
+}
+
+/*===== View Modes =====*/
+
+.listView {
+    width: 100%;
+    padding-left: 5.2rem;
+}
+
+.boardView {
+    width: 100%;
+    padding-left: 2.6rem;
+}
+
+/*===== Trigger =====*/
+
+.trigger {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    border: 0.1rem solid transparent;
+    border-radius: 0.5rem;
+    padding: 1rem;
+
+    background-color: transparent;
+
+    cursor: pointer;
+
+    color: var(--text-secondary);
+    font: var(--heading-sm);
+    opacity: 0.1;
+
+    transition:
+        border 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.trigger:hover {
+    border: 0.1rem solid var(--border-subtle);
+    opacity: 0.75;
+}

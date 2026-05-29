@@ -1,9 +1,10 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar, TasksSection, AddSection } from "../components";
+import { Sidebar, Toolbar } from "../components";
 import { useState } from "react";
 import { useSections } from "../hooks/section.hooks";
 import { useParams } from "react-router-dom";
 import { useInboxId } from "../hooks/project.hooks";
+import { Section, SectionCreateForm } from "../components/section";
 
 const getSideBarStoredState = () => {
     const storedValue = localStorage.getItem("isSidebarExpanded");
@@ -77,19 +78,19 @@ export default function TasksLayout() {
                     <main className={styles.pageContent}>
                         <div className={styles.sectionsContainer}>
                             {sections.map(({ _id, name, project }) => (
-                                <TasksSection
+                                <Section
                                     key={_id}
                                     id={_id}
                                     name={name}
-                                    projectId={project}
+                                    project={project}
                                     view={view}
                                 />
                             ))}
-                            <AddSection
+                            <SectionCreateForm
                                 open={addingSection}
                                 onOpenChange={setAddingSection}
                                 view={view}
-                                projectId={projectId}
+                                project={projectId}
                             />
                         </div>
                     </main>

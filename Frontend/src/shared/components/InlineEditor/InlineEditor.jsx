@@ -6,6 +6,7 @@ export default function InlineEditor({
     closeOnOutsideClick = true,
     closeOnEscape = true,
     children,
+    className,
 }) {
     const containerRef = useRef(null);
 
@@ -45,5 +46,9 @@ export default function InlineEditor({
 
     if (!open) return null;
 
-    return <div ref={containerRef}>{children}</div>;
+    return (
+        <div ref={containerRef} className={className}>
+            {children}
+        </div>
+    );
 }

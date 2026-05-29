@@ -1,0 +1,66 @@
+/*===== Editor =====*/
+.container {
+    width: 100%;
+
+    overflow: hidden;
+    animation: formIn 0.1s ease;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    border: 0.1rem solid var(--border-subtle);
+    margin-bottom: 0.5rem;
+}
+
+/*===== Form =====*/
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+/*===== Input + Error =====*/
+.form input {
+    width: 100%;
+
+    padding: 0.6rem 1rem;
+    border-radius: 0.4rem;
+    border: 0.1rem solid var(--border-subtle);
+
+    background-color: transparent;
+
+    color: var(--text-primary);
+    font: var(--heading-sm);
+
+    transition: border-color 0.15s ease;
+}
+
+.error {
+    color: var(--error);
+    font: var(--text-sm);
+    margin-left: 0.5rem;
+}
+
+.form input:focus {
+    outline: none;
+    border-color: var(--border-muted);
+}
+
+/*===== Actions =====*/
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+}
+
+/*===== Animation =====*/
+
+@keyframes formIn {
+    from {
+        height: 2rem;
+    }
+
+    to {
+        height: 10rem;
+    }
+}

@@ -2,19 +2,22 @@ import createClient from "@/shared/libs/createClient.js";
 
 const request = createClient("/section");
 
-export function getSections({ projectId }) {
-    return request(`/?project=${projectId}`, {
+// ===== Get Sections =====
+export function getSections({ project }) {
+    return request(`/?project=${project}`, {
         method: "GET",
     });
 }
 
-export function createSection({ name, projectId }) {
+// ===== Create Section =====
+export function createSection({ name, project }) {
     return request("/", {
         method: "POST",
-        body: JSON.stringify({ name, project: projectId }),
+        body: JSON.stringify({ name, project }),
     });
 }
 
+// ===== Update Section =====
 export function updateSection({ id, name }) {
     return request(`/${id}`, {
         method: "PATCH",
@@ -22,6 +25,7 @@ export function updateSection({ id, name }) {
     });
 }
 
+// ===== Delete Section =====
 export function deleteSection({ id }) {
     return request(`/${id}`, {
         method: "DELETE",
