@@ -7,6 +7,7 @@ import WorkInProgress from "./WorkInProgress/WorkInProgress";
 import Button from "./Button/Button";
 import Tooltip from "./Tooltip/Tooltip";
 import WorkInProgressTooltip from "./WorkInProgressTooltip/WorkInProgressTooltip";
+import ActionsMenu from "./ActionsMenu/ActionsMenu";
 
 export {
     Dropdown,
@@ -18,4 +19,5 @@ export {
     Button,
     Tooltip,
     WorkInProgressTooltip,
+    ActionsMenu,
 };
