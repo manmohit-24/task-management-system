@@ -10,8 +10,7 @@ export default function WorkInProgress() {
             <div className={styles.placeholderContent}>
                 <h2 className={styles.placeholderTitle}>Feature in Progress</h2>
                 <p className={styles.placeholderText}>
-                    This feature is currently running in UI-only mode. Backend integration is still
-                    in progress, so some actions may be unavailable or non-functional for now.
+                    This feature is currently UI-only and non-functional.{" "}
                 </p>
             </div>
         </div>
