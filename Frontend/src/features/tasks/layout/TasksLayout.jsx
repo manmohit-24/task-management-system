@@ -1,10 +1,11 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar } from "../components";
+import { Toolbar } from "../components";
 import { useState } from "react";
 import { useSections } from "../hooks/section.hooks";
 import { useParams } from "react-router-dom";
 import { useInboxId } from "../hooks/project.hooks";
 import { Section, SectionCreateForm } from "../components/section";
+import { Sidebar } from "../components/sidebar";
 
 const getSideBarStoredState = () => {
     const storedValue = localStorage.getItem("isSidebarExpanded");
@@ -27,12 +28,9 @@ export default function TasksLayout() {
     //  Sidebar expansion state
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(getSideBarStoredState());
 
-    const onToggleSidebarExpansion = () => {
-        setIsSidebarExpanded((p) => {
-            const next = !p;
-            localStorage.setItem("isSidebarExpanded", String(next));
-            return next;
-        });
+    const onSidebarExpandedChange = (val) => {
+        localStorage.setItem("isSidebarExpanded", String(val));
+        setIsSidebarExpanded(val);
     };
 
     //  Page View Layout state
@@ -61,10 +59,7 @@ export default function TasksLayout() {
             `}
         >
             <aside className={styles.sidebar}>
-                <Sidebar
-                    isSidebarExpanded={isSidebarExpanded}
-                    onToggleSidebarExpansion={onToggleSidebarExpansion}
-                />
+                <Sidebar expanded={isSidebarExpanded} onExpandedChange={onSidebarExpandedChange} />
             </aside>
 
             <div className={styles.content}>

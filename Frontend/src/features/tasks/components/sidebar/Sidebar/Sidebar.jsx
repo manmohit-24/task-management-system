@@ -2,58 +2,62 @@ import styles from "./Sidebar.module.css";
 import config from "@/app/config";
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useProjects } from "../../hooks/project.hooks";
+import { useParams } from "react-router-dom";
+import { useProjects } from "@/features/tasks/hooks/project.hooks";
 
-import { SidebarLabel, AddProjectDropDown } from "..";
 import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
 import { Logo, Sidebar as SidebarIcon, Today } from "@/shared/icons";
+import { SidebarItem, SidebarCreateProjectMenu } from "..";
 
-export default function Sidebar({ isSidebarExpanded = true, onToggleSidebarExpansion = () => {} }) {
+export default function Sidebar({ expanded = true, onExpandedChange = () => {} }) {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { data } = useProjects();
     const allProjects = data ?? [];
 
-    const [isWorkspaceExpanded, setIsWorkspaceExpanded] = useState(true);
-
-    const handleNavigation = (projectId) => {
-        navigate(`/app/${projectId}`);
-    };
-
-    const defaults = [
+    // ===== Default Projects =====
+    const defaultProjects = [
         {
             id: "today",
             name: "Today",
             number: "0",
-            color: "var(--text-disabled)",
-            icon: <Today size={20} />,
+            color: "var(--text-secondary)",
+            icon: Today,
             allowEdits: false,
         },
         {
             id: "inbox",
             name: "Inbox",
             number: "0",
-            color: "var(--text-disabled)",
-            icon: <Inbox size={20} />,
+            color: "var(--text-secondary)",
+            icon: Inbox,
             allowEdits: false,
         },
     ];
 
-    let projects = allProjects
+    // ===== Workspace =====
+    const [isWorkspaceExpanded, setIsWorkspaceExpanded] = useState(true);
+
+    const workspaceProjects = allProjects
         .filter((p) => !p.isInbox)
         .map((p) => ({
             id: p?._id ?? "",
             name: p?.name ?? "",
             number: "0",
-            color: "var(--text-disabled)",
+            color: "var(--text-secondary)",
         }));
+
+    // ===== Block Collapse  =====
+    // Block Collapse if there is an action in progress
+    const [blockCollapse, setBlockCollapse] = useState(false);
+    const handleActionInProgressChange = (val) => {
+        setBlockCollapse(val);
+    };
 
     return (
         <nav
-            className={`${styles.container} ${styles[isSidebarExpanded ? "expanded" : "collapsed"]}`}
+            className={`${styles.container} ${styles[expanded ? "expanded" : "collapsed"]} ${blockCollapse ? styles.blockCollapse : ""}`}
         >
-            {/* --------------------- SidebarHeader --------------------- */}
+            {/* ===== Header ===== */}
 
             <header className={styles.header}>
                 <div className={styles.brand}>
@@ -63,31 +67,34 @@ export default function Sidebar({ isSidebarExpanded = true, onToggleSidebarExpan
 
                 <button
                     className={styles.sidebarButton}
-                    onClick={() => onToggleSidebarExpansion()}
+                    onClick={() => onExpandedChange(!expanded)}
                     aria-label="Toggle sidebar"
                 >
                     <SidebarIcon size={20} />
                 </button>
             </header>
 
-            {/* --------------------- SidebarDefaultLabels --------------------- */}
+            {/* ===== Default Projects ===== */}
             <div className={styles.list}>
-                {defaults.map((project) => (
-                    <SidebarLabel
+                {defaultProjects.map((project) => (
+                    <SidebarItem
                         key={project.id}
                         {...project}
                         selected={id == project.id}
-                        onClick={handleNavigation}
+                        onActionInProgressChange={handleActionInProgressChange}
                     />
                 ))}
             </div>
 
-            {/* --------------------- SidebarCustomListsHeading --------------------- */}
+            {/* ===== Workspaces ===== */}
             <div className={styles.heading}>
                 <div>Workspaces</div>
 
                 <div className={styles.headingButtons}>
-                    <AddProjectDropDown className={styles.headingButton} />
+                    <SidebarCreateProjectMenu
+                        className={styles.headingButton}
+                        onActionInProgressChange={handleActionInProgressChange}
+                    />
 
                     <button
                         className={styles.headingButton}
@@ -101,17 +108,17 @@ export default function Sidebar({ isSidebarExpanded = true, onToggleSidebarExpan
                 </div>
             </div>
 
-            {/* --------------------- SidebarCustomLists --------------------- */}
+            {/* ===== Workspace Projects ===== */}
             <div
                 className={`${styles.list} ${isWorkspaceExpanded ? "" : styles.collapsedWorkspace}`}
             >
-                {projects.map((project) => (
-                    <SidebarLabel
+                {workspaceProjects.map((project) => (
+                    <SidebarItem
                         key={project.id}
                         {...project}
-                        icon={<LayoutGrid size={20} />}
+                        icon={LayoutGrid}
                         selected={id == project.id}
-                        onClick={handleNavigation}
+                        onActionInProgressChange={handleActionInProgressChange}
                     />
                 ))}
             </div>
