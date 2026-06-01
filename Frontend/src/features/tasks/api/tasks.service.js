@@ -3,50 +3,70 @@ import createQueryString from "@/shared/libs/createQueryString";
 
 const request = createClient("/todo");
 
-/*
-router.route("/:id")
-                    .patch(updateTodo)
-                    .delete(deleteTodo);
-
-router.route("/:id/restore").patch(restoreTodo);
-*/
-
-export function getTasks({ projectId: project, sectionId: section, parentTaskId: parentId }) {
+// ===== Get Tasks =====
+export function getTasks({ project, section, parentId }) {
     const q = createQueryString({ project, section, parentId });
     return request(`/${q}`, {
         method: "GET",
     });
 }
 
+// ===== Get Task Detail By Id =====
 export function getTaskById({ id }) {
     return request(`/${id}/toggle`, {
         method: "GET",
     });
 }
 
+// ===== Create Task =====
 export function createTask({
-    task: content,
+    content,
     description,
-    projectId: project,
-    sectionId: section,
-    parentTaskId: parentId,
     priority,
     dueDate,
+    project,
+    section,
+    parentId,
 }) {
     return request("/", {
         method: "POST",
         body: JSON.stringify({
             content,
             description,
+            priority,
+            dueDate,
             project,
             section,
             parentId,
-            priority,
-            dueDate,
         }),
     });
 }
 
+// ===== Update Task =====
+export function updateTask(data) {
+    /* data can include these fields :
+      {
+        id,
+        content,
+        description,
+        priority,
+        dueDate,
+        project,
+        section,
+        parentId,
+      }
+    */
+
+    const { id, ...rest } = data;
+    return request(`/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+            ...rest,
+        }),
+    });
+}
+
+// ===== Toggle Task Completition =====
 export function toggleTask({ id }) {
     return request(`/${id}/toggle`, {
         method: "PATCH",

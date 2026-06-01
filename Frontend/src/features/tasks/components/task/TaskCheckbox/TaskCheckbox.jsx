@@ -4,7 +4,7 @@ import { Tick } from "@/shared/icons";
 export default function TaskCheckbox({
     priority = 4,
     checked,
-    onCheckChange,
+    onToggle,
     disabled = false,
     ...props
 }) {
@@ -19,7 +19,7 @@ export default function TaskCheckbox({
             onClick={(e) => {
                 e.stopPropagation();
                 if (disabled) return;
-                onCheckChange?.(!checked);
+                onToggle?.();
             }}
             disabled={disabled}
             {...props}

@@ -1,9 +1,28 @@
-/* TodoCheckBox.module.css */
+/*===== Priority Variants =====*/
 
-.container {
+.p1 {
+    --checkbox-color: var(--priority-1);
+    --checkbox-bg: var(--priority-1-bg);
+}
+
+.p2 {
+    --checkbox-color: var(--priority-2);
+    --checkbox-bg: var(--priority-2-bg);
+}
+
+.p3 {
+    --checkbox-color: var(--priority-3);
+    --checkbox-bg: var(--priority-3-bg);
+}
+
+.p4 {
     --checkbox-color: var(--priority-4);
     --checkbox-bg: var(--priority-4-bg);
+}
 
+/*===== Container =====*/
+
+.container {
     all: unset;
     box-sizing: border-box;
 
@@ -34,26 +53,26 @@
     transition: color 140ms ease;
 }
 
-/* Hover */
+/*===== Hover =====*/
 
 .container:hover:not(.disabled):not(.checked) .tick {
     color: var(--checkbox-color);
 }
 
-/* Active */
+/*===== Active =====*/
 
 .container:active:not(.disabled) {
     transform: scale(0.95);
 }
 
-/* Focus */
+/*===== Focus =====*/
 
 .container:focus-visible {
     outline: 2px solid var(--checkbox-color);
     outline-offset: 2px;
 }
 
-/* Checked */
+/*===== Checked =====*/
 
 .checked {
     background-color: var(--checkbox-bg);
@@ -68,7 +87,7 @@
     border-color: var(--checkbox-color);
 }
 
-/* Disabled */
+/*===== Disabled =====*/
 
 .disabled {
     opacity: 0.55;
@@ -77,26 +96,4 @@
 
 .disabled .tick {
     color: var(--bg-primary);
-}
-
-/* Priority Variants */
-
-.p1 {
-    --checkbox-color: var(--priority-1);
-    --checkbox-bg: var(--priority-1-bg);
-}
-
-.p2 {
-    --checkbox-color: var(--priority-2);
-    --checkbox-bg: var(--priority-2-bg);
-}
-
-.p3 {
-    --checkbox-color: var(--priority-3);
-    --checkbox-bg: var(--priority-3-bg);
-}
-
-.p4 {
-    --checkbox-color: var(--priority-4);
-    --checkbox-bg: var(--priority-4-bg);
 }

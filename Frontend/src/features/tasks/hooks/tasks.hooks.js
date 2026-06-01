@@ -1,21 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTasks, getTaskById, createTask, toggleTask } from "../api/tasks.service";
+import { getTasks, createTask, updateTask, toggleTask } from "../api/tasks.service";
 
-//Get tasks
-export function useTasks({ projectId, sectionId, parentTaskId }) {
+// ===== Get Tasks =====
+export function useTasks({ project, section, parentId }) {
     return useQuery({
-        queryKey: ["tasks", "list", { projectId, sectionId, parentTaskId }],
+        queryKey: ["tasks", { project, section, parentId }],
 
         queryFn: async () => {
-            console.log({
-                projectId,
-                sectionId,
-                parentTaskId,
-            });
             const res = await getTasks({
-                projectId,
-                sectionId,
-                parentTaskId,
+                project,
+                section,
+                parentId,
             });
 
             if (!res.success) return { data: [] };
@@ -28,52 +23,7 @@ export function useTasks({ projectId, sectionId, parentTaskId }) {
     });
 }
 
-// Get details of a single task
-export function useTaskById(id) {
-    return useQuery({
-        queryKey: ["tasks", "detail", id],
-
-        queryFn: async () => {
-            const res = await getTaskById({ id });
-
-            if (!res.success) return null;
-
-            return res.data;
-        },
-
-        retry: false,
-        staleTime: 10_000,
-    });
-}
-
-// Get details of a single task with subtasks
-export function useTaskWithSubtasks({ id, projectId, sectionId }) {
-    const taskQuery = useTaskById(id);
-
-    const subtasksQuery = useTasks({
-        projectId,
-        sectionId,
-        parentTaskId: id,
-    });
-
-    return {
-        task: taskQuery.data
-            ? {
-                  ...taskQuery.data,
-                  subtasks: subtasksQuery.data ?? [],
-              }
-            : null,
-
-        isLoading: taskQuery.isLoading || subtasksQuery.isLoading,
-
-        isError: taskQuery.isError || subtasksQuery.isError,
-
-        taskQuery,
-        subtasksQuery,
-    };
-}
-
-// Create task
+// ===== Create Task =====
 export function useCreateTask(options = {}) {
     const queryClient = useQueryClient();
 
@@ -81,10 +31,10 @@ export function useCreateTask(options = {}) {
         mutationFn: createTask,
 
         onSuccess: (data, variables, context) => {
-            const { projectId, sectionId, parentTaskId } = variables;
+            const { project, section, parentId } = variables;
 
             queryClient.invalidateQueries({
-                queryKey: ["tasks", "list", { projectId, sectionId, parentTaskId }],
+                queryKey: ["tasks", { project, section, parentId }],
             });
 
             options?.onSuccess?.(data, variables, context);
@@ -95,8 +45,30 @@ export function useCreateTask(options = {}) {
         },
     });
 }
+// ===== Update Task =====
+export function useUpdateTask(options = {}) {
+    const queryClient = useQueryClient();
 
-// Toggle task
+    return useMutation({
+        mutationFn: updateTask,
+
+        onSuccess: (data, variables, context) => {
+            const { project, section, parentId } = variables;
+            console.log(variables);
+
+            queryClient.invalidateQueries({
+                queryKey: ["tasks", { project, section, parentId }],
+            });
+
+            options?.onSuccess?.(data, variables, context);
+        },
+
+        onError: (...args) => {
+            options?.onError?.(...args);
+        },
+    });
+}
+// ===== Toggle Task Completition =====
 export function useToggleTask(options = {}) {
     const queryClient = useQueryClient();
 
@@ -104,17 +76,10 @@ export function useToggleTask(options = {}) {
         mutationFn: toggleTask,
 
         onSuccess: (data, variables, context) => {
-            const { projectId, sectionId, parentTaskId, id } = variables;
-
-            void Promise.all([
-                queryClient.invalidateQueries({
-                    queryKey: ["tasks", "list", { projectId, sectionId, parentTaskId }],
-                }),
-
-                queryClient.invalidateQueries({
-                    queryKey: ["tasks", "detail", id],
-                }),
-            ]);
+            const { project, section, parentId } = variables;
+            queryClient.invalidateQueries({
+                queryKey: ["tasks", { project, section, parentId }],
+            });
 
             options?.onSuccess?.(data, variables, context);
         },

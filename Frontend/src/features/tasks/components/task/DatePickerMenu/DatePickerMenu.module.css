@@ -1,10 +1,10 @@
-/* ROOT */
+/*===== Dropdown Trigger =====*/
 
 .dropdownTrigger {
     display: flex;
 }
 
-/* TRIGGER */
+/*===== Trigger =====*/
 
 .trigger {
     height: 2.5rem;
@@ -13,9 +13,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    border: 0.1rem solid rgba(from var(--date-color) r g b/ 0.2);
+    background-color: rgba(from var(--date-color) r g b/ 0.05);
 
     padding: 0.7rem;
     color: var(--date-color, var(--text-secondary)) !important;
+    text-wrap: nowrap;
 
     transition:
         background 120ms ease,
@@ -23,16 +26,19 @@
         opacity 120ms ease;
 }
 
-/* ACTIVE */
+.trigger:hover {
+    background-color: rgba(from var(--date-color) r g b/ 0.1);
+}
+
+/*===== Active =====*/
 
 .active,
 .active * {
     transform: scale(0.95);
 }
 
-/* DROPDOWN */
+/*===== Dropdown =====*/
 .dropdown {
-    animation: dropdownEnter 140ms ease;
     transform-origin: top right;
     border-radius: 1rem;
     overflow: hidden;

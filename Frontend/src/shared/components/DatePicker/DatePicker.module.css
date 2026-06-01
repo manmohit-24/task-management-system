@@ -1,3 +1,5 @@
+/*===== Container =====*/
+
 .container {
     width: fit-content;
 
@@ -11,6 +13,8 @@
     position: relative;
     user-select: none;
 }
+
+/*===== Top Action Buttons =====*/
 
 .topButtons {
     display: flex;
@@ -57,7 +61,7 @@
     outline-offset: 2px;
 }
 
-/* Variants */
+/*===== Variants =====*/
 
 .todayButton {
     --action-color: var(--green-500);
@@ -79,7 +83,7 @@
     --action-color: var(--text-secondary);
 }
 
-/* Calendar */
+/*===== Calendar =====*/
 
 .calendar {
     width: 30rem;
@@ -90,7 +94,7 @@
     width: 100% !important;
 }
 
-/* MUI Overrides */
+/*===== MUI Overrides =====*/
 
 .dateCalendar :global(.MuiDateCalendar-root) {
     width: 100%;
@@ -129,6 +133,10 @@
     color: var(--text-primary);
 
     transition: background-color 120ms ease;
+}
+
+.dateCalendar :global(.MuiDayCalendar-weekContainer) {
+    margin-top: 0.5rem;
 }
 
 .dateCalendar :global(.MuiPickersDay-root:hover) {

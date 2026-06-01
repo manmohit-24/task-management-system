@@ -6,7 +6,7 @@ import { useDeleteSection, useUpdateSection } from "@/features/tasks/hooks/secti
 import { useTasks } from "@/features/tasks/hooks/tasks.hooks.js";
 
 import { WorkInProgressTooltip, WorkInProgress, ActionsMenu } from "@/shared/components";
-import { TaskCard, AddTask } from "../..";
+import { TaskCard, TaskCreateForm } from "../../task";
 import { SectionInlineForm } from "..";
 import { toast } from "sonner";
 
@@ -48,7 +48,7 @@ export default function Section({ id, name = "Section Name", view = "list", proj
 
     // ===== Tasks Content =====
     const [collapsedTasks, setCollapsedTasks] = useState(false);
-    const { data } = useTasks({ projectId: project, sectionId: id, parentTaskId: null });
+    const { data } = useTasks({ project, section: id, parentId: null });
     const todos = data ?? [];
 
     // ===== Menu Items =====
@@ -141,7 +141,7 @@ export default function Section({ id, name = "Section Name", view = "list", proj
                     {todos.map((task) => (
                         <TaskCard key={task._id} {...task} id={task._id} view={view} />
                     ))}
-                    <AddTask view={view} sectionId={id} project={project} />
+                    <TaskCreateForm view={view} section={id} project={project} />
                 </div>
             </div>
         </section>

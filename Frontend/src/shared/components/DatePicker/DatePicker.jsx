@@ -1,14 +1,14 @@
 import styles from "./DatePicker.module.css";
-import { useEffect, useMemo, useState } from "react";
 
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 
-import { Today, Sunrise, Weekend, NextWeek } from "@/shared/icons";
 import { CircleSlash } from "lucide-react";
+import { Today, Sunrise, Weekend, NextWeek } from "@/shared/icons";
 
+// ===== Action Buttons Config =====
 const QUICK_ACTIONS = [
     {
         key: "today",
@@ -43,36 +43,29 @@ const QUICK_ACTIONS = [
     },
 ];
 
-export default function DatePicker({ dueDate, setDateValue }) {
-    const [value, setValue] = useState(dueDate ? dayjs(dueDate) : null);
+export default function DatePicker({ date, onDateChange }) {
+    const value = date ? dayjs(date) : null;
+    const handleDateChange = (val) => {
+        onDateChange?.(val?.toDate() ?? null);
+    };
 
-    useEffect(() => {
-        setValue(dueDate ? dayjs(dueDate) : null);
-    }, [dueDate]);
+    // ===== Actions =====
+    const actions = {
+        today: () => handleDateChange(dayjs()),
+        tomorrow: () => handleDateChange(dayjs().add(1, "day")),
+        weekend: () => {
+            const today = dayjs();
+            const daysUntilSaturday = (6 - today.day() + 7) % 7;
+            handleDateChange(today.add(daysUntilSaturday, "day"));
+        },
+        monday: () => {
+            const today = dayjs();
+            const daysUntilMonday = (8 - today.day()) % 7 || 7;
+            handleDateChange(today.add(daysUntilMonday, "day"));
+        },
 
-    useEffect(() => {
-        setDateValue(value ? value.toDate() : null);
-    }, [value, setDateValue]);
-
-    const actions = useMemo(
-        () => ({
-            today: () => setValue(dayjs()),
-            tomorrow: () => setValue(dayjs().add(1, "day")),
-            weekend: () => {
-                const today = dayjs();
-                const daysUntilSaturday = (6 - today.day() + 7) % 7;
-                setValue(today.add(daysUntilSaturday, "day"));
-            },
-            monday: () => {
-                const today = dayjs();
-                const daysUntilMonday = (8 - today.day()) % 7 || 7;
-                setValue(today.add(daysUntilMonday, "day"));
-            },
-
-            clear: () => setValue(null),
-        }),
-        [],
-    );
+        clear: () => handleDateChange(null),
+    };
 
     return (
         <div className={styles.container} onClick={(e) => e.stopPropagation()}>
@@ -94,7 +87,7 @@ export default function DatePicker({ dueDate, setDateValue }) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateCalendar
                         value={value}
-                        onChange={setValue}
+                        onChange={handleDateChange}
                         views={["year", "month", "day"]}
                         className={styles.dateCalendar}
                     />

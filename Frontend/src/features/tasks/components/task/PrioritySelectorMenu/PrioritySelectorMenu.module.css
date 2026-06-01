@@ -1,4 +1,4 @@
-/* ROOT */
+/*===== Dropdown Trigger =====*/
 
 .dropdownTrigger {
     display: flex;
@@ -6,11 +6,13 @@
     --priority-bg: var(--priority-4-bg);
 }
 
-/* TRIGGER */
+/*===== Trigger =====*/
 
 .trigger {
     height: 2.5rem;
     border-radius: 0.5rem;
+    border: 0.1rem solid var(--priority-bg);
+    background-color: rgba(from var(--priority-bg) r g b/ 0.05);
 
     display: inline-flex;
     align-items: center;
@@ -25,36 +27,23 @@
 }
 
 .trigger:hover {
-    background: var(--bg-hover);
+    background-color: rgb(from var(--priority-bg) r g b/ 0.1);
 }
 
-/* ACTIVE */
+/*===== Active =====*/
 
 .active &,
 .active * {
     transform: scale(0.95);
 }
 
-/* DROPDOWN */
+/*===== Dropdown =====*/
 
 .dropdown {
-    animation: dropdownEnter 140ms ease;
     transform-origin: top right;
     border-radius: 1rem;
     overflow: hidden;
     background: transparent;
-}
-
-@keyframes dropdownEnter {
-    from {
-        opacity: 0;
-        transform: translateY(-0.4rem) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
 }
 
 .menu {
@@ -92,6 +81,8 @@
         border-color: var(--priority);
     }
 }
+
+/*===== Priority Styles ===== */
 
 .p1 {
     --priority: var(--priority-1);

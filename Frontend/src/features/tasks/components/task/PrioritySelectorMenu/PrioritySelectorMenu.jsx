@@ -1,9 +1,10 @@
-import styles from "./PrioritySelectorDropdown.module.css";
+import styles from "./PrioritySelectorMenu.module.css";
 import { useEffect, useRef, useState } from "react";
+
 import { Dropdown } from "@/shared/components";
 import { FlagTriangleRight } from "lucide-react";
 
-export default function PrioritySelectorDropdown({
+export default function PrioritySelectorMenu({
     value,
     onChange,
     disabled = false,
@@ -12,6 +13,11 @@ export default function PrioritySelectorDropdown({
     dropdownClassName = "",
 }) {
     const [open, setOpen] = useState(false);
+
+    // ===== Local Priority =====
+    // Priority Chnages will be first updated local
+    // and then revoke the callback after debounce
+
     const [localPriority, setLocalPriority] = useState(value);
     const isFirstRender = useRef(true);
 
@@ -19,12 +25,21 @@ export default function PrioritySelectorDropdown({
         setLocalPriority(value);
     }, [value]);
 
+    // ===== Debounced Priority Chnage Call =====
     useEffect(() => {
         if (isFirstRender.current) {
             isFirstRender.current = false;
             return;
         }
 
+        // Avoid timeout overhead is debounce is 0
+        // deboundeMs = 0 can be used in forms where instant onChange is ideal than debounced
+        if (debounceMs === 0) {
+            onChange?.(localPriority);
+            return;
+        }
+
+        // debounced update is ideal where onChange directly makes and backend update call
         const timeout = setTimeout(() => {
             onChange?.(localPriority);
         }, debounceMs);
@@ -39,28 +54,24 @@ export default function PrioritySelectorDropdown({
                 if (disabled) return setOpen(false);
                 setOpen(val);
             }}
+            disabled={disabled}
             className={{
                 trigger: styles.dropdownTrigger,
-                menu: `
-                    ${styles.dropdown}
-                    ${dropdownClassName}
-                `,
+                menu: `${styles.dropdown} ${dropdownClassName}`,
             }}
+            /*===== Trigger =====*/
             trigger={
                 <div
-                    disabled={disabled}
                     className={`
-                        ${styles.trigger}
-                        ${open ? styles.active : ""}
-                        ${disabled ? styles.disabled : ""}
-                        ${styles[`p${localPriority}`]}
-                        ${triggerClassName}
+                        ${styles.trigger} ${open ? styles.active : ""}
+                        ${styles[`p${localPriority}`]} ${triggerClassName}
                     `}
                 >
                     <FlagTriangleRight size={16} />
                 </div>
             }
         >
+            {/*===== Menu =====*/}
             <div className={styles.menu}>
                 {[1, 2, 3, 4].map((p) => (
                     <button
