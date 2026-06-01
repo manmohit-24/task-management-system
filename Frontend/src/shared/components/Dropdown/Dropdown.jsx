@@ -60,6 +60,7 @@ export default function Dropdown({
                 type="button"
                 disabled={disabled}
                 className={`${styles.trigger} ${className.trigger}`}
+                data-open={open} // use it for stylings the trigger using [data-open="true"] .trigger{...}
                 {...getReferenceProps()}
             >
                 {trigger}

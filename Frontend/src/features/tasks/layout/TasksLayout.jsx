@@ -1,5 +1,5 @@
 import styles from "./TasksLayout.module.css";
-import { Toolbar } from "../components";
+import { Toolbar } from "../components/toolbar";
 import { useState } from "react";
 import { useSections } from "../hooks/section.hooks";
 import { useParams } from "react-router-dom";

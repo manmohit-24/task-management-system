@@ -1,9 +1,12 @@
 import styles from "./Toolbar.module.css";
 import { useParams } from "react-router-dom";
-import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import { useProjects } from "@/features/tasks/hooks/project.hooks";
+
 import { SquareKanban } from "lucide-react";
 import { AddSection } from "@/shared/icons";
-import { useProjects } from "../../hooks/project.hooks";
+import { ProfileMenu } from "..";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 const DEFAULT_PROJECTS = {
     today: "Today",
@@ -14,17 +17,17 @@ const DEFAULT_PROJECTS = {
 export default function Toolbar({ view, onToggleView, onAddSection }) {
     const { id } = useParams();
 
-    const { data: projects } = useProjects();
+    const { data, error } = useProjects();
+    useEffect(() => {
+        if (error) toast.error(error.message);
+    }, [error]);
 
-    const projectName = projects?.find((project) => project._id === id)?.name;
+    const projectName = data?.find((project) => project._id === id)?.name;
     const heading = DEFAULT_PROJECTS[id] ?? projectName ?? "Not Found";
-
-    const canAddSection = id !== "today";
-
-    const isListView = view === "list";
 
     return (
         <header className={styles.toolbar}>
+            {/* ===== Project Name ===== */}
             <div className={styles.left}>
                 <div className={styles.projectInfo}>
                     {!DEFAULT_PROJECTS[id] && <span className={styles.projectLabel}>Project</span>}
@@ -32,7 +35,9 @@ export default function Toolbar({ view, onToggleView, onAddSection }) {
                 </div>
             </div>
 
+            {/* ===== Action Buttons ===== */}
             <div className={styles.right}>
+                {/* ===== Chnage View ===== */}
                 <button
                     type="button"
                     className={styles.actionButton}
@@ -41,10 +46,12 @@ export default function Toolbar({ view, onToggleView, onAddSection }) {
                 >
                     <SquareKanban
                         size={18}
-                        className={`${styles.viewIcon} ${isListView ? styles.rotate : ""}`}
+                        className={`${styles.viewIcon} ${view === "list" ? styles.rotate : ""}`}
                     />
                 </button>
-                {canAddSection && (
+
+                {/* ===== Add Section -> not allowed for "today" ===== */}
+                {id !== "today" && (
                     <button
                         type="button"
                         className={styles.actionButton}
@@ -55,6 +62,7 @@ export default function Toolbar({ view, onToggleView, onAddSection }) {
                     </button>
                 )}
 
+                {/* ===== Profile Menu ===== */}
                 <div className={styles.profileMenu}>
                     <ProfileMenu />
                 </div>

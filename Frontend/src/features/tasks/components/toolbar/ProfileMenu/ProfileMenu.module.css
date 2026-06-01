@@ -1,9 +1,4 @@
-/* ---------------- Trigger ---------------- */
-
-.dropdownTrigger {
-    display: flex;
-    background-color: transparent;
-}
+/* ===== Trigger ===== */
 
 .profileTrigger {
     display: flex;
@@ -26,10 +21,12 @@
     }
 }
 
-.profileTriggerOpen {
+[data-open="true"] .profileTrigger {
     width: 15rem;
     background-color: var(--bg-hover);
 }
+
+/* ===== User Info ===== */
 
 .userInfo {
     overflow: hidden;
@@ -69,34 +66,13 @@
     color: var(--text-disabled);
 }
 
-.userInfoOpen {
+[data-open="true"] .userInfo {
     width: 12rem;
     opacity: 1;
     transform: translateX(0);
 }
 
-/* ---------------- Dropdown ---------------- */
-
-.dropdownMenu {
-    padding: 0.5rem;
-    border-radius: 1rem;
-    background-color: rgb(from var(--bg-secondary) r g b / 0.7);
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.separator {
-    width: 100%;
-    height: 1px;
-
-    margin: 0.35rem 0;
-
-    background-color: var(--border-subtle);
-}
+/* ===== Menu items ===== */
 
 .theme {
     padding: 0.8rem;
@@ -107,28 +83,6 @@
         gap: 0.75rem;
         font: var(--text-sm);
         margin-bottom: 0.5rem;
-    }
-}
-
-.menuItem {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-
-    color: var(--text-primary);
-    padding: 0.8rem;
-
-    border: none;
-    border-radius: 0.9rem;
-    font: var(--text-sm);
-    background-color: transparent;
-
-    cursor: pointer;
-
-    transition: background-color 160ms ease;
-
-    &:hover {
-        background-color: var(--bg-hover);
     }
 }
 

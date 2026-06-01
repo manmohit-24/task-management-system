@@ -29,6 +29,9 @@ export function useLogin(options) {
             queryClient.invalidateQueries({ queryKey: ["session"] });
             options?.onSuccess?.(...args);
         },
+        onError: (...args) => {
+            options.onError(...args);
+        },
     });
 }
 
@@ -42,6 +45,9 @@ export function useLogout(options) {
             queryClient.setQueryData(["session"], null);
             queryClient.cancelQueries({ queryKey: ["session"] });
             options?.onSuccess?.(...args);
+        },
+        onError: (...args) => {
+            options.onError(...args);
         },
     });
 }
@@ -66,6 +72,9 @@ export function useRegister(options) {
         onSuccess: (...args) => {
             queryClient.invalidateQueries({ queryKey: ["session"] });
             options?.onSuccess?.(...args);
+        },
+        onError: (...args) => {
+            options.onError(...args);
         },
     });
 }
