@@ -126,8 +126,12 @@ const getTodos = async (req, res, next) => {
         }
         
         // add section filter if provided
-        if (section) {
-            query.section = section;
+        if (section !== undefined) {
+            if (section === "null") {
+                query.section = null;
+            } else {
+                query.section = section;
+            }
         }
         
         // add parent filter if provided
