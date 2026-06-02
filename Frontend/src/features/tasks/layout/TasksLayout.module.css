@@ -1,0 +1,115 @@
+.page {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background-color: var(--bg-primary);
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+
+    height: 100vh;
+}
+
+/* MAIN CONTENT */
+
+.content {
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding-right: 4rem;
+    padding-left: 26rem;
+
+    transition: padding-left 0.2s ease;
+}
+
+.sidebarCollapsed .content {
+    padding-left: 5rem;
+}
+
+/* CENTERED CONTENT */
+
+.contentInner {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    transition: width 0.2s ease;
+}
+
+.listView .contentInner {
+    max-width: 1100px;
+}
+
+.boardView .contentInner {
+    max-width: none;
+}
+
+/* PAGE CONTENT */
+
+.pageContent {
+    flex: 1;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+/* SECTIONS CONTAINER */
+
+.sectionsContainer {
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+}
+
+/* LIST VIEW */
+
+.listView .sectionsContainer {
+    flex-direction: column;
+
+    gap: 3.5rem;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 1rem 0 4rem;
+}
+
+/* BOARD VIEW */
+
+.boardView .sectionsContainer {
+    align-items: stretch;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 1rem 0 2rem;
+}
+
+.boardView .sectionsContainer > * {
+    flex: 0 0 30rem;
+    min-width: 30rem;
+}

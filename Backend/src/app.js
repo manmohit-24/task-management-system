@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { globalErrorHandler } from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
 
@@ -8,6 +9,28 @@ const app = express();
 app.use(express.json({ limit: "32kb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+// CORS
+console.log(process.env.DB_NAME);
+
+if (!process.env.CORS_ORIGINS) throw new Error("CORS_ORIGINS is not defined");
+
+const allowedOrigins = process.env.CORS_ORIGINS.split(",").map((item) =>
+    item.trim(),
+);
+app.use(
+    cors({
+        origin(origin, callback) {
+            // allow if no origin ( api clients )
+            if (!origin) return callback(null, true);
+
+            if (allowedOrigins.includes(origin)) return callback(null, true);
+
+            return callback(new Error("Not allowed by CORS"), false);
+        },
+        credentials: true,
+    }),
+);
 
 //*********** importing router **********
 import userRouter from "./routes/user.routes.js";

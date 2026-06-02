@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import getThemeColors from "../../Themes/ThemeColors";
+import { themeColors } from "../../features/themes/libs/themeColors";
 
 const GeneralSlice = createSlice({
     name: "GeneralData",
     initialState: {
         Theme: "Light",
-        ThemeColors: getThemeColors(),
+        ThemeColors: themeColors,
         showConfirmDelete: {
             show: false,
             title: null,
             target: null,
-            targetId : null,
+            targetId: null,
         },
     },
     reducers: {

@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getPrettyDate, prettyDatecolors } from "../../utils/prettyDate";
+import {
+    getRelativeDueDate,
+    RELATIVE_DUE_DATE_COLORS,
+} from "@/features/shared/libs/relativeDueDate";
 
 const checkForTodayStatus = (state, todoId, eventName) => {
     const todo = state.Todos[todoId];
     const completedId = "Completed-today";
 
-    let prettyDueDate = getPrettyDate(todo.dueDate);
+    let prettyDueDate = getRelativeDueDate(todo.dueDate);
 
     if (prettyDueDate[0] === "Today" && eventName !== "Delete") {
         // It is for Today
@@ -23,7 +26,7 @@ const checkForTodayStatus = (state, todoId, eventName) => {
         delete state.Sections.Today.todos[todoId];
         delete state.Sections[completedId].todos[todoId];
     }
-    if (!todo.completed && prettyDueDate[1] === prettyDatecolors.overdue) {
+    if (!todo.completed && prettyDueDate[1] === RELATIVE_DUE_DATE_COLORS.overdue) {
         // It is an Overdue
         if (!state.Sections.Overdue.todos.hasOwnProperty(todoId)) state.Sections.Overdue.number++;
         state.Sections.Overdue.todos[todoId] = todo.order;
@@ -113,7 +116,7 @@ const TodoSlice = createSlice({
 
             todo.parentTodoId = parentTodoId;
             todo.isSubTask = true;
-            
+
             state.Todos[todoId] = todo;
 
             if (parentTodo.subTasks) state.Todos[parentTodoId].subTasks[todoId] = todo.order;
@@ -261,7 +264,7 @@ export const {
 } = TodoSlice.actions;
 export default TodoSlice.reducer;
 
-/** Todo Object format : 
+/** Todo Object format :
  * {
  *     id: 1 : {
             task: "Default Task",
@@ -270,7 +273,7 @@ export default TodoSlice.reducer;
             dueDate: //String Format
             subTasks: [], // Array of subTasks Ids
             tagId:, // default "inbox"
-            sectionName: , 
+            sectionName: ,
             completed : false
         }
 }

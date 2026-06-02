@@ -1,41 +1,23 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthPage , HomePage , Dashboard} from "./pages/index.js";
-import "./Themes/Light.css";
-// import "./Themes/Dark.css";
-import "./Themes/Mutual.css";
-import "./utils/Icons.css";
+import "@/index.css";
+import "@/index_old.css";
+import "@/utils/Icons.css";
+import AppRouter from "@/app/routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@/features/themes/context/ThemesProvider";
+import { ConfirmDeleteProvider } from "./app/providers/ConfirmDeleteProvider";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-        children: [
-            {
-                path: "/",
-                element: <HomePage />,
-            },
-            {
-                path: "/home",
-                element: <HomePage />,
-            },
-            {
-                path: "auth/:authType",
-                element: <AuthPage />,
-            },
-            {
-                path: "app/:pageType/:tagId",
-                element: <Dashboard />,
-            },
-        ],
-    },
-]);
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+                <ConfirmDeleteProvider>
+                    <AppRouter />
+                </ConfirmDeleteProvider>
+            </ThemeProvider>
+        </QueryClientProvider>
     </StrictMode>,
 );
