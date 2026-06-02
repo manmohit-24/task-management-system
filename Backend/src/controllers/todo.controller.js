@@ -129,6 +129,8 @@ const getTodos = async (req, res, next) => {
         if (section !== undefined) {
             if (section === "null") {
                 query.section = null;
+            } else if (section === "") {
+                throw new apiError(400, "Invalid section filter");
             } else {
                 query.section = section;
             }
