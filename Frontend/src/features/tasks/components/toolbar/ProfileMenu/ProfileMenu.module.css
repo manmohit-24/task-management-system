@@ -1,0 +1,91 @@
+/* ===== Trigger ===== */
+
+.profileTrigger {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    width: 3.5rem;
+    padding: 0.45rem;
+
+    overflow: hidden;
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+    transition:
+        width 0.2s ease,
+        background-color 180ms ease;
+
+    &:hover {
+        background-color: var(--bg-hover);
+    }
+}
+
+[data-open="true"] .profileTrigger {
+    width: 15rem;
+    background-color: var(--bg-hover);
+}
+
+/* ===== User Info ===== */
+
+.userInfo {
+    overflow: hidden;
+    opacity: 0;
+    width: 0;
+
+    transform: translateX(-0.5rem);
+    text-align: left;
+
+    transition:
+        width 240ms ease,
+        opacity 180ms ease,
+        transform 240ms ease;
+
+    & > p {
+        margin: 0;
+        white-space: nowrap;
+
+        font: var(--text-sm);
+        font-weight: 600;
+
+        color: var(--text-primary);
+    }
+
+    & > span {
+        display: block;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        font: var(--text-xs);
+        color: var(--text-secondary);
+    }
+}
+
+.chevron {
+    color: var(--text-disabled);
+}
+
+[data-open="true"] .userInfo {
+    width: 12rem;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ===== Menu items ===== */
+
+.theme {
+    padding: 0.8rem;
+
+    .label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font: var(--text-sm);
+        margin-bottom: 0.5rem;
+    }
+}
+
+.logout {
+    color: var(--error);
+}

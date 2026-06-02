@@ -1,0 +1,4 @@
+.container {
+    background-color: rgb(from var(--bg-primary) r g b / 0.7);
+    padding: 0.5rem;
+}

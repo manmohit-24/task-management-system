@@ -1,12 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "@/index.css";
-import "@/index_old.css";
-import "@/utils/Icons.css";
 import AppRouter from "@/app/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "@/features/themes/context/ThemesProvider";
-import { ConfirmDeleteProvider } from "./app/providers/ConfirmDeleteProvider";
+import { ThemeProvider } from "@/shared/themes/";
+import { ConfirmDeleteProvider } from "@/shared/confirmDelete";
 
 const queryClient = new QueryClient();
 

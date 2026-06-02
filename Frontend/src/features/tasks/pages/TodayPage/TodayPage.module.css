@@ -1,0 +1,44 @@
+/*===== PAGE =====*/
+
+.container {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 3rem;
+}
+
+/*===== CONTENT =====*/
+
+.content {
+    max-width: 32rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.content svg {
+    color: var(--text-disabled);
+    margin-bottom: 1rem;
+}
+
+.content h1 {
+    margin: 0 0 0.75rem;
+
+    font: var(--heading-xl);
+    color: var(--text-primary);
+}
+
+.content p {
+    margin: 0;
+
+    line-height: 1.6;
+
+    font: var(--text-md);
+    color: var(--text-secondary);
+}

@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSections, createSection, updateSection, deleteSection } from "../api/section.service";
 
-export function useSections(projectId) {
+// ===== Get Sections =====
+export function useSections(project) {
     return useQuery({
-        queryKey: ["sections", projectId],
+        queryKey: ["sections", project],
         queryFn: async () => {
-            const res = await getSections({ projectId });
+            const res = await getSections({ project });
             if (!res.success) return null;
             return res.data;
         },
@@ -14,6 +15,7 @@ export function useSections(projectId) {
     });
 }
 
+// ===== Create Section =====
 export function useCreateSection(options) {
     const queryClient = useQueryClient();
 
@@ -21,7 +23,7 @@ export function useCreateSection(options) {
         mutationFn: createSection,
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries({
-                queryKey: ["sections", variables.projectId ?? ""],
+                queryKey: ["sections", variables.project ?? ""],
             });
 
             options?.onSuccess?.(data, variables, context);
@@ -33,17 +35,18 @@ export function useCreateSection(options) {
     });
 }
 
+// ===== Update Section =====
 export function useUpdateSection(options) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        // projectId is need by omSuccess for invalidating correct queryKey
-        mutationFn: ({ projectId, ...payload }) => {
+        // project is need by omSuccess for invalidating correct queryKey
+        mutationFn: ({ project, ...payload }) => {
             return updateSection(payload);
         },
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries({
-                queryKey: ["sections", variables.projectId ?? ""],
+                queryKey: ["sections", variables.project ?? ""],
             });
 
             options?.onSuccess?.(data, variables, context);
@@ -55,17 +58,18 @@ export function useUpdateSection(options) {
     });
 }
 
+// ===== Delete Section =====
 export function useDeleteSection(options) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        // projectId is need by omSuccess for invalidating correct queryKey
-        mutationFn: ({ projectId, ...payload }) => {
+        // project is need by omSuccess for invalidating correct queryKey
+        mutationFn: ({ project, ...payload }) => {
             return deleteSection(payload);
         },
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries({
-                queryKey: ["sections", variables.projectId ?? ""],
+                queryKey: ["sections", variables.project ?? ""],
             });
 
             options?.onSuccess?.(data, variables, context);

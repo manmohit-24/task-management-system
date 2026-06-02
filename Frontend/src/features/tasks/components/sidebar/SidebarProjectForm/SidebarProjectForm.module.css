@@ -1,0 +1,86 @@
+.form {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 0.55rem 0.9rem;
+}
+
+.add {
+    flex-direction: column;
+}
+
+.left {
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+    flex: 1;
+    cursor: pointer;
+}
+
+.icon {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.4rem;
+
+    color: var(--selectedColor);
+
+    border: solid 0.1rem rgba(from var(--selectedColor) r g b / 50%);
+    aspect-ratio: 1;
+    padding: 0.3rem;
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    &:hover {
+        border-color: rgba(from var(--selectedColor) r g b / 70%);
+        background-color: rgba(from var(--selectedColor) r g b / 20%);
+    }
+}
+
+.input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: var(--text-primary);
+    font: var(--text-md);
+
+    border-radius: 0.4rem;
+    border: solid 0.1rem var(--border-muted);
+    padding: 0.5rem 0.8rem;
+
+    transition: all var(--transition);
+
+    &:focus {
+        border-color: var(--border-muted);
+    }
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.submitButton {
+    padding: 0.6rem;
+}

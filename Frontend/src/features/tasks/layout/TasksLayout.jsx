@@ -1,100 +1,79 @@
 import styles from "./TasksLayout.module.css";
-import { Sidebar, Toolbar, TasksSection, AddSection } from "../components";
 import { useState } from "react";
-import { useSections } from "../hooks/section.hooks";
-import { useParams } from "react-router-dom";
-import { useInboxId } from "../hooks/project.hooks";
+import { useParams, useNavigate } from "react-router-dom";
+import { useInboxId, useProjectById } from "@/features/tasks/hooks/project.hooks";
+import { useSidebarState, useViewMode } from "../TaskLayoutProvider/TaskLayoutProvider";
 
-const getSideBarStoredState = () => {
-    const storedValue = localStorage.getItem("isSidebarExpanded");
-    if (storedValue === null) return true;
-    return storedValue === "true";
-};
-
-const getStoredViewState = () => {
-    const storedValue = localStorage.getItem("view");
-    if (storedValue === null) return "list";
-    return storedValue;
-};
+import { Toolbar } from "../components/toolbar";
+import { Sidebar } from "../components/sidebar";
+import { ProjectPage, ProjectNotFoundPage, LoadingPage, TodayPage } from "../pages";
+import { TaskLayoutProvider } from "../TaskLayoutProvider/TaskLayoutProvider";
 
 export default function TasksLayout() {
+    // ===== Noramalizing Project =====
+    const navigate = useNavigate();
+
     const { id } = useParams();
     const inboxId = useInboxId();
 
-    const projectId = id === "inbox" ? inboxId : id;
+    if (id === inboxId) navigate("app/inbox");
 
-    //  Sidebar expansion state
-    const [isSidebarExpanded, setIsSidebarExpanded] = useState(getSideBarStoredState());
+    const project = id === "inbox" ? inboxId : id;
 
-    const onToggleSidebarExpansion = () => {
-        setIsSidebarExpanded((p) => {
-            const next = !p;
-            localStorage.setItem("isSidebarExpanded", String(next));
-            return next;
-        });
-    };
+    return (
+        <TaskLayoutProvider>
+            <Layout project={project} />
+        </TaskLayoutProvider>
+    );
+}
 
-    //  Page View Layout state
-    const [view, setView] = useState(getStoredViewState());
+function Layout({ project }) {
+    const { expanded: sidebarExpanded } = useSidebarState();
+    const { view } = useViewMode();
 
-    const onToggleView = () => {
-        setView((p) => {
-            const next = p === "list" ? "board" : "list";
-            localStorage.setItem("view", next);
-            return next;
-        });
-    };
-
-    // Section
-    const { data } = useSections(projectId);
-    const sections = data ?? [];
+    const { data: projectRes, isPending } = useProjectById(project);
 
     const [addingSection, setAddingSection] = useState(false);
+    const projectNotFound = project !== "today" && !projectRes;
 
     return (
         <div
             className={`
-                ${styles.page}
-                ${isSidebarExpanded ? styles.sidebarExpanded : styles.sidebarCollapsed}
-                ${view === "board" ? styles.boardView : styles.listView}
+                ${styles.container}
+                ${!sidebarExpanded ? styles.sidebarCollapsed : ""}
+                ${styles[view]}
             `}
         >
+            {/* ===== Sidebar ===== */}
             <aside className={styles.sidebar}>
-                <Sidebar
-                    isSidebarExpanded={isSidebarExpanded}
-                    onToggleSidebarExpansion={onToggleSidebarExpansion}
-                />
+                <Sidebar />
             </aside>
 
-            <div className={styles.content}>
-                <div className={styles.contentInner}>
-                    <Toolbar
-                        view={view}
-                        onToggleView={onToggleView}
-                        onAddSection={() => setAddingSection((p) => !p)}
-                    />
+            {isPending ? (
+                <LoadingPage />
+            ) : projectNotFound ? (
+                <ProjectNotFoundPage />
+            ) : (
+                <div className={styles.page}>
+                    {/* ===== Toolbar ===== */}
+                    <div className={styles.toolbar}>
+                        <Toolbar onAddSection={() => setAddingSection(true)} />
+                    </div>
 
-                    <main className={styles.pageContent}>
-                        <div className={styles.sectionsContainer}>
-                            {sections.map(({ _id, name, project }) => (
-                                <TasksSection
-                                    key={_id}
-                                    id={_id}
-                                    name={name}
-                                    projectId={project}
-                                    view={view}
-                                />
-                            ))}
-                            <AddSection
-                                open={addingSection}
-                                onOpenChange={setAddingSection}
-                                view={view}
-                                projectId={projectId}
-                            />
-                        </div>
-                    </main>
+                    <div className={styles.gap} />
+
+                    {/* ===== Page ===== */}
+                    {project === "today" ? (
+                        <TodayPage />
+                    ) : (
+                        <ProjectPage
+                            project={project}
+                            addingSection={addingSection}
+                            setAddingSection={setAddingSection}
+                        />
+                    )}
                 </div>
-            </div>
+            )}
         </div>
     );
 }

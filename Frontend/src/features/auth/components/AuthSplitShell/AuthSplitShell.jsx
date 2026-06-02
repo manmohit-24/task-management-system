@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import styles from "./AuthSplitShell.module.css";
-import HeaderThemeToggle from "../HeaderThemeToggle/HeaderThemeToggle";
-import Icon from "@/utils/Icons";
 import config from "@/app/config";
-import { Logo } from "@/features/shared/components/Icons";
+import { Logo } from "@/shared/icons";
+import { ThemeToggle } from "@/shared/themes/";
 
 export default function AuthSplitShell({ children }) {
     return (
@@ -31,7 +30,7 @@ export default function AuthSplitShell({ children }) {
 
                 <section className={styles.panel}>
                     <div className={styles.themeToggle}>
-                        <HeaderThemeToggle />
+                        <ThemeToggle variant="icon" />
                     </div>
 
                     <div className={styles.formShell}>{children} </div>

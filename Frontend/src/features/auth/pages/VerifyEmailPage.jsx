@@ -3,8 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./AuthPage.module.css";
 import { useRef } from "react";
 import { Form } from "../";
-import WorkInProgress from "../../../components/WorkInProgress/WorkInProgress";
-import { Google } from "@/features/shared/components/Icons";
+import { WorkInProgress } from "@/shared/components";
+import { Google } from "@/shared/icons";
 
 export default function VerifyEmailPage() {
     const navigate = useNavigate();

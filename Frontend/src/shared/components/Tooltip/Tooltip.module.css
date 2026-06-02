@@ -1,0 +1,40 @@
+.tooltip {
+    position: fixed;
+    z-index: 9999;
+
+    padding: 0.55rem;
+
+    color: var(--bg-primary);
+    background: var(--text-secondary);
+
+    font: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.4;
+
+    pointer-events: none;
+
+    box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.2);
+    border-radius: 0.8rem;
+
+    animation: fadeIn 150ms ease;
+}
+
+/* Optional directional styling hooks */
+.top {
+}
+.bottom {
+}
+.left {
+}
+.right {
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

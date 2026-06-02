@@ -1,0 +1,104 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: 0.95rem;
+    background: var(--bg-secondary);
+}
+
+.track {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: calc(100% / 3);
+    height: 100%;
+    border-radius: 0.7rem;
+    background: var(--text-primary);
+    pointer-events: none;
+
+    transition: transform 0.22s cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+
+.button {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+
+    min-width: 5rem;
+    padding: 0.5rem 1.2rem;
+
+    border: none;
+    border-radius: 0.7rem;
+
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    font: var(--text-sm);
+
+    transition: color 0.2s ease;
+}
+
+.button:hover {
+    color: var(--text-primary);
+}
+
+.active {
+    color: var(--bg-secondary);
+}
+
+.active:hover {
+    color: var(--bg-secondary);
+}
+
+/* ===== Icon Variant ===== */
+
+.iconToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 3.6rem;
+    height: 3.6rem;
+
+    border: 0.1rem solid var(--border-muted);
+    border-radius: 50%;
+
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.iconToggle:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.iconToggle:focus-visible {
+    outline: none;
+    border-color: var(--border-heavy);
+    color: var(--text-primary);
+}
+
+.iconToggle:active {
+    transform: scale(0.96);
+}

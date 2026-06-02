@@ -1,11 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjects, createProject, updateProject, deleteProject } from "../api/project.service";
 
-export function useInboxId() {
-    const { data: projects } = useProjects();
-    return projects?.find((project) => project.isInbox)?._id;
-}
-
+// ===== Get Projects =====
 export function useProjects() {
     return useQuery({
         queryKey: ["projects"],
@@ -19,6 +15,25 @@ export function useProjects() {
     });
 }
 
+// ===== Get Project-id of inbox =====
+export function useInboxId() {
+    const { data: projects } = useProjects();
+    return projects?.find((project) => project.isInbox)?._id;
+}
+
+// ===== Get a single Project details using id =====
+export function useProjectById(id) {
+    const projectsQuery = useProjects();
+
+    const project = projectsQuery.data?.find((project) => project._id === id);
+
+    return {
+        ...projectsQuery,
+        data: project,
+    };
+}
+
+// ===== Create Project =====
 export function useCreateProject(options) {
     const queryClient = useQueryClient();
 
@@ -34,6 +49,7 @@ export function useCreateProject(options) {
     });
 }
 
+// ===== Update Project =====
 export function useUpdateProject(options) {
     const queryClient = useQueryClient();
 
@@ -49,6 +65,7 @@ export function useUpdateProject(options) {
     });
 }
 
+// ===== Delete Project =====
 export function useDeleteProject(options) {
     const queryClient = useQueryClient();
 

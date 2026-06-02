@@ -1,13 +1,22 @@
 import "./App.css";
 import { Outlet } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "../store/store.js";
+import { Toaster } from "sonner";
 
 const App = () => {
     return (
-        <Provider store={store}>
+        <>
+            <Toaster
+                toastOptions={{
+                    style: {
+                        background: "var(--bg-secondary)",
+                        color: "var(--text-primary)",
+                        border: "0.1rem solid var(--border-subtle)",
+                        borderRadius: "1rem",
+                    },
+                }}
+            />
             <Outlet />
-        </Provider>
+        </>
     );
 };
 

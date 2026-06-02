@@ -1,7 +1,7 @@
 import { Form } from "..";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import styles from "./AuthPage.module.css";
-import WorkInProgress from "@/components/WorkInProgress/WorkInProgress";
+import { WorkInProgress } from "@/shared/components";
 
 export default function ResetPasswordPage() {
     const navigate = useNavigate();

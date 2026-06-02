@@ -1,5 +1,8 @@
-.page {
-    position: relative;
+/*===== ROOT =====*/
+
+.container {
+    --sidebar-expand-padding: 26rem;
+    --sidebar-collapse-padding: 5rem;
 
     width: 100%;
     height: 100vh;
@@ -9,7 +12,7 @@
     background-color: var(--bg-primary);
 }
 
-/* SIDEBAR */
+/*===== SIDEBAR =====*/
 
 .sidebar {
     position: fixed;
@@ -17,99 +20,48 @@
     left: 0;
 
     z-index: 1000;
-
     height: 100vh;
 }
 
-/* MAIN CONTENT */
+/*===== MAIN CONTENT =====*/
 
-.content {
-    height: 100%;
+.page {
+    height: 100vh;
+
+    padding: 0 4rem 0 var(--sidebar-expand-padding);
 
     display: flex;
-    justify-content: center;
-
-    overflow: hidden;
-
-    padding-right: 4rem;
-    padding-left: 26rem;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
 
     transition: padding-left 0.2s ease;
 }
 
-.sidebarCollapsed .content {
-    padding-left: 5rem;
+.sidebarCollapsed .page {
+    padding-left: var(--sidebar-collapse-padding);
 }
 
-/* CENTERED CONTENT */
+/*===== TOOLBAR =====*/
 
-.contentInner {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-
-    transition: width 0.2s ease;
+.toolbar {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.listView .contentInner {
-    max-width: 1100px;
-}
+/*===== LIST VIEW =====*/
 
-.boardView .contentInner {
-    max-width: none;
-}
-
-/* PAGE CONTENT */
-
-.pageContent {
-    flex: 1;
-
-    min-width: 0;
-    min-height: 0;
-
-    overflow: hidden;
-}
-
-/* SECTIONS CONTAINER */
-
-.sectionsContainer {
-    width: 100%;
-    height: 100%;
-
-    min-width: 0;
-    min-height: 0;
-
-    display: flex;
-}
-
-/* LIST VIEW */
-
-.listView .sectionsContainer {
-    flex-direction: column;
-
-    gap: 3.5rem;
-
+.list .page {
     overflow-y: auto;
     overflow-x: hidden;
-
-    padding: 1rem 0 4rem;
+    gap: 1.5rem;
 }
 
-/* BOARD VIEW */
+/*===== BOARD VIEW =====*/
 
-.boardView .sectionsContainer {
-    align-items: stretch;
-
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    padding: 1rem 0 2rem;
-}
-
-.boardView .sectionsContainer > * {
-    flex: 0 0 30rem;
-    min-width: 30rem;
+.board .page {
+    overflow: hidden;
+    gap: 1rem;
 }

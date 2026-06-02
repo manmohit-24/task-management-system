@@ -1,0 +1,46 @@
+.placeholderState {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.4rem;
+
+    border: 0.1rem solid var(--border-muted);
+    border-radius: 1.2rem;
+
+    background: var(--bg-secondary);
+}
+
+.placeholderIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 3.6rem;
+    height: 3.6rem;
+    flex-shrink: 0;
+
+    border-radius: 1rem;
+    background: var(--bg-primary);
+
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.placeholderContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.placeholderTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.placeholderText {
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}

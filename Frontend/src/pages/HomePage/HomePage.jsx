@@ -1,9 +1,9 @@
 import styles from "./HomePage.module.css";
-import Icon from "@/utils/Icons";
 import config from "@/app/config";
 import Button from "@/features/auth/components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { useSession, useLogout } from "@/features/auth/hooks/auth.hook";
+import { Logo } from "@/shared/icons";
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -15,8 +15,7 @@ export default function HomePage() {
     return (
         <main className={styles.page}>
             <section className={styles.hero}>
-                <Icon name="IconLogo" addionalclasses={styles.logo} />
-
+                <Logo size={56} />
                 <h1 className={styles.title}>{config.appName}</h1>
 
                 <p className={styles.subtitle}>Organize work and life, simply. </p>

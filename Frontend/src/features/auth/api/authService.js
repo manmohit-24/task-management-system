@@ -1,4 +1,4 @@
-import createClient from "@/features/shared/libs/createClient";
+import createClient from "@/shared/libs/createClient";
 
 const request = createClient("/users");
 
