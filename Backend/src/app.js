@@ -36,7 +36,7 @@ app.use(
 import userRouter from "./routes/user.routes.js";
 import projectRouter from "./routes/project.route.js";
 import todoRouter from "./routes/todo.route.js";
-import sectionRouter from "./routes/section.route.js";
+import sectionRouter from "./routes/section.route.js"
 
 //*********** router declaration ********
 app.use("/api/v1/users", userRouter);

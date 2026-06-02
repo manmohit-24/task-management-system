@@ -101,7 +101,7 @@ const createTodo = async (req, res, next) => {
 
 const getTodos = async (req, res, next) => {
     try {
-        const { project, status, section, parentId } = req.query;
+        const { project, status, section, parentId, dueDate } = req.query;
         
         // Build query - owner is always included for security purposes because we dont want to display data not belonging to a user  
         const query = {
@@ -126,8 +126,14 @@ const getTodos = async (req, res, next) => {
         }
         
         // add section filter if provided
-        if (section) {
-            query.section = section;
+        if (section !== undefined) {
+            if (section === "null") {
+                query.section = null;
+            } else if (section === "") {
+                throw new apiError(400, "Invalid section filter");
+            } else {
+                query.section = section;
+            }
         }
         
         // add parent filter if provided
@@ -138,6 +144,48 @@ const getTodos = async (req, res, next) => {
                 query.parentId = null;  // if parent id is not given then User explicitly wants only main tasks
             } else {
                 query.parentId = parentId;  // User wants subtasks of specific parent
+            }
+        }
+        
+        if (dueDate) {
+            if (dueDate === "today") {
+                const start = new Date();
+                start.setHours(0, 0, 0, 0);  // 12:00:00 AM
+                
+                const end = new Date();
+                end.setHours(23, 59, 59, 999);  // 11:59:59 PM
+                
+                query.dueDate = { $gte: start, $lte: end };
+                // $gte = greater than or equal
+                // $lte = less than or equal
+            } 
+            
+            else if (dueDate === "upcoming") {
+                // All tasks with future due dates
+                query.dueDate = { $gt: new Date() };
+            }
+
+            else if (dueDate === "overdue") {
+                // Past due dates that are NOT completed
+                query.dueDate = { $lt: new Date() };
+                query.status = "active";  // Only show active overdue
+            }
+
+            else {
+                // Specific date: "2025-01-15"
+                const specificDate = new Date(dueDate);
+                
+                if (isNaN(specificDate.getTime())) {
+                    throw new apiError(400, "Invalid date format");
+                }
+
+                const start = new Date(specificDate);
+                start.setHours(0, 0, 0, 0);
+                
+                const end = new Date(specificDate);
+                end.setHours(23, 59, 59, 999);
+                
+                query.dueDate = { $gte: start, $lte: end };
             }
         }
         
