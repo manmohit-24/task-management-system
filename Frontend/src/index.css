@@ -148,3 +148,27 @@ body {
 /*                 --------***--------                 */
 
 /* <--------------------- Utilities ---------------------> */
+/*===== Global Scrollbar =====*/
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
+}
+
+/* Legacy Chromium */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-muted);
+}

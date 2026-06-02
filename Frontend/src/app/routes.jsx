@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { HomePage } from "../pages";
 import {
     AuthLayout,
@@ -52,7 +52,11 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "app/:id",
+                path: "app",
+                element: <Navigate to="/app/inbox" replace />,
+            },
+            {
+                path: "app/:id?",
                 element: <TasksLayout />,
             },
         ],

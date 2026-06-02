@@ -1,12 +1,13 @@
 import styles from "./Toolbar.module.css";
 import { useParams } from "react-router-dom";
-import { useProjects } from "@/features/tasks/hooks/project.hooks";
+import { useProjectById } from "@/features/tasks/hooks/project.hooks";
 
 import { SquareKanban } from "lucide-react";
 import { AddSection } from "@/shared/icons";
 import { ProfileMenu } from "..";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useViewMode } from "../../../TaskLayoutProvider/TaskLayoutProvider";
 
 const DEFAULT_PROJECTS = {
     today: "Today",
@@ -14,16 +15,17 @@ const DEFAULT_PROJECTS = {
     inbox: "Inbox",
 };
 
-export default function Toolbar({ view, onToggleView, onAddSection }) {
+export default function Toolbar({ onAddSection }) {
+    const { view, toggleView } = useViewMode();
+
     const { id } = useParams();
 
-    const { data, error } = useProjects();
+    const { data, error } = useProjectById(id);
     useEffect(() => {
         if (error) toast.error(error.message);
     }, [error]);
 
-    const projectName = data?.find((project) => project._id === id)?.name;
-    const heading = DEFAULT_PROJECTS[id] ?? projectName ?? "Not Found";
+    const heading = DEFAULT_PROJECTS[id] ?? data?.name ?? "Not Found";
 
     return (
         <header className={styles.toolbar}>
@@ -41,7 +43,7 @@ export default function Toolbar({ view, onToggleView, onAddSection }) {
                 <button
                     type="button"
                     className={styles.actionButton}
-                    onClick={onToggleView}
+                    onClick={toggleView}
                     title="Change view"
                 >
                     <SquareKanban

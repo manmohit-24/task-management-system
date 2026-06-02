@@ -2,13 +2,15 @@ import styles from "./TaskCreateForm.module.css";
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useCreateTask } from "@/features/tasks/hooks/tasks.hooks";
+import { useViewMode } from "@/features/tasks/TaskLayoutProvider/TaskLayoutProvider";
 
 import { Button } from "@/shared/components";
 import { DatePickerMenu, PrioritySelectorMenu } from "..";
 import { CirclePlus } from "lucide-react";
 import { toast } from "sonner";
 
-export default function TaskCreateForm({ section, project, parentId = null, view = "list" }) {
+export default function TaskCreateForm({ section, project, parentId = null }) {
+    const { view } = useViewMode();
     const triggerLabel = parentId ? "Add SubTask" : "Add Task";
     const [addingTask, setAddingTask] = useState(false);
 

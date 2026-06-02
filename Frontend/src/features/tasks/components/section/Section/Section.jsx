@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useConfirmDelete } from "@/shared/confirmDelete";
 import { useDeleteSection, useUpdateSection } from "@/features/tasks/hooks/section.hooks";
 import { useTasks } from "@/features/tasks/hooks/tasks.hooks.js";
+import { useViewMode } from "@/features/tasks/TaskLayoutProvider/TaskLayoutProvider";
 
 import { WorkInProgressTooltip, WorkInProgress, ActionsMenu } from "@/shared/components";
 import { TaskCard, TaskCreateForm } from "../../task";
@@ -20,7 +21,9 @@ import {
     FolderInput,
 } from "lucide-react";
 
-export default function Section({ id, name = "Section Name", view = "list", project }) {
+export default function Section({ id, name = "Section Name", project }) {
+    const { view } = useViewMode();
+
     // ===== Edit Section Name =====
     const [isEditing, setIsEditing] = useState(false);
     const { mutate: updateSection } = useUpdateSection({
@@ -139,9 +142,9 @@ export default function Section({ id, name = "Section Name", view = "list", proj
             <div className={styles.content}>
                 <div className={styles.todos}>
                     {todos.map((task) => (
-                        <TaskCard key={task._id} {...task} id={task._id} view={view} />
+                        <TaskCard key={task._id} {...task} id={task._id} />
                     ))}
-                    <TaskCreateForm view={view} section={id} project={project} />
+                    <TaskCreateForm section={id} project={project} />
                 </div>
             </div>
         </section>

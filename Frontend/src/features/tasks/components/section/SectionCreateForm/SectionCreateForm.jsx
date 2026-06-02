@@ -1,16 +1,14 @@
 import styles from "./SectionCreateForm.module.css";
 import { useCreateSection } from "@/features/tasks/hooks/section.hooks";
+import { useViewMode } from "@/features/tasks/TaskLayoutProvider/TaskLayoutProvider";
 
 import { SectionInlineForm } from "..";
 import { toast } from "sonner";
 import { AddSection } from "@/shared/icons";
 
-export default function SectionCreateForm({
-    open = false,
-    onOpenChange = () => {},
-    view = "list",
-    project,
-}) {
+export default function SectionCreateForm({ open = false, onOpenChange = () => {}, project }) {
+    const { view } = useViewMode();
+
     const { mutate: createSection } = useCreateSection({
         onError: (error) => toast.error(error.message),
     });

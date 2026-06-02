@@ -8,8 +8,13 @@ import { useProjects } from "@/features/tasks/hooks/project.hooks";
 import { LayoutGrid, Inbox, ChevronRight } from "lucide-react";
 import { Logo, Sidebar as SidebarIcon, Today } from "@/shared/icons";
 import { SidebarItem, SidebarCreateProjectMenu } from "..";
+import { useSidebarState } from "../../../TaskLayoutProvider/TaskLayoutProvider";
 
-export default function Sidebar({ expanded = true, onExpandedChange = () => {} }) {
+export default function Sidebar() {
+    // ===== Sidebar State =====
+    const { expanded, setExpanded } = useSidebarState();
+
+    // ===== Projects Query =====
     const { id } = useParams();
     const { data } = useProjects();
     const allProjects = data ?? [];
@@ -67,7 +72,7 @@ export default function Sidebar({ expanded = true, onExpandedChange = () => {} }
 
                 <button
                     className={styles.sidebarButton}
-                    onClick={() => onExpandedChange(!expanded)}
+                    onClick={() => setExpanded(!expanded)}
                     aria-label="Toggle sidebar"
                 >
                     <SidebarIcon size={20} />

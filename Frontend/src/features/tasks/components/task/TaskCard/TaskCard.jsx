@@ -1,11 +1,11 @@
 import styles from "./TaskCard.module.css";
 import { useState } from "react";
 import { useToggleTask, useTasks, useUpdateTask } from "@/features/tasks/hooks/tasks.hooks";
+import { useViewMode } from "@/features/tasks/TaskLayoutProvider/TaskLayoutProvider";
 
 import { DatePickerMenu, TaskCheckbox } from "../";
 import { ListTree } from "@/shared/icons";
 import { toast } from "sonner";
-
 export default function TaskCard({
     id,
     content,
@@ -16,11 +16,12 @@ export default function TaskCard({
     section,
     project,
     parentId,
-    view,
 }) {
     // ===== Derieved States =====
-    const isCompleted = status === "completed";
+    const { view } = useViewMode();
     const isListView = view === "list";
+
+    const isCompleted = status === "completed";
 
     // ===== Subtasks =====
     const [expandedSubTasks, setExpandedSubTasks] = useState(false);
@@ -111,7 +112,7 @@ export default function TaskCard({
                 {subtasksCount > 0 && expandedSubTasks && isListView && (
                     <div className={styles.subtasks}>
                         {subtasks.map((subTask) => (
-                            <TaskCard {...subTask} key={subTask._id} view={view} id={subTask._id} />
+                            <TaskCard {...subTask} key={subTask._id} id={subTask._id} />
                         ))}
                     </div>
                 )}
