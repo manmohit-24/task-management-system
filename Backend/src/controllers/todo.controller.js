@@ -167,7 +167,9 @@ const getTodos = async (req, res, next) => {
 
             else if (dueDate === "overdue") {
                 // Past due dates that are NOT completed
-                query.dueDate = { $lt: new Date() };
+                const startOfToday = new Date();
+                startOfToday.setHours(0, 0, 0, 0);
+                query.dueDate = { $lt: startOfToday };
                 query.status = "active";  // Only show active overdue
             }
 
