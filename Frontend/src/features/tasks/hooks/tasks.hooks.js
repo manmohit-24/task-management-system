@@ -59,7 +59,8 @@ export function useTasks({ project, section, parentId }) {
 
             if (!res.success) return { data: [] };
 
-            return res.data;
+            // priority based sorting
+            return [...res.data].sort((a, b) => a.priority - b.priority);
         },
 
         retry: false,
