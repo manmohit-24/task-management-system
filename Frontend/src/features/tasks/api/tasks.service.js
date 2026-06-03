@@ -4,8 +4,8 @@ import createQueryString from "@/shared/libs/createQueryString";
 const request = createClient("/todo");
 
 // ===== Get Tasks =====
-export function getTasks({ project, section, parentId }) {
-    const q = createQueryString({ project, section, parentId });
+export function getTasks({ project, section, parentId, dueDate }) {
+    const q = createQueryString({ project, section, parentId, dueDate });
     return request(`/${q}`, {
         method: "GET",
     });

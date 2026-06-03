@@ -9,7 +9,12 @@ import { DatePickerMenu, PrioritySelectorMenu } from "..";
 import { CirclePlus } from "lucide-react";
 import { toast } from "sonner";
 
-export default function TaskCreateForm({ section, project, parentId = null }) {
+export default function TaskCreateForm({
+    section,
+    project,
+    parentId = null,
+    defaultDate = undefined,
+}) {
     const { view } = useViewMode();
     const triggerLabel = parentId ? "Add SubTask" : "Add Task";
     const [addingTask, setAddingTask] = useState(false);
@@ -23,7 +28,7 @@ export default function TaskCreateForm({ section, project, parentId = null }) {
         control,
         formState: { errors },
     } = useForm({
-        defaultValues: { content: "", description: "", dueDate: undefined, priority: 4 },
+        defaultValues: { content: "", description: "", dueDate: defaultDate, priority: 4 },
     });
 
     // ===== Create Task Mutations =====

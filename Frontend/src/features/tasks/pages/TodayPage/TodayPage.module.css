@@ -1,44 +1,69 @@
-/*===== PAGE =====*/
+/*===== PAGE CONTENT =====*/
 
 .container {
+    --list-max-width: 110rem;
+    --board-column-width: 30rem;
+
     flex: 1;
 
+    min-width: 0;
+    min-height: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 3rem;
 }
 
-/*===== CONTENT =====*/
+/*===== LIST VIEW =====*/
 
-.content {
-    max-width: 32rem;
-
-    display: flex;
+.list {
     flex-direction: column;
     align-items: center;
-
-    text-align: center;
+    gap: 1.5rem;
 }
 
-.content svg {
-    color: var(--text-disabled);
-    margin-bottom: 1rem;
+.list .section {
+    width: 100%;
+    max-width: var(--list-max-width);
+
+    flex-shrink: 0;
 }
 
-.content h1 {
-    margin: 0 0 0.75rem;
+/*===== BOARD VIEW =====*/
 
-    font: var(--heading-xl);
-    color: var(--text-primary);
+.board {
+    flex-direction: row;
+
+    height: 100%;
+    width: max-content;
+
+    min-width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 1rem;
 }
 
-.content p {
-    margin: 0;
+.board .section {
+    flex: 0 0 var(--board-column-width);
 
-    line-height: 1.6;
+    height: 100%;
 
-    font: var(--text-md);
-    color: var(--text-secondary);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    min-height: 0;
+}
+
+/*===== Add Section =====*/
+
+.list .addSection {
+    padding-bottom: 5rem;
+
+    width: 100%;
+    max-width: var(--list-max-width);
+
+    flex-shrink: 0;
+}
+
+.board .addSection {
+    flex: 0 0 var(--board-column-width);
 }

@@ -1,0 +1,194 @@
+/*===== Container =====*/
+
+.container {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+
+    transition:
+        width 0.25s ease,
+        opacity 0.2s ease;
+}
+
+.list {
+    width: 100%;
+}
+
+.board {
+    padding: 1.4rem;
+    width: 100%;
+
+    border-radius: 1rem;
+
+    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+/*===== Icon Buttons =====*/
+
+.iconButton {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 0.8rem;
+
+    background-color: transparent;
+
+    cursor: pointer;
+    color: var(--text-disabled);
+
+    transition:
+        background-color 0.15s ease,
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.iconButton:hover {
+    background-color: var(--bg-hover);
+}
+
+.iconButton:active {
+    transform: scale(0.96);
+}
+
+/*===== Header =====*/
+
+.heading {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.board .heading {
+    padding-bottom: 0.4rem;
+}
+
+/* Chevron */
+
+.chevron {
+    transition: transform 0.2s ease;
+}
+
+.chevronCollapsed {
+    transform: rotate(-90deg);
+}
+
+/*===== Heading Content =====*/
+
+.headingContent {
+    flex: 1;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+
+    min-width: 0;
+}
+
+.title {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.title h2 {
+    font: var(--heading-sm);
+    color: var(--text-primary);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    display: flex;
+}
+
+.title p {
+    font: var(--text-md);
+    color: var(--text-secondary);
+
+    flex-shrink: 0;
+}
+
+/*===== Content =====*/
+.content {
+    display: grid;
+    width: 100%;
+    grid-template-rows: 1fr auto;
+
+    gap: 1rem;
+
+    transition:
+        grid-template-rows 0.25s ease,
+        opacity 0.2s ease;
+}
+
+.todos {
+    min-height: 0;
+    flex-shrink: 1;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    overflow: hidden;
+}
+
+.list .todos {
+    padding-left: 5.2rem;
+}
+
+.board .todos {
+    padding-left: 2.6rem;
+}
+
+/*===== Separator =====*/
+
+.separator {
+    position: absolute;
+
+    left: 5.2rem;
+    bottom: -0.3rem;
+
+    width: calc(100% - 5.2rem);
+
+    border-bottom: 0.1rem solid var(--border-subtle);
+}
+
+.board .separator {
+    left: 2.6rem;
+    width: calc(100% - 2.6rem);
+}
+
+/*===== Collapsed =====*/
+
+.collapsed .content {
+    grid-template-rows: 0fr;
+}
+
+.collapsed .todos {
+    overflow: hidden;
+}
+
+.deleteItem {
+    color: var(--error);
+}
+
+/*===== Overdue =====*/
+
+.overdue .title h2,
+.overdue .title p {
+    color: var(--red-600);
+}

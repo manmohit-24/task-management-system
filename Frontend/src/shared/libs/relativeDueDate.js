@@ -14,7 +14,7 @@ export const RELATIVE_DUE_DATE_COLORS = Object.freeze({
 
 // Returns formatted current date string.
 export function getPrettyTodayString() {
-    return dayjs().format("dddd, DD MMM");
+    return dayjs().format("ddd, DD MMM");
 }
 
 export function getRelativeDueDate(dateInput) {
