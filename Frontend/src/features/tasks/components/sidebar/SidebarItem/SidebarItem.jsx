@@ -123,7 +123,9 @@ export default function SidebarItem({
                             </div>
                         ) : (
                             /* ===== Number ===== */
-                            <span className={styles.number}>{number}</span>
+                            // Temporarily disabling number count feature as backend is not ready for this yet.
+                            // <span className={styles.number}>{number}</span>
+                            <></>
                         )}
                     </div>
                 </div>
