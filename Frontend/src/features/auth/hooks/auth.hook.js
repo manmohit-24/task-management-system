@@ -1,6 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { login, logout, register, getUser, checkUsernameAvailability } from "../api/authService";
+import {
+    login,
+    logout,
+    register,
+    getUser,
+    checkUsernameAvailability,
+    updateName,
+    updateUsernameAndEmail,
+    changePassword,
+} from "../api/auth.service";
 
+// ===== Get Current User =====
 export function useSession() {
     return useQuery({
         queryKey: ["session"],
@@ -14,11 +24,13 @@ export function useSession() {
     });
 }
 
+// ===== Get if User is Logged in =====
 export function useIsAuthenticated() {
     const { data } = useSession();
     return !!data;
 }
 
+// ===== Login =====
 export function useLogin(options) {
     const queryClient = useQueryClient();
 
@@ -35,6 +47,7 @@ export function useLogin(options) {
     });
 }
 
+// ===== Logout =====
 export function useLogout(options) {
     const queryClient = useQueryClient();
 
@@ -51,6 +64,8 @@ export function useLogout(options) {
         },
     });
 }
+
+// ===== Register =====
 export function useRegister(options) {
     const queryClient = useQueryClient();
 
@@ -79,6 +94,7 @@ export function useRegister(options) {
     });
 }
 
+// ===== Check Username Availability =====
 export function useUsernameAvailability(username) {
     return useQuery({
         queryKey: ["username-availability", username],
@@ -90,5 +106,65 @@ export function useUsernameAvailability(username) {
         enabled: !!username && username.length >= 3,
         staleTime: 30_000,
         retry: false,
+    });
+}
+
+// ===== Update Name =====
+export function useUpdateName(options = {}) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: updateName,
+
+        onSuccess: (...args) => {
+            queryClient.invalidateQueries({
+                queryKey: ["session"],
+            });
+
+            options?.onSuccess?.(...args);
+        },
+
+        onError: (...args) => {
+            options?.onError?.(...args);
+        },
+    });
+}
+
+// ===== Update Username & Email =====
+export function useUpdateUsernameAndEmail(options = {}) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: updateUsernameAndEmail,
+
+        onSuccess: (...args) => {
+            queryClient.setQueryData(["session"], null);
+            queryClient.cancelQueries({ queryKey: ["session"] });
+
+            options?.onSuccess?.(...args);
+        },
+
+        onError: (...args) => {
+            options?.onError?.(...args);
+        },
+    });
+}
+
+// ===== Change Password =====
+export function useChangePassword(options = {}) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: changePassword,
+        onSuccess: (...args) => {
+            queryClient.setQueryData(["session"], null);
+            queryClient.cancelQueries({ queryKey: ["session"] });
+
+            options?.onSuccess?.(...args);
+        },
+
+        onError: (...args) => {
+            options?.onError?.(...args);
+        },
     });
 }

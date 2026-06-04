@@ -41,6 +41,13 @@
         opacity 180ms ease,
         transform 240ms ease;
 
+    & > p,
+    & > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     & > p {
         margin: 0;
         white-space: nowrap;
