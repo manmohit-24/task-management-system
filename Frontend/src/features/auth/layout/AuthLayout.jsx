@@ -8,7 +8,7 @@ export default function AuthLayout() {
     const isAuthenticated = useIsAuthenticated();
 
     useEffect(() => {
-        if (isAuthenticated) navigate("/");
+        if (isAuthenticated) navigate("/app/inbox");
     }, [isAuthenticated, navigate]);
 
     return (

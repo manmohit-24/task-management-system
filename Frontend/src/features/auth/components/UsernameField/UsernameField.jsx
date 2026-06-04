@@ -11,10 +11,12 @@ export default function UsernameField({
     watch,
     error,
     validations,
+    dirtyFields,
     ...rest
 }) {
     const username = watch(name);
     const [debouncedUsername, setDebouncedUsername] = useState("");
+    const isDirty = dirtyFields?.[name];
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -24,7 +26,7 @@ export default function UsernameField({
         return () => clearTimeout(timer);
     }, [username]);
 
-    const shouldCheck = debouncedUsername.length >= 3 && !error;
+    const shouldCheck = isDirty && debouncedUsername.length >= 3 && !error;
 
     const { data, isFetching } = useUsernameAvailability(debouncedUsername, shouldCheck);
 

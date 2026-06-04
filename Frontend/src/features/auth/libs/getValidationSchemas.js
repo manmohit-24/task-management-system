@@ -1,6 +1,12 @@
 export default function getValidationSchemas(val) {
     return validationsSchemas[val];
 }
+const passwordSchema = {
+    minLength: {
+        value: 8,
+        message: "Password must be at least 8 characters",
+    },
+};
 
 const validationsSchemas = {
     identifier: {
@@ -36,11 +42,17 @@ const validationsSchemas = {
     },
 
     password: {
+        ...passwordSchema,
         required: "Password is required",
-        minLength: {
-            value: 8,
-            message: "Password must be at least 8 characters",
-        },
+    },
+    currentPassword: {
+        ...passwordSchema,
+        required: "Current password is required",
+    },
+
+    newPassword: {
+        ...passwordSchema,
+        required: "New password is required",
     },
 
     username: {

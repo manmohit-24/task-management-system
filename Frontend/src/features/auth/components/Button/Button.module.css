@@ -24,13 +24,13 @@
     justify-content: center;
     gap: 1rem;
 
-    width: 40rem;
+    width: 100%;
     height: 4rem;
 
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
 
-    font: var(--text-primary);
+    font: var(--text-md);
 
     background-color: var(--bg);
     color: var(--color);

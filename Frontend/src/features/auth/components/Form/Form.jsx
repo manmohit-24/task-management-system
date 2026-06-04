@@ -2,6 +2,7 @@ import { Input, Button, FileUpload, OtpInput } from "../../";
 import styles from "./Form.module.css";
 import { useForm, Controller } from "react-hook-form";
 import getValidationSchemas from "../../libs/getValidationSchemas";
+import { useEffect } from "react";
 
 const Form = ({
     inputsFormat = [
@@ -17,14 +18,28 @@ const Form = ({
     buttonStyle = {},
     onSubmit = () => {},
     className = "",
+    onFormReady,
 }) => {
     const {
         register,
         control,
         handleSubmit,
         watch,
-        formState: { errors },
-    } = useForm({ defaultValues: values });
+        reset,
+        formState: { errors, dirtyFields },
+    } = useForm({
+        defaultValues: values,
+    });
+
+    useEffect(() => {
+        onFormReady?.({
+            register,
+            control,
+            watch,
+            reset,
+            handleSubmit,
+        });
+    }, [register, control, watch, reset, handleSubmit, onFormReady]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={`${styles.container} ${className}`}>
@@ -54,6 +69,7 @@ const Form = ({
                                 watch={watch}
                                 error={errors[name]?.message}
                                 validations={validations}
+                                dirtyFields={dirtyFields}
                                 {...rest}
                             />
                         </div>
