@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "@/index.css";
-import AppRouter from "@/app/routes";
+import AppRouter from "@/app/AppRouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/shared/themes/";
 import { ConfirmDeleteProvider } from "@/shared/confirmDelete";

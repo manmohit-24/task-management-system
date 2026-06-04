@@ -1,15 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useIsAuthenticated } from "../hooks/auth.hook";
 import { AuthCenteredShell, AuthSplitShell } from "../";
 
 export default function AuthLayout() {
-    const navigate = useNavigate();
     const isAuthenticated = useIsAuthenticated();
-
-    useEffect(() => {
-        if (isAuthenticated) navigate("/app/inbox");
-    }, [isAuthenticated, navigate]);
+    if (isAuthenticated) return <Navigate to="/app/inbox" replace />;
 
     return (
         <AuthCenteredShell>

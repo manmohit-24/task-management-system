@@ -15,9 +15,13 @@ export function useSession() {
     return useQuery({
         queryKey: ["session"],
         queryFn: async () => {
-            const res = await getUser();
-            if (!res.success) return null;
-            return res.data;
+            try {
+                const res = await getUser();
+                return res.data;
+            } catch (err) {
+                if (err.status === 401) return null;
+                throw err;
+            }
         },
         retry: false,
         staleTime: Infinity,
@@ -36,13 +40,12 @@ export function useLogin(options) {
 
     return useMutation({
         mutationFn: login,
-
-        onSuccess: (...args) => {
-            queryClient.invalidateQueries({ queryKey: ["session"] });
-            options?.onSuccess?.(...args);
+        onSuccess: (data, variables, context) => {
+            queryClient.setQueryData(["session"], data.data.user);
+            options?.onSuccess?.(data, variables, context);
         },
         onError: (...args) => {
-            options.onError(...args);
+            options?.onError?.(...args);
         },
     });
 }
@@ -55,12 +58,11 @@ export function useLogout(options) {
         mutationFn: logout,
 
         onSuccess: (...args) => {
-            queryClient.setQueryData(["session"], null);
-            queryClient.cancelQueries({ queryKey: ["session"] });
+            queryClient.clear();
             options?.onSuccess?.(...args);
         },
         onError: (...args) => {
-            options.onError(...args);
+            options?.onError?.(...args);
         },
     });
 }
@@ -84,12 +86,12 @@ export function useRegister(options) {
             return loginRes;
         },
 
-        onSuccess: (...args) => {
-            queryClient.invalidateQueries({ queryKey: ["session"] });
-            options?.onSuccess?.(...args);
+        onSuccess: (data, variables, context) => {
+            queryClient.setQueryData(["session"], data.data.user);
+            options?.onSuccess?.(data, variables, context);
         },
         onError: (...args) => {
-            options.onError(...args);
+            options?.onError?.(...args);
         },
     });
 }
@@ -117,10 +119,7 @@ export function useUpdateName(options = {}) {
         mutationFn: updateName,
 
         onSuccess: (...args) => {
-            queryClient.invalidateQueries({
-                queryKey: ["session"],
-            });
-
+            queryClient.clear();
             options?.onSuccess?.(...args);
         },
 
@@ -157,9 +156,7 @@ export function useChangePassword(options = {}) {
     return useMutation({
         mutationFn: changePassword,
         onSuccess: (...args) => {
-            queryClient.setQueryData(["session"], null);
-            queryClient.cancelQueries({ queryKey: ["session"] });
-
+            queryClient.clear();
             options?.onSuccess?.(...args);
         },
 

@@ -1,22 +1,30 @@
 import styles from "./TasksLayout.module.css";
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useIsAuthenticated } from "@/features/auth/hooks/auth.hook";
 import { useInboxId, useProjectById } from "@/features/tasks/hooks/project.hooks";
 import { useSidebarState, useViewMode } from "../TaskLayoutProvider/TaskLayoutProvider";
 
+import { Navigate } from "react-router-dom";
 import { Toolbar } from "../components/toolbar";
 import { Sidebar } from "../components/sidebar";
 import { ProjectPage, ProjectNotFoundPage, LoadingPage, TodayPage } from "../pages";
 import { TaskLayoutProvider } from "../TaskLayoutProvider/TaskLayoutProvider";
+import { toast } from "sonner";
 
 export default function TasksLayout() {
-    // ===== Noramalizing Project =====
-    const navigate = useNavigate();
-
+    // ===== Routings =====
     const { id } = useParams();
+    const isAuthenticated = useIsAuthenticated();
     const inboxId = useInboxId();
 
-    if (id === inboxId) navigate("app/inbox");
+    useEffect(() => {
+        // using it without effect casue multiple toast on auth fail
+        if (!isAuthenticated) toast.error("Please login to access the app");
+    }, [isAuthenticated]);
+
+    if (!isAuthenticated) return <Navigate to="/login" replace />;
+    if (id === inboxId) return <Navigate to="/app/inbox" replace />;
 
     const project = id === "inbox" ? inboxId : id;
 
