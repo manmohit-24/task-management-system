@@ -1,8 +1,19 @@
 import "./App.css";
+import { useSession } from "@/features/auth/hooks/auth.hook";
+import { useProjects } from "@/features/tasks/hooks/project.hooks";
+
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
+import AppLoader from "./AppLoader/AppLoader";
 
 const App = () => {
+    const session = useSession();
+    const projects = useProjects();
+
+    const appPending = session.isPending || projects.isPending;
+
+    if (appPending) return <AppLoader />;
+
     return (
         <>
             <Toaster

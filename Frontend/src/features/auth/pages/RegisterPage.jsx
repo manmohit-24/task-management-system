@@ -15,12 +15,15 @@ export default function RegisterPage() {
         error,
     } = useRegister({
         onSuccess: () => {
-            navigate({
-                pathname: "/verify-email",
-                search: createSearchParams({
-                    email: email.current,
-                }).toString(),
-            });
+            // verification feature not implemented at backend yet
+            // navigate({
+            //     pathname: "/verify-email",
+            //     search: createSearchParams({
+            //         email: email.current,
+            //     }).toString(),
+            // });
+
+            navigate("/app/inbox");
         },
     });
 

@@ -1,12 +1,13 @@
 import styles from "./ProfileMenu.module.css";
 import { useNavigate } from "react-router-dom";
 import { useSession, useLogout } from "@/features/auth/hooks/auth.hook";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ThemeToggle } from "@/shared/themes";
-import { ActionsMenu, Avatar, WorkInProgress } from "@/shared/components";
-import { UserCog, LockKeyhole, LogOut, ChevronUp, SunMoon } from "lucide-react";
+import { ActionsMenu, Avatar } from "@/shared/components";
+import { UserCog, LogOut, ChevronUp, SunMoon } from "lucide-react";
 import { toast } from "sonner";
+import { AccountSettingsDialog } from "@/features/auth/settings";
 
 export default function ProfileMenu() {
     const navigate = useNavigate();
@@ -30,6 +31,9 @@ export default function ProfileMenu() {
         },
     });
 
+    // ===== Settings Modals =====
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
     // ===== Menu Items =====
     const items = useMemo(
         () => [
@@ -49,21 +53,10 @@ export default function ProfileMenu() {
 
             {
                 type: "action",
-                label: "Profile Settings",
+                label: "Account Settings",
                 icon: UserCog,
                 onClick: () => {
-                    toast(WorkInProgress);
-                    // navigate("/settings/profile");
-                },
-            },
-
-            {
-                type: "action",
-                label: "Change Password",
-                icon: LockKeyhole,
-                onClick: () => {
-                    toast(WorkInProgress);
-                    // navigate("/settings/password");
+                    setSettingsOpen(true);
                 },
             },
 
@@ -81,17 +74,20 @@ export default function ProfileMenu() {
     );
 
     return (
-        <ActionsMenu items={items}>
-            <div className={styles.profileTrigger}>
-                <Avatar name={name} size="md" />
-                {/* User info will visible when menu is in open state */}
-                <div className={styles.userInfo}>
-                    <p>{name}</p>
-                    <span>{username}</span>
-                </div>
+        <>
+            <ActionsMenu items={items}>
+                <div className={styles.profileTrigger}>
+                    <Avatar name={name} size="md" />
+                    {/* User info will visible when menu is in open state */}
+                    <div className={styles.userInfo}>
+                        <p>{name}</p>
+                        <span>{username}</span>
+                    </div>
 
-                <ChevronUp size={16} className={styles.chevron} />
-            </div>
-        </ActionsMenu>
+                    <ChevronUp size={16} className={styles.chevron} />
+                </div>
+            </ActionsMenu>
+            <AccountSettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+        </>
     );
 }

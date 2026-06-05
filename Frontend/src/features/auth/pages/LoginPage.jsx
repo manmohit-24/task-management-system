@@ -11,7 +11,7 @@ export default function LoginPage() {
         isError,
         error,
     } = useLogin({
-        onSuccess: () => navigate("/"),
+        onSuccess: () => navigate("/app/inbox"),
     });
 
     const onSubmit = (data) => {

@@ -1,0 +1,71 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: tasks-app-mongo
+    restart: unless-stopped
+    ports:
+      - "9002:27017" # Exposed only for MongoDB Compass / local debugging
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./Backend
+
+    container_name: tasks-app-backend
+    restart: unless-stopped
+
+    depends_on:
+      - mongo
+
+    ports:
+      - "9001:3000"
+
+    environment:
+      PORT: ${PORT}
+      MONGODB_URI: ${MONGODB_URI} # Inter-container networking can work here for local servers
+      DB_NAME: ${DB_NAME}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      ACCESS_TOKEN_EXPIRY: ${ACCESS_TOKEN_EXPIRY}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      REFRESH_TOKEN_EXPIRY: ${REFRESH_TOKEN_EXPIRY}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+
+  frontend:
+    build:
+      context: ./Frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        # Intercontainer networking with server can't work here,
+        # because react not make server call, browser do. and browser is on host machine not container
+
+    container_name: tasks-app-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "9000:80"
+
+  welcome:
+    container_name: tasks-app-welcome
+    image: alpine:latest
+    restart: "no"
+    depends_on:
+      - mongo
+      - backend
+      - frontend
+
+    command: >
+      sh -c "
+      echo '';
+      echo '====================================';
+      echo ' Tasks Management App Started Successfully';
+      echo '';
+      echo ' Frontend : http://localhost:9000';
+      echo ' Backend  : http://localhost:9001';
+      echo ' MongoDB  : mongodb://localhost:9002';
+      echo '====================================';
+      "
+
+volumes:
+  mongo_data:

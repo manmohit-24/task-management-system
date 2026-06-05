@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.description h3 {
+    font: var(--heading-sm);
+    color: var(--text-primary);
+}
+
+.description p {
+    margin-top: 0.35rem;
+    font: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+    font: var(--text-sm);
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
