@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { globalErrorHandler } from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser";
+import { globalLimiter } from "./middlewares/rateLimit.middleware.js";
 
 const app = express();
 
@@ -9,7 +10,7 @@ const app = express();
 app.use(express.json({ limit: "32kb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-
+app.use("/api/v1", globalLimiter);
 // CORS
 console.log(process.env.DB_NAME);
 
