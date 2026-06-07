@@ -6,32 +6,39 @@ import { globalLimiter } from "./middlewares/rateLimiter.middleware.js";
 
 const app = express();
 
-//* Middleware
-app.use(express.json({ limit: "32kb" }));
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-app.use("/api/v1", globalLimiter);
 // CORS
-console.log(process.env.DB_NAME);
-
 if (!process.env.CORS_ORIGINS) throw new Error("CORS_ORIGINS is not defined");
 
 const allowedOrigins = process.env.CORS_ORIGINS.split(",").map((item) =>
     item.trim(),
 );
+
+console.log("Allowed Origins:", allowedOrigins);
+
 app.use(
     cors({
         origin(origin, callback) {
-            // allow if no origin ( api clients )
+            console.log("Incoming Origin:", origin);
+
             if (!origin) return callback(null, true);
 
             if (allowedOrigins.includes(origin)) return callback(null, true);
 
-            return callback(new Error("Not allowed by CORS"), false);
+            console.log("Blocked Origin:", origin);
+
+            return callback(new Error("Not allowed by CORS"));
         },
         credentials: true,
     }),
 );
+
+app.set("trust proxy", 1);
+
+//* Middleware
+app.use(express.json({ limit: "32kb" }));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use("/api/v1", globalLimiter);
 
 //*********** importing router **********
 import userRouter from "./routes/user.routes.js";
