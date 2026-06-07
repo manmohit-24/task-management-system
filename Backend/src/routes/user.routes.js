@@ -2,12 +2,13 @@ import {Router} from "express"
 import {logoutUser, refreshAccessToken, registerUser,getUserProfile,changeCurrentPassword, updateName, checkUniqueUsername, updateUsernameAndEmail} from "../controllers/user.controller.js"
 import { loginUser } from "../controllers/user.controller.js";
 import {verifyJWT} from "../middlewares/authMiddleware.js"
+import { authLimiter } from "../middlewares/rateLimit.middleware.js";
 
 const router = new Router();
 
-router.route("/register").post(registerUser);
+router.route("/register").post(authLimiter,registerUser);
 
-router.route("/login").post(loginUser);
+router.route("/login").post(authLimiter,loginUser);
 
 router.route("/refreshToken").post(refreshAccessToken);
 
