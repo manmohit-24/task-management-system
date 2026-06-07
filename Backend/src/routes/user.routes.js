@@ -2,7 +2,7 @@ import {Router} from "express"
 import {logoutUser, refreshAccessToken, registerUser,getUserProfile,changeCurrentPassword, updateName, checkUniqueUsername, updateUsernameAndEmail} from "../controllers/user.controller.js"
 import { loginUser } from "../controllers/user.controller.js";
 import {verifyJWT} from "../middlewares/authMiddleware.js"
-import { authLimiter } from "../middlewares/rateLimit.middleware.js";
+import { authLimiter } from "../middlewares/rateLimiter.middleware.js";
 
 const router = new Router();
 
