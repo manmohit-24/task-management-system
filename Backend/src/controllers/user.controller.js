@@ -97,6 +97,7 @@ const loginUser = async (req, res, next) => {
         const options = {
             httpOnly: true,
             secure: true,
+            sameSite: "none",
         };
 
         return res
@@ -132,7 +133,8 @@ const logoutUser = async(req,res,next) => {
  
      const options = {
          httpOnly:true,
-         secure:true
+         secure:true,
+         sameSite: "none",
      }
  
      return res
@@ -184,6 +186,7 @@ const refreshAccessToken = async (req, res, next) => {
         const options = {
             httpOnly: true,
             secure: true,
+            sameSite: "none",
         };
 
        
@@ -245,9 +248,10 @@ const changeCurrentPassword = async (req,res,next) => {
         await user.save({validateBeforeSave:false});
 
         const options = {
-            httpOnly:true,
-            secure:true
-        }
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        };
 
         return res.status(200)
         .clearCookie("accessToken",options)
@@ -372,9 +376,10 @@ try {
         }
 
         const options = {
-            httpOnly:true,
-            secure:true
-        }
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        };
 
         return res.status(200)
               .clearCookie("accessToken",options)
